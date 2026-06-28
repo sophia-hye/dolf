@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local tooling state (bkit / Claude Code)
+.bkit/
+.claude/
+docs/.bkit-memory.json
+docs/.pdca-status.json
