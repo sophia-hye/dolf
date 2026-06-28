@@ -151,4 +151,62 @@ export interface Dictionary {
     readonly cart: string
     readonly added: string
   }
+  readonly account: {
+    readonly signInNav: string
+    readonly myPageNav: string
+    readonly logout: string
+    readonly signIn: {
+      readonly eyebrow: string
+      readonly title: string
+      readonly subhead: string
+      readonly emailLabel: string
+      readonly emailPlaceholder: string
+      readonly passwordLabel: string
+      readonly passwordPlaceholder: string
+      readonly forgotPassword: string
+      readonly keepLoggedIn: string
+      readonly submit: string
+      readonly notice: string
+      readonly noAccount: string
+      readonly signUpLink: string
+      readonly notFound: string
+    }
+    readonly signUp: {
+      readonly eyebrow: string
+      readonly title: string
+      readonly subhead: string
+      readonly countryLabel: string
+      readonly nameLabel: string
+      readonly namePlaceholder: string
+      readonly emailLabel: string
+      readonly emailPlaceholder: string
+      readonly phoneLabel: string
+      readonly phonePlaceholder: string
+      readonly passwordLabel: string
+      readonly passwordPlaceholder: string
+      readonly passwordConfirmLabel: string
+      readonly passwordConfirmPlaceholder: string
+      readonly terms: string
+      readonly submit: string
+      readonly hasAccount: string
+      readonly signInLink: string
+    }
+    readonly myPage: {
+      readonly eyebrow: string
+      readonly greeting: string
+      readonly subhead: string
+      readonly statsOrders: string
+      readonly statsWishlist: string
+      readonly statsSpent: string
+      readonly ordersTitle: string
+      readonly wishlistTitle: string
+      readonly settingsTitle: string
+      readonly settingName: string
+      readonly settingEmail: string
+      readonly settingPhone: string
+      readonly settingAddress: string
+      readonly settingMembership: string
+      readonly edit: string
+    }
+  }
 }

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
 import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
+import { useAuth } from '@/state/auth-context'
 import type { Locale } from '@/i18n/types'
 
 const LOCALES: Locale[] = ['en', 'ko', 'ja']
@@ -10,6 +11,10 @@ const LOCALES: Locale[] = ['en', 'ko', 'ja']
 export function Header() {
   const { t, locale, setLocale } = useLocale()
   const { count: cartCount } = useCart()
+  const { user } = useAuth()
+  const accountLink = user
+    ? { to: user.role === 'admin' ? '/admin' : '/mypage', label: t.account.myPageNav }
+    : { to: '/signin', label: t.account.signInNav }
 
   const navItems = [
     { label: t.nav.about, to: '/about' },
@@ -46,6 +51,8 @@ export function Header() {
             ))}
           </LangSwitcher>
 
+          <AccountLink to={accountLink.to}>{accountLink.label}</AccountLink>
+
           <CartLink to="/shop">
             {t.shop.cart}
             {cartCount > 0 && <Badge>{cartCount}</Badge>}
@@ -66,6 +73,19 @@ const CartLink = styled(Link)`
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.ink};
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.brandRed};
+  }
+`
+
+const AccountLink = styled(Link)`
   font-family: ${({ theme }) => theme.fonts.sans};
   font-size: ${({ theme }) => theme.fontSizes.eyebrow};
   letter-spacing: 1px;
