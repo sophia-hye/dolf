@@ -10,6 +10,16 @@ import { ShopDetailPage } from '@/pages/shop/detail/ShopDetailPage'
 import { SignInPage } from '@/pages/auth/SignInPage'
 import { SignUpPage } from '@/pages/auth/SignUpPage'
 import { MyPage } from '@/pages/account/MyPage'
+import { AdminLayout } from '@/pages/admin/AdminLayout'
+import { DashboardPage } from '@/pages/admin/DashboardPage'
+import { MembersPage } from '@/pages/admin/MembersPage'
+import { MemberDetailPage } from '@/pages/admin/MemberDetailPage'
+import { OrdersPage } from '@/pages/admin/OrdersPage'
+import { OrderDetailPage } from '@/pages/admin/OrderDetailPage'
+import { TrackingInputPage } from '@/pages/admin/TrackingInputPage'
+import { ProductsPage as AdminProductsPage } from '@/pages/admin/ProductsPage'
+import { SettingsPage } from '@/pages/admin/SettingsPage'
+import { CustomerInsightsPage } from '@/pages/admin/CustomerInsightsPage'
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
 import { PlaceholderPage } from '@/pages/PlaceholderPage'
 
@@ -38,15 +48,26 @@ export function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="admin"
-            element={
-              <ProtectedRoute role="admin">
-                <PlaceholderPage title="Admin Console" />
-              </ProtectedRoute>
-            }
-          />
           <Route path="*" element={<PlaceholderPage title="Not Found" />} />
+        </Route>
+
+        <Route
+          path="admin"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<DashboardPage />} />
+          <Route path="insights" element={<CustomerInsightsPage />} />
+          <Route path="members" element={<MembersPage />} />
+          <Route path="members/:id" element={<MemberDetailPage />} />
+          <Route path="orders" element={<OrdersPage />} />
+          <Route path="orders/:id" element={<OrderDetailPage />} />
+          <Route path="orders/:id/tracking" element={<TrackingInputPage />} />
+          <Route path="products" element={<AdminProductsPage />} />
+          <Route path="settings" element={<SettingsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
