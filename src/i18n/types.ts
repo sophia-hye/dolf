@@ -10,6 +10,17 @@ export interface PhilosophyItem {
   readonly description: string
 }
 
+export interface ValueItem {
+  readonly label: string
+  readonly description: string
+}
+
+export interface MissionItem {
+  readonly label: string
+  readonly subhead: string
+  readonly description: string
+}
+
 export interface Dictionary {
   readonly nav: {
     readonly about: string
@@ -46,5 +57,26 @@ export interface Dictionary {
     readonly tagline: string
     readonly instagram: string
     readonly copyright: string
+  }
+  readonly about: {
+    readonly hero: {
+      readonly eyebrow: string
+      readonly title: string
+      readonly subhead: string
+    }
+    readonly why: {
+      readonly eyebrow: string
+      readonly title: string
+      readonly body: string
+    }
+    readonly missionVision: {
+      readonly eyebrow: string
+      readonly items: readonly MissionItem[]
+    }
+    readonly coreValues: {
+      readonly eyebrow: string
+      readonly title: string
+      readonly items: readonly ValueItem[]
+    }
   }
 }

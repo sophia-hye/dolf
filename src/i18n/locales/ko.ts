@@ -67,4 +67,42 @@ export const ko: Dictionary = {
     instagram: '@dolf._official',
     copyright: '© 2026 DoLF. All rights reserved.',
   },
+  about: {
+    hero: {
+      eyebrow: 'ABOUT',
+      title: 'Faith, woven into the everyday',
+      subhead: '신앙을 일상의 루틴으로 연결하는 라이프스타일 브랜드, DoLF의 이야기',
+    },
+    why: {
+      eyebrow: 'WHY DoLF',
+      title: 'Not willpower, but rhythm',
+      body: '많은 사람들이 신앙을 지속하지 못하는 것은 의지가 부족해서가 아닙니다. 신앙을 일상의 루틴으로 만들어 주는 도구와 경험이 부족하기 때문입니다. DoLF는 매일의 작은 실천이 습관이 되고, 습관이 삶의 형태가 되도록 돕습니다.',
+    },
+    missionVision: {
+      eyebrow: 'MISSION & VISION',
+      items: [
+        {
+          label: 'Mission',
+          subhead: '신앙을 일상의 루틴으로 연결한다',
+          description: '신앙이 특별한 순간의 결심이 아니라 매일의 습관이 되도록 돕습니다.',
+        },
+        {
+          label: 'Vision',
+          subhead: '하나님과 동행하는 삶을 지속 가능한 습관으로',
+          description: '작은 실천이 쌓여 삶의 방향을 바꾸는 신앙 라이프스타일을 꿈꿉니다.',
+        },
+      ],
+    },
+    coreValues: {
+      eyebrow: 'CORE VALUES',
+      title: 'What we believe',
+      items: [
+        { label: 'Faith', description: '신앙은 DoLF의 출발점입니다.' },
+        { label: 'Consistency', description: '완벽함보다 지속성을 중요하게 생각합니다.' },
+        { label: 'Simplicity', description: '단순함에서 좋은 습관이 시작됩니다.' },
+        { label: 'Growth', description: '결과보다 성장의 과정을 소중히 여깁니다.' },
+        { label: 'Community', description: '함께할 때 변화는 더 오래 지속됩니다.' },
+      ],
+    },
+  },
 }
