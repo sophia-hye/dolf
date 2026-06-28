@@ -2,6 +2,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Layout } from '@/components/layout/Layout'
 import { HomePage } from '@/pages/home/HomePage'
 import { AboutPage } from '@/pages/about/AboutPage'
+import { ProductsPage } from '@/pages/products/ProductsPage'
+import { CommunityPage } from '@/pages/community/CommunityPage'
+import { ContactPage } from '@/pages/contact/ContactPage'
 import { PlaceholderPage } from '@/pages/PlaceholderPage'
 
 // gh-pages serves under /dolf/ in production; BASE_URL handles both envs.
@@ -14,9 +17,9 @@ export function App() {
         <Route element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="about" element={<AboutPage />} />
-          <Route path="products" element={<PlaceholderPage title="Products" />} />
-          <Route path="community" element={<PlaceholderPage title="Community" />} />
-          <Route path="contact" element={<PlaceholderPage title="Contact" />} />
+          <Route path="products" element={<ProductsPage />} />
+          <Route path="community" element={<CommunityPage />} />
+          <Route path="contact" element={<ContactPage />} />
           <Route path="shop" element={<PlaceholderPage title="Shop" />} />
           <Route path="*" element={<PlaceholderPage title="Not Found" />} />
         </Route>

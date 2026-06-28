@@ -105,4 +105,93 @@ export const ko: Dictionary = {
       ],
     },
   },
+  productsPage: {
+    hero: {
+      eyebrow: 'PRODUCTS',
+      title: 'Tools for a faithful routine',
+      subhead: '신앙을 일상의 루틴으로 만들어 주는 DoLF의 제품들',
+    },
+    features: [
+      {
+        name: 'Breathe — Planner & Diary',
+        description:
+          '하루를 계획하는 동시에 감사·묵상·성찰을 기록하며, 하나님과의 관계를 일상 속에서 이어가는 DoLF의 플래그십 플래너입니다.',
+        spec: 'B5  ·  128P  ·  LAY-FLAT',
+      },
+      {
+        name: 'Bible Reading Tracker',
+        description:
+          '1절을 하나의 점(Dot)으로. 점이 모여 선이 되고 면이 되는 통독의 여정을 시각적으로 완성하는 기록 도구입니다.',
+        spec: 'B5  ·  120P',
+      },
+      {
+        name: '2027 Calendar',
+        description:
+          '점자(braille)와 7-세그먼트 라인으로 월을 표현한 미니멀 캘린더. B5 양면과 B2 포스터로 구성됩니다.',
+        spec: 'B5 DOUBLE-SIDE  ·  B2 POSTER',
+      },
+      {
+        name: 'Topical Reading Tracker',
+        description:
+          '복음서 조화, 시편·잠언, 평행 본문 등 한 주제를 깊이 따라 읽는 1장짜리 통독 트래커입니다. 낱장과 접지 형태로 고를 수 있습니다.',
+        spec: 'B5  ·  낱장 / 접지  ·  주제별',
+      },
+    ],
+  },
+  community: {
+    hero: {
+      eyebrow: 'COMMUNITY',
+      title: 'Grow together, stay longer',
+      subhead: '혼자보다 함께할 때 신앙은 더 오래 지속됩니다. DoLF의 소모임 이야기',
+    },
+    circles: {
+      eyebrow: 'CIRCLES',
+      items: [
+        {
+          title: 'Bible Reading Circle',
+          subhead: '성경 1독 소모임',
+          description: '12주 동안 함께 통독하며 완주를 돕는 소모임입니다.',
+        },
+        {
+          title: 'QT Circle',
+          subhead: 'QT 습관 형성',
+          description: '매일의 묵상을 함께 나누며 QT를 습관으로 만듭니다.',
+        },
+        {
+          title: 'Faith & Life Circle',
+          subhead: '신앙과 삶',
+          description: '신앙과 일상의 고민을 함께 나누는 공동체입니다.',
+        },
+      ],
+    },
+    program: {
+      eyebrow: 'PROGRAM',
+      title: 'Start your 12 weeks',
+      body: 'Bible Reading Circle은 12주 프로그램으로 운영되며, 참가비 49,000–99,000원에 트래커 제품이 포함됩니다.',
+      cta: '함께하기 문의',
+    },
+  },
+  contact: {
+    hero: {
+      eyebrow: 'CONTACT',
+      title: "Let's stay in touch",
+      subhead: '제품 문의, 협업, 소모임 참여 — 무엇이든 편하게 연락 주세요.',
+    },
+    info: [
+      { label: 'Instagram', value: '@dolf._official' },
+      { label: 'Shop', value: 'Etsy (B2C) · Faire (B2B)' },
+      { label: 'Inquiry', value: 'DM 또는 이메일로 문의해 주세요' },
+    ],
+    form: {
+      eyebrow: 'GET IN TOUCH',
+      title: 'Ask us anything',
+      body: '궁금한 점을 남겨 주세요. 확인 후 빠르게 답변 드리겠습니다.',
+      namePlaceholder: '이름',
+      emailPlaceholder: '이메일',
+      messagePlaceholder: '메시지를 입력해 주세요',
+      submit: '보내기',
+      b2bText: '도매 · B2B 파트너십 문의는 별도로 진행됩니다.',
+      b2bCta: 'B2B 문의하기',
+    },
+  },
 }
