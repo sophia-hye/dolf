@@ -1,13 +1,13 @@
 import { createContext, useContext } from 'react'
 import type { Dictionary, Locale } from '@/i18n/types'
 import { ko } from '@/i18n/locales/ko'
+import { en } from '@/i18n/locales/en'
+import { ja } from '@/i18n/locales/ja'
 
-// EN/JA dictionaries are placeholders for now; KO is the only complete set.
-// Falls back to KO until the other locales are translated.
 export const dictionaries: Record<Locale, Dictionary> = {
   ko,
-  en: ko,
-  ja: ko,
+  en,
+  ja,
 }
 
 export interface LocaleContextValue {
