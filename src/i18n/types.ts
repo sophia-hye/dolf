@@ -140,4 +140,15 @@ export interface Dictionary {
       readonly b2bCta: string
     }
   }
+  readonly shop: {
+    readonly hero: {
+      readonly eyebrow: string
+      readonly title: string
+      readonly subhead: string
+    }
+    readonly addToCart: string
+    readonly buyNow: string
+    readonly cart: string
+    readonly added: string
+  }
 }

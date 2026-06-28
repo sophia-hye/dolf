@@ -194,4 +194,15 @@ export const ko: Dictionary = {
       b2bCta: 'B2B 문의하기',
     },
   },
+  shop: {
+    hero: {
+      eyebrow: 'SHOP',
+      title: 'Shop DoLF',
+      subhead: '신앙을 일상의 루틴으로 — DoLF의 제품을 만나보세요.',
+    },
+    addToCart: 'Add to Cart',
+    buyNow: 'Buy Now',
+    cart: 'Cart',
+    added: '장바구니에 담겼습니다',
+  },
 }

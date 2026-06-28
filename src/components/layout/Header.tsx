@@ -2,12 +2,14 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
 import { useLocale } from '@/i18n/context'
+import { useCart } from '@/state/cart-context'
 import type { Locale } from '@/i18n/types'
 
 const LOCALES: Locale[] = ['en', 'ko', 'ja']
 
 export function Header() {
   const { t, locale, setLocale } = useLocale()
+  const { count: cartCount } = useCart()
 
   const navItems = [
     { label: t.nav.about, to: '/about' },
@@ -30,22 +32,66 @@ export function Header() {
           ))}
         </Nav>
 
-        <LangSwitcher>
-          {LOCALES.map((code) => (
-            <LangButton
-              key={code}
-              type="button"
-              $active={locale === code}
-              onClick={() => setLocale(code)}
-            >
-              {code.toUpperCase()}
-            </LangButton>
-          ))}
-        </LangSwitcher>
+        <Right>
+          <LangSwitcher>
+            {LOCALES.map((code) => (
+              <LangButton
+                key={code}
+                type="button"
+                $active={locale === code}
+                onClick={() => setLocale(code)}
+              >
+                {code.toUpperCase()}
+              </LangButton>
+            ))}
+          </LangSwitcher>
+
+          <CartLink to="/shop">
+            {t.shop.cart}
+            {cartCount > 0 && <Badge>{cartCount}</Badge>}
+          </CartLink>
+        </Right>
       </Inner>
     </Wrapper>
   )
 }
+
+const Right = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+`
+
+const CartLink = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.ink};
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.brandRed};
+  }
+`
+
+const Badge = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background-color: ${({ theme }) => theme.colors.brandRed};
+  color: ${({ theme }) => theme.colors.white};
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0;
+`
 
 const Wrapper = styled.header`
   position: sticky;
