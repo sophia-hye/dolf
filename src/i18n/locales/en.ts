@@ -1,0 +1,268 @@
+import type { Dictionary } from '@/i18n/types'
+
+export const en: Dictionary = {
+  nav: {
+    about: 'About',
+    products: 'Products',
+    community: 'Community',
+    contact: 'Contact',
+    shop: 'Shop',
+  },
+  hero: {
+    tagline: 'dot of line and form',
+    title: 'A day to breathe, eat,\nand follow the cross.',
+    subhead: 'A day to breathe, to eat, and to follow the cross',
+    body: 'A lifestyle brand that weaves faith into your everyday routine',
+    cta: 'Discover our story',
+  },
+  philosophy: {
+    eyebrow: 'PHILOSOPHY',
+    title: 'Dot. Line. Form.',
+    intro:
+      'A small dot of each day becomes a line, and lines come together to form a life that walks with God.',
+    items: [
+      {
+        title: 'Dot',
+        description: 'A small daily practice. Five minutes of quiet time, one chapter of Scripture, one line of gratitude.',
+      },
+      {
+        title: 'Line',
+        description: 'Small practices, repeated, become habits — and habits become a sustainable routine.',
+      },
+      {
+        title: 'Form',
+        description: 'Habits build up into the shape of a life — a life that walks with God.',
+      },
+    ],
+  },
+  story: {
+    eyebrow: 'OUR STORY',
+    title: 'This is the story of DoLF',
+    body: 'In the beginning, God shaped life that started from a single dot. That life was drawn into a line, revealed in light, and finally restored into a single form. DoLF walks this journey of restoration alongside you, through the small practices of everyday life.',
+    closing: [
+      'A story of life that begins with a dot,',
+      'a journey of faith drawn into a line,',
+      'the image of God revealed in light.',
+    ],
+  },
+  products: {
+    eyebrow: 'PRODUCTS',
+    title: 'Our Products',
+    items: [
+      {
+        name: 'Breathe Planner & Diary',
+        description: 'Our flagship planner for recording faith and everyday life together',
+      },
+      {
+        name: 'Bible Reading Tracker',
+        description: 'A recording tool that brings your Bible reading journey into view at a glance',
+      },
+      {
+        name: '2027 Calendar',
+        description: 'A minimal calendar expressed through braille and seven-segment lines',
+      },
+    ],
+  },
+  footer: {
+    tagline: 'dot of line and form',
+    instagram: '@dolf._official',
+    copyright: '© 2026 DoLF. All rights reserved.',
+  },
+  about: {
+    hero: {
+      eyebrow: 'ABOUT',
+      title: 'Faith, woven into the everyday',
+      subhead: 'The story of DoLF, a lifestyle brand that weaves faith into your everyday routine',
+    },
+    why: {
+      eyebrow: 'WHY DoLF',
+      title: 'Not willpower, but rhythm',
+      body: 'For many people, faith falters not because they lack willpower, but because they lack the tools and experiences that turn faith into a daily routine. DoLF helps small daily practices become habits, and habits become the shape of a life.',
+    },
+    missionVision: {
+      eyebrow: 'MISSION & VISION',
+      items: [
+        {
+          label: 'Mission',
+          subhead: 'To weave faith into the everyday routine',
+          description: 'We help faith become a daily habit rather than a resolution made in special moments.',
+        },
+        {
+          label: 'Vision',
+          subhead: 'A life walking with God, sustained as a lasting habit',
+          description: 'We dream of a faith-driven lifestyle where small practices add up and change the direction of a life.',
+        },
+      ],
+    },
+    coreValues: {
+      eyebrow: 'CORE VALUES',
+      title: 'What we believe',
+      items: [
+        { label: 'Faith', description: 'Faith is where DoLF begins.' },
+        { label: 'Consistency', description: 'We value consistency over perfection.' },
+        { label: 'Simplicity', description: 'Good habits begin with simplicity.' },
+        { label: 'Growth', description: 'We cherish the process of growth over results.' },
+        { label: 'Community', description: 'Change lasts longer when we walk together.' },
+      ],
+    },
+  },
+  productsPage: {
+    hero: {
+      eyebrow: 'PRODUCTS',
+      title: 'Tools for a faithful routine',
+      subhead: "DoLF's products that turn faith into a daily routine",
+    },
+    features: [
+      {
+        name: 'Breathe — Planner & Diary',
+        description:
+          "DoLF's flagship planner that lets you plan your day while recording gratitude, meditation, and reflection — carrying your relationship with God through everyday life.",
+        spec: 'B5  ·  128P  ·  LAY-FLAT',
+      },
+      {
+        name: 'Bible Reading Tracker',
+        description:
+          'One verse as a single dot. A recording tool that visually completes the reading journey as dots gather into lines, and lines into a whole.',
+        spec: 'B5  ·  120P',
+      },
+      {
+        name: '2027 Calendar',
+        description:
+          'A minimal calendar that expresses each month through braille and seven-segment lines. Available as a B5 double-sided sheet and a B2 poster.',
+        spec: 'B5 DOUBLE-SIDE  ·  B2 POSTER',
+      },
+      {
+        name: 'Topical Reading Tracker',
+        description:
+          'A single-page reading tracker for following one theme in depth — gospel harmonies, Psalms and Proverbs, parallel passages, and more. Available as a single sheet or a folded format.',
+        spec: 'B5  ·  SINGLE / FOLDED  ·  BY THEME',
+      },
+    ],
+  },
+  community: {
+    hero: {
+      eyebrow: 'COMMUNITY',
+      title: 'Grow together, stay longer',
+      subhead: 'Faith lasts longer together than alone. The story of DoLF circles.',
+    },
+    circles: {
+      eyebrow: 'CIRCLES',
+      items: [
+        {
+          title: 'Bible Reading Circle',
+          subhead: 'Read the Bible together',
+          description: 'A circle that reads through Scripture together over 12 weeks and helps you finish the journey.',
+        },
+        {
+          title: 'QT Circle',
+          subhead: 'Building the quiet time habit',
+          description: 'Share daily meditations together and turn quiet time into a habit.',
+        },
+        {
+          title: 'Faith & Life Circle',
+          subhead: 'Faith and life',
+          description: 'A community for sharing the questions of faith and everyday life together.',
+        },
+      ],
+    },
+    program: {
+      eyebrow: 'PROGRAM',
+      title: 'Start your 12 weeks',
+      body: 'The Bible Reading Circle runs as a 12-week program. The participation fee of 49,000–99,000 KRW includes a tracker product.',
+      cta: 'Inquire about joining',
+    },
+  },
+  contact: {
+    hero: {
+      eyebrow: 'CONTACT',
+      title: "Let's stay in touch",
+      subhead: 'Product inquiries, collaborations, joining a circle — reach out about anything.',
+    },
+    info: [
+      { label: 'Instagram', value: '@dolf._official' },
+      { label: 'Shop', value: 'Etsy (B2C) · Faire (B2B)' },
+      { label: 'Inquiry', value: 'Reach us by DM or email' },
+    ],
+    form: {
+      eyebrow: 'GET IN TOUCH',
+      title: 'Ask us anything',
+      body: 'Leave us your question. We will review it and get back to you quickly.',
+      namePlaceholder: 'Name',
+      emailPlaceholder: 'Email',
+      messagePlaceholder: 'Enter your message',
+      submit: 'Send',
+      b2bText: 'Wholesale and B2B partnership inquiries are handled separately.',
+      b2bCta: 'B2B inquiry',
+    },
+  },
+  shop: {
+    hero: {
+      eyebrow: 'SHOP',
+      title: 'Shop DoLF',
+      subhead: 'Faith as a daily routine — explore the products of DoLF.',
+    },
+    addToCart: 'Add to Cart',
+    buyNow: 'Buy Now',
+    cart: 'Cart',
+    added: 'Added to your cart',
+  },
+  account: {
+    signInNav: 'Sign In',
+    myPageNav: 'My Page',
+    logout: 'Log Out',
+    signIn: {
+      eyebrow: 'WELCOME BACK',
+      title: 'Sign in to DoLF',
+      subhead: 'Sign in with your account. You will be routed automatically based on your account permissions.',
+      emailLabel: 'Email',
+      emailPlaceholder: 'you@example.com',
+      passwordLabel: 'Password',
+      passwordPlaceholder: 'Enter your password',
+      forgotPassword: 'Forgot password',
+      keepLoggedIn: 'Keep me logged in',
+      submit: 'Sign In',
+      notice:
+        'Sign in with an admin account to go to the admin console, or with a member account to go to My Page. No separate selection is needed.',
+      noAccount: "Don't have an account?",
+      signUpLink: 'Sign up',
+      notFound: 'This email is not registered. Please use a seed account or the email you signed up with.',
+    },
+    signUp: {
+      eyebrow: 'GET STARTED',
+      title: 'Create your account',
+      subhead: 'Fields marked * are required. International members can sign up with just an email.',
+      countryLabel: 'Country / Region *',
+      nameLabel: 'Name *',
+      namePlaceholder: 'Enter your name',
+      emailLabel: 'Email *',
+      emailPlaceholder: 'you@example.com',
+      phoneLabel: 'Phone (optional)',
+      phonePlaceholder: '10-0000-0000',
+      passwordLabel: 'Password *',
+      passwordPlaceholder: 'At least 8 characters',
+      passwordConfirmLabel: 'Confirm password *',
+      passwordConfirmPlaceholder: 'Re-enter your password',
+      terms: 'I agree to the Terms of Service and Privacy Policy.',
+      submit: 'Sign Up',
+      hasAccount: 'Already have an account?',
+      signInLink: 'Sign in',
+    },
+    myPage: {
+      eyebrow: 'MY PAGE',
+      greeting: 'Hello, {name}',
+      subhead: 'Manage everything you have done with DoLF in one place.',
+      statsOrders: 'Orders',
+      statsWishlist: 'Wishlist',
+      statsSpent: 'Total Spent',
+      ordersTitle: 'Order History',
+      wishlistTitle: 'Wishlist',
+      settingsTitle: 'Account Settings',
+      settingName: 'Name',
+      settingEmail: 'Email',
+      settingPhone: 'Phone',
+      settingAddress: 'Address',
+      settingMembership: 'Membership',
+      edit: 'Edit',
+    },
+  },
+}
