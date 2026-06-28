@@ -4,11 +4,12 @@ import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
-import { products } from '@/data/products'
+import { getProducts } from '@/data/products'
 
 export function ShopPage() {
-  const { t } = useLocale()
+  const { t, locale } = useLocale()
   const { addItem } = useCart()
+  const products = getProducts(locale)
 
   return (
     <>

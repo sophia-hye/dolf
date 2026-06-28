@@ -8,7 +8,7 @@ import { mockOrders, mockWishlistSlugs } from '@/data/mock-account'
 import { getProductBySlug } from '@/data/products'
 
 export function MyPage() {
-  const { t } = useLocale()
+  const { t, locale } = useLocale()
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const c = t.account.myPage
@@ -16,7 +16,7 @@ export function MyPage() {
   if (!user) return null
 
   const wishlist = mockWishlistSlugs
-    .map((slug) => getProductBySlug(slug))
+    .map((slug) => getProductBySlug(slug, locale))
     .filter((p): p is NonNullable<typeof p> => Boolean(p))
 
   const settings = [

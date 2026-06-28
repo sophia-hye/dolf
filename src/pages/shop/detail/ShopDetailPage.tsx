@@ -1,5 +1,6 @@
 import { useParams, Navigate } from 'react-router-dom'
 import { getProductBySlug } from '@/data/products'
+import { useLocale } from '@/i18n/context'
 import { DetailHero } from '@/pages/shop/detail/sections/DetailHero'
 import { StorySection } from '@/pages/shop/detail/sections/StorySection'
 import { InsidePagesSection } from '@/pages/shop/detail/sections/InsidePagesSection'
@@ -12,7 +13,8 @@ import { RelatedSection } from '@/pages/shop/detail/sections/RelatedSection'
 
 export function ShopDetailPage() {
   const { slug } = useParams<{ slug: string }>()
-  const product = slug ? getProductBySlug(slug) : undefined
+  const { locale } = useLocale()
+  const product = slug ? getProductBySlug(slug, locale) : undefined
 
   if (!product) {
     return <Navigate to="/shop" replace />
