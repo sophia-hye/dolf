@@ -6,15 +6,18 @@ import { theme } from '@/styles/theme'
 import { GlobalStyle } from '@/styles/GlobalStyle'
 import { LocaleProvider } from '@/i18n/LocaleContext'
 import { CartProvider } from '@/state/CartProvider'
+import { AuthProvider } from '@/state/AuthProvider'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <LocaleProvider>
-        <CartProvider>
-          <App />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <App />
+          </CartProvider>
+        </AuthProvider>
       </LocaleProvider>
     </ThemeProvider>
   </StrictMode>,
