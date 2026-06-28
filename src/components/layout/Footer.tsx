@@ -1,0 +1,122 @@
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+import { Container } from '@/components/ui/Container'
+import { useLocale } from '@/i18n/context'
+
+export function Footer() {
+  const { t } = useLocale()
+
+  const navItems = [
+    { label: t.nav.about, to: '/about' },
+    { label: t.nav.products, to: '/products' },
+    { label: t.nav.community, to: '/community' },
+    { label: t.nav.contact, to: '/contact' },
+    { label: t.nav.shop, to: '/shop' },
+  ]
+
+  return (
+    <Wrapper>
+      <Inner>
+        <TopRow>
+          <Brand>
+            <BrandName>DoLF</BrandName>
+            <Tagline>{t.footer.tagline}</Tagline>
+          </Brand>
+
+          <Right>
+            <Instagram>Instagram {t.footer.instagram}</Instagram>
+            <Nav>
+              {navItems.map((item) => (
+                <NavLink key={item.to} to={item.to}>
+                  {item.label}
+                </NavLink>
+              ))}
+            </Nav>
+          </Right>
+        </TopRow>
+
+        <Divider />
+
+        <Copyright>{t.footer.copyright}</Copyright>
+      </Inner>
+    </Wrapper>
+  )
+}
+
+const Wrapper = styled.footer`
+  background-color: ${({ theme }) => theme.colors.ink};
+  color: ${({ theme }) => theme.colors.white};
+`
+
+const Inner = styled(Container)`
+  padding-top: 56px;
+  padding-bottom: 40px;
+`
+
+const TopRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 40px;
+`
+
+const Brand = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`
+
+const BrandName = styled.span`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+`
+
+const Tagline = styled.span`
+  font-family: ${({ theme }) => theme.fonts.script};
+  font-size: 24px;
+  color: ${({ theme }) => theme.colors.brandRed};
+`
+
+const Right = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+`
+
+const Instagram = styled.span`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: ${({ theme }) => theme.fontSizes.nav};
+  color: rgba(255, 255, 255, 0.7);
+`
+
+const Nav = styled.nav`
+  display: flex;
+  gap: 24px;
+`
+
+const NavLink = styled(Link)`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.85);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.white};
+  }
+`
+
+const Divider = styled.hr`
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  margin: 32px 0 20px;
+`
+
+const Copyright = styled.p`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  color: rgba(255, 255, 255, 0.5);
+`
