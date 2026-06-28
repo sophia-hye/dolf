@@ -140,6 +140,7 @@ export const ja: Dictionary = {
         spec: 'B5  ·  一枚もの / 折りたたみ  ·  テーマ別',
       },
     ],
+    detailCta: '詳しく見る',
   },
   community: {
     hero: {

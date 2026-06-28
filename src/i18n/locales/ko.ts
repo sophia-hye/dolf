@@ -137,6 +137,7 @@ export const ko: Dictionary = {
         spec: 'B5  ·  낱장 / 접지  ·  주제별',
       },
     ],
+    detailCta: '자세히 보기',
   },
   community: {
     hero: {

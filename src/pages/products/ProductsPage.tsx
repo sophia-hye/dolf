@@ -8,6 +8,7 @@ import coverTopical from '@/assets/products/cover-topical.png'
 
 const IMAGES = [coverBreathe, coverTracker, coverCalendar, coverTopical]
 const BACKGROUNDS = ['cream', 'surface', 'cream', 'cream'] as const
+const SLUGS = ['breathe', 'tracker', 'calendar', 'topical']
 
 export function ProductsPage() {
   const { t } = useLocale()
@@ -24,6 +25,8 @@ export function ProductsPage() {
           description={feature.description}
           spec={feature.spec}
           image={IMAGES[i]}
+          detailHref={`/products/${SLUGS[i]}`}
+          detailLabel={t.productsPage.detailCta}
         />
       ))}
     </>

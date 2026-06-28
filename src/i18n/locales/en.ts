@@ -138,6 +138,7 @@ export const en: Dictionary = {
         spec: 'B5  ·  SINGLE / FOLDED  ·  BY THEME',
       },
     ],
+    detailCta: 'View details',
   },
   community: {
     hero: {

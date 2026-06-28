@@ -3,6 +3,7 @@ import { Layout } from '@/components/layout/Layout'
 import { HomePage } from '@/pages/home/HomePage'
 import { AboutPage } from '@/pages/about/AboutPage'
 import { ProductsPage } from '@/pages/products/ProductsPage'
+import { ProductDetailPage } from '@/pages/products/ProductDetailPage'
 import { CommunityPage } from '@/pages/community/CommunityPage'
 import { ContactPage } from '@/pages/contact/ContactPage'
 import { ShopPage } from '@/pages/shop/ShopPage'
@@ -34,6 +35,7 @@ export function App() {
           <Route index element={<HomePage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="products" element={<ProductsPage />} />
+          <Route path="products/:slug" element={<ProductDetailPage />} />
           <Route path="community" element={<CommunityPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="shop" element={<ShopPage />} />

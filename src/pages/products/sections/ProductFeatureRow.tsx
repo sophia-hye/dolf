@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 interface ProductFeatureRowProps {
   readonly imageSide: 'left' | 'right'
@@ -7,6 +8,8 @@ interface ProductFeatureRowProps {
   readonly description: string
   readonly spec: string
   readonly image: string
+  readonly detailHref: string
+  readonly detailLabel: string
 }
 
 export function ProductFeatureRow({
@@ -16,6 +19,8 @@ export function ProductFeatureRow({
   description,
   spec,
   image,
+  detailHref,
+  detailLabel,
 }: ProductFeatureRowProps) {
   return (
     <Section $background={background}>
@@ -27,11 +32,26 @@ export function ProductFeatureRow({
           <Name>{name}</Name>
           <Body>{description}</Body>
           <Spec>{spec}</Spec>
+          <DetailLink to={detailHref}>{detailLabel} →</DetailLink>
         </Text>
       </Inner>
     </Section>
   )
 }
+
+const DetailLink = styled(Link)`
+  margin-top: 20px;
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: ${({ theme }) => theme.fontSizes.nav};
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: ${({ theme }) => theme.colors.brandRed};
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+`
 
 const Section = styled.section<{ $background: 'cream' | 'surface' }>`
   background-color: ${({ theme, $background }) => theme.colors[$background]};

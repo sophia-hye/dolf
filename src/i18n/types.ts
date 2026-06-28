@@ -103,6 +103,7 @@ export interface Dictionary {
       readonly subhead: string
     }
     readonly features: readonly ProductFeature[]
+    readonly detailCta: string
   }
   readonly community: {
     readonly hero: {
