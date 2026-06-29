@@ -59,7 +59,7 @@ export const ja: Dictionary = {
       },
       {
         name: '2027 Calendar',
-        description: '点字と7セグメントで表現したミニマルカレンダー',
+        description: '点字と数字で表現したミニマルカレンダー',
       },
     ],
   },
@@ -130,7 +130,7 @@ export const ja: Dictionary = {
       {
         name: '2027 Calendar',
         description:
-          '点字（braille）と7セグメントのラインで月を表現したミニマルカレンダー。B5両面とB2ポスターで構成されます。',
+          '点字（braille）と数字で月を表現したミニマルカレンダー。B5両面とB2ポスターで構成されます。',
         spec: 'B5 DOUBLE-SIDE  ·  B2 POSTER',
       },
       {

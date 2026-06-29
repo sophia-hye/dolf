@@ -59,7 +59,7 @@ export const en: Dictionary = {
       },
       {
         name: '2027 Calendar',
-        description: 'A minimal calendar expressed through braille and seven-segment lines',
+        description: 'A minimal calendar expressed through braille and numbers',
       },
     ],
   },
@@ -128,7 +128,7 @@ export const en: Dictionary = {
       {
         name: '2027 Calendar',
         description:
-          'A minimal calendar that expresses each month through braille and seven-segment lines. Available as a B5 double-sided sheet and a B2 poster.',
+          'A minimal calendar that expresses each month through braille and numbers. Available as a B5 double-sided sheet and a B2 poster.',
         spec: 'B5 DOUBLE-SIDE  ·  B2 POSTER',
       },
       {

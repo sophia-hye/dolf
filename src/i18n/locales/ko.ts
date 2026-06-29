@@ -58,7 +58,7 @@ export const ko: Dictionary = {
       },
       {
         name: '2027 Calendar',
-        description: '점자와 7-세그먼트로 표현한 미니멀 캘린더',
+        description: '점자와 숫자로 표현한 미니멀 캘린더',
       },
     ],
   },
@@ -127,7 +127,7 @@ export const ko: Dictionary = {
       {
         name: '2027 Calendar',
         description:
-          '점자(braille)와 7-세그먼트 라인으로 월을 표현한 미니멀 캘린더. B5 양면과 B2 포스터로 구성됩니다.',
+          '점자(braille)와 숫자로 월을 표현한 미니멀 캘린더. B5 양면과 B2 포스터로 구성됩니다.',
         spec: 'B5 DOUBLE-SIDE  ·  B2 POSTER',
       },
       {

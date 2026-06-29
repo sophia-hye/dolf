@@ -15,7 +15,7 @@ export const calendar: Record<Locale, ShopProduct> = {
     hero: {
       gallery: [hero],
       title: '2027 Calendar',
-      subtitle: 'Calendar & Poster — 점자와 7-세그먼트로 표현한 미니멀 캘린더',
+      subtitle: 'Calendar & Poster — 점자와 숫자로 표현한 미니멀 캘린더',
       price: '$20',
       description:
         '점자(braille) 모티프로 각 월을 표현한 미니멀 캘린더입니다. B5 양면 캘린더와 B2 포스터로 구성되어 일상의 공간을 따뜻하게 채웁니다.',
@@ -25,7 +25,7 @@ export const calendar: Record<Locale, ShopProduct> = {
       eyebrow: 'ABOUT THIS PRODUCT',
       title: 'Why the Calendar',
       paragraphs: [
-        '2027 Calendar는 점(dot)으로 시간을 그립니다. 점자와 7-세그먼트 라인으로 각 월의 숫자를 표현한 미니멀한 디자인입니다.',
+        '2027 Calendar는 점(dot)으로 시간을 그립니다. 점자와 숫자로 각 월의 날짜를 표현한 미니멀한 디자인입니다.',
         'B5 양면 캘린더와 B2 포스터로 구성되어, 책상 위에도 벽에도 DoLF의 무드를 더합니다.',
       ],
     },
@@ -52,7 +52,7 @@ export const calendar: Record<Locale, ShopProduct> = {
       items: [
         { title: '12 Months', desc: '12개월 미니 캘린더' },
         { title: 'Braille', desc: '점자 모티프 디자인' },
-        { title: '7-Segment', desc: '7-세그먼트 숫자 라인' },
+        { title: '숫자', desc: '미니멀한 숫자 표현' },
         { title: 'Double-side', desc: 'B5 양면 구성' },
         { title: 'B2 Poster', desc: 'B2 포스터 동봉' },
         { title: 'Holidays', desc: '2027 공휴일 표기' },
@@ -65,7 +65,7 @@ export const calendar: Record<Locale, ShopProduct> = {
         { label: 'Size', value: 'B5 양면 · 176 × 250mm' },
         { label: 'Format', value: '캘린더 + 포스터' },
         { label: 'Poster', value: 'B2 · 500 × 707mm' },
-        { label: 'Design', value: '점자 + 7-세그먼트' },
+        { label: 'Design', value: '점자 + 숫자' },
         { label: 'Year', value: '2027' },
         { label: 'Holidays', value: '대한민국 공휴일 표기' },
       ],
@@ -110,7 +110,7 @@ export const calendar: Record<Locale, ShopProduct> = {
     hero: {
       gallery: [hero],
       title: '2027 Calendar',
-      subtitle: 'Calendar & Poster — a minimalist calendar expressed in braille and 7-segment',
+      subtitle: 'Calendar & Poster — a minimalist calendar expressed in braille and numbers',
       price: '$20',
       description:
         'A minimalist calendar that expresses each month with a braille motif. Comprising a B5 double-sided calendar and a B2 poster, it warmly fills your everyday spaces.',
@@ -120,7 +120,7 @@ export const calendar: Record<Locale, ShopProduct> = {
       eyebrow: 'ABOUT THIS PRODUCT',
       title: 'Why the Calendar',
       paragraphs: [
-        'The 2027 Calendar draws time with dots. A minimalist design that expresses each month’s numbers with braille and 7-segment lines.',
+        'The 2027 Calendar draws time with dots. A minimalist design that expresses each month’s dates with braille and numbers.',
         'Comprising a B5 double-sided calendar and a B2 poster, it adds the DoLF mood to your desk and your wall alike.',
       ],
     },
@@ -147,7 +147,7 @@ export const calendar: Record<Locale, ShopProduct> = {
       items: [
         { title: '12 Months', desc: '12-month mini calendar' },
         { title: 'Braille', desc: 'Braille motif design' },
-        { title: '7-Segment', desc: '7-segment number lines' },
+        { title: 'Numbers', desc: 'minimal number forms' },
         { title: 'Double-side', desc: 'B5 double-sided layout' },
         { title: 'B2 Poster', desc: 'B2 poster included' },
         { title: 'Holidays', desc: '2027 holidays marked' },
@@ -160,7 +160,7 @@ export const calendar: Record<Locale, ShopProduct> = {
         { label: 'Size', value: 'B5 double-sided · 176 × 250mm' },
         { label: 'Format', value: 'Calendar + poster' },
         { label: 'Poster', value: 'B2 · 500 × 707mm' },
-        { label: 'Design', value: 'Braille + 7-segment' },
+        { label: 'Design', value: 'Braille + numbers' },
         { label: 'Year', value: '2027' },
         { label: 'Holidays', value: 'South Korean holidays marked' },
       ],
@@ -205,7 +205,7 @@ export const calendar: Record<Locale, ShopProduct> = {
     hero: {
       gallery: [hero],
       title: '2027 Calendar',
-      subtitle: 'Calendar & Poster — 点字と7セグメントで表現したミニマルなカレンダー',
+      subtitle: 'Calendar & Poster — 点字と数字で表現したミニマルなカレンダー',
       price: '$20',
       description:
         '点字（braille）モチーフで各月を表現したミニマルなカレンダーです。B5両面カレンダーとB2ポスターで構成され、日常の空間を温かく彩ります。',
@@ -215,7 +215,7 @@ export const calendar: Record<Locale, ShopProduct> = {
       eyebrow: 'ABOUT THIS PRODUCT',
       title: 'Why the Calendar',
       paragraphs: [
-        '2027 Calendarは点（dot）で時間を描きます。点字と7セグメントのラインで各月の数字を表現したミニマルなデザインです。',
+        '2027 Calendarは点（dot）で時間を描きます。点字と数字で各月の日付を表現したミニマルなデザインです。',
         'B5両面カレンダーとB2ポスターで構成され、机の上にも壁にもDoLFのムードを添えます。',
       ],
     },
@@ -242,7 +242,7 @@ export const calendar: Record<Locale, ShopProduct> = {
       items: [
         { title: '12 Months', desc: '12か月のミニカレンダー' },
         { title: 'Braille', desc: '点字モチーフのデザイン' },
-        { title: '7-Segment', desc: '7セグメントの数字ライン' },
+        { title: '数字', desc: 'ミニマルな数字表現' },
         { title: 'Double-side', desc: 'B5両面構成' },
         { title: 'B2 Poster', desc: 'B2ポスター同梱' },
         { title: 'Holidays', desc: '2027年の祝日を記載' },
@@ -255,7 +255,7 @@ export const calendar: Record<Locale, ShopProduct> = {
         { label: 'Size', value: 'B5両面 · 176 × 250mm' },
         { label: 'Format', value: 'カレンダー + ポスター' },
         { label: 'Poster', value: 'B2 · 500 × 707mm' },
-        { label: 'Design', value: '点字 + 7セグメント' },
+        { label: 'Design', value: '点字 + 数字' },
         { label: 'Year', value: '2027' },
         { label: 'Holidays', value: '大韓民国の祝日を記載' },
       ],

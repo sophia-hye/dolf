@@ -15,18 +15,18 @@ export const poster: Record<Locale, ShopProduct> = {
     hero: {
       gallery: [hero],
       title: '2027 Poster',
-      subtitle: 'B2 Wall Poster — 점자와 7-세그먼트 숫자로 표현한 캘린더 포스터',
+      subtitle: 'B2 Wall Poster — 점자와 숫자로 표현한 캘린더 포스터',
       price: '$32',
       description:
         'DoLF 2027 캘린더를 B2(500×707mm) 대형 포스터로. 미니멀한 점·선 디자인이 한 해 동안 공간을 채웁니다.',
-      specLines: ['B2 · 500 × 707mm', '대형 월 포스터', '점자 + 7-세그먼트'],
+      specLines: ['B2 · 500 × 707mm', '대형 월 포스터', '점자 + 숫자'],
     },
     story: {
       eyebrow: 'ABOUT THIS PRODUCT',
       title: 'Why a poster',
       paragraphs: [
         '캘린더는 책상 위에만 있지 않습니다. B2 포스터는 한 해 전체를 벽에 펼쳐, 매일 시선이 닿는 곳에서 시간을 바라보게 합니다.',
-        '점자와 7-세그먼트 숫자로 표현한 미니멀 디자인은 공간을 채우는 하나의 오브제가 됩니다.',
+        '점자와 숫자로 표현한 미니멀 디자인은 공간을 채우는 하나의 오브제가 됩니다.',
       ],
     },
     insidePages: {
@@ -62,7 +62,7 @@ export const poster: Record<Locale, ShopProduct> = {
         { label: 'Size', value: 'B2 · 500 × 707mm' },
         { label: 'Type', value: '월 포스터 (Wall)' },
         { label: 'Orientation', value: '세로 (Portrait)' },
-        { label: 'Design', value: '점자 + 7-세그먼트' },
+        { label: 'Design', value: '점자 + 숫자' },
         { label: 'Year', value: '2027' },
         { label: 'Holidays', value: '대한민국 공휴일' },
       ],
@@ -107,18 +107,18 @@ export const poster: Record<Locale, ShopProduct> = {
     hero: {
       gallery: [hero],
       title: '2027 Poster',
-      subtitle: 'B2 Wall Poster — a calendar poster rendered in Braille and 7-segment digits',
+      subtitle: 'B2 Wall Poster — a calendar poster rendered in Braille and numbers',
       price: '$32',
       description:
         'The DoLF 2027 calendar as a large B2 (500×707mm) poster. A minimal dot-and-line design fills your space all year long.',
-      specLines: ['B2 · 500 × 707mm', 'Large monthly poster', 'Braille + 7-segment'],
+      specLines: ['B2 · 500 × 707mm', 'Large monthly poster', 'Braille + numbers'],
     },
     story: {
       eyebrow: 'ABOUT THIS PRODUCT',
       title: 'Why a poster',
       paragraphs: [
         'A calendar does not belong only on your desk. The B2 poster spreads the whole year across your wall, letting you see time wherever your eyes land each day.',
-        'The minimal design rendered in Braille and 7-segment digits becomes an object that fills the space.',
+        'The minimal design rendered in Braille and numbers becomes an object that fills the space.',
       ],
     },
     insidePages: {
@@ -154,7 +154,7 @@ export const poster: Record<Locale, ShopProduct> = {
         { label: 'Size', value: 'B2 · 500 × 707mm' },
         { label: 'Type', value: 'Monthly poster (Wall)' },
         { label: 'Orientation', value: 'Portrait' },
-        { label: 'Design', value: 'Braille + 7-segment' },
+        { label: 'Design', value: 'Braille + numbers' },
         { label: 'Year', value: '2027' },
         { label: 'Holidays', value: 'Republic of Korea holidays' },
       ],
@@ -199,18 +199,18 @@ export const poster: Record<Locale, ShopProduct> = {
     hero: {
       gallery: [hero],
       title: '2027 Poster',
-      subtitle: 'B2 Wall Poster — 点字と7セグメント数字で表現したカレンダーポスター',
+      subtitle: 'B2 Wall Poster — 点字と数字で表現したカレンダーポスター',
       price: '$32',
       description:
         'DoLF 2027カレンダーをB2(500×707mm)の大判ポスターに。ミニマルな点と線のデザインが一年を通して空間を彩ります。',
-      specLines: ['B2 · 500 × 707mm', '大判マンスリーポスター', '点字 + 7セグメント'],
+      specLines: ['B2 · 500 × 707mm', '大判マンスリーポスター', '点字 + 数字'],
     },
     story: {
       eyebrow: 'ABOUT THIS PRODUCT',
       title: 'Why a poster',
       paragraphs: [
         'カレンダーは机の上だけのものではありません。B2ポスターは一年全体を壁に広げ、毎日視線が届く場所で時間を眺められるようにします。',
-        '点字と7セグメント数字で表現したミニマルなデザインは、空間を彩る一つのオブジェになります。',
+        '点字と数字で表現したミニマルなデザインは、空間を彩る一つのオブジェになります。',
       ],
     },
     insidePages: {
@@ -246,7 +246,7 @@ export const poster: Record<Locale, ShopProduct> = {
         { label: 'Size', value: 'B2 · 500 × 707mm' },
         { label: 'Type', value: 'マンスリーポスター (Wall)' },
         { label: 'Orientation', value: '縦 (Portrait)' },
-        { label: 'Design', value: '点字 + 7セグメント' },
+        { label: 'Design', value: '点字 + 数字' },
         { label: 'Year', value: '2027' },
         { label: 'Holidays', value: '大韓民国の祝日' },
       ],
