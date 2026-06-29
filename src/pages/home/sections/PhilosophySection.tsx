@@ -109,4 +109,5 @@ const ColDesc = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.body};
   line-height: 1.8;
   color: ${({ theme }) => theme.colors.textSecondary};
+  white-space: pre-line;
 `

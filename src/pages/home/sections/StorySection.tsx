@@ -49,6 +49,7 @@ const Body = styled.p`
   line-height: 1.85;
   color: ${({ theme }) => theme.colors.textSecondary};
   margin-top: 8px;
+  white-space: pre-line;
 `
 
 const Closing = styled.p`
