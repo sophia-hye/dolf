@@ -6,6 +6,7 @@ import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
 import { useAuth } from '@/state/auth-context'
 import type { Locale } from '@/i18n/types'
+import logoUrl from '@/assets/logo.png'
 
 const LOCALES: Locale[] = ['en', 'ko', 'ja']
 
@@ -49,7 +50,9 @@ export function Header() {
   return (
     <Wrapper>
       <Inner>
-        <Logo to="/">DoLF</Logo>
+        <Logo to="/" aria-label="DoLF">
+          <LogoImg src={logoUrl} alt="DoLF" />
+        </Logo>
 
         <Nav>
           {navItems.map((item) => (
@@ -116,11 +119,14 @@ const Inner = styled(Container)`
 `
 
 const Logo = styled(Link)`
-  font-family: ${({ theme }) => theme.fonts.sans};
-  font-size: 24px;
-  font-weight: 900;
-  letter-spacing: 0.5px;
-  color: ${({ theme }) => theme.colors.ink};
+  display: inline-flex;
+  align-items: center;
+`
+
+const LogoImg = styled.img`
+  height: 28px;
+  width: auto;
+  display: block;
 `
 
 const Nav = styled.nav`
