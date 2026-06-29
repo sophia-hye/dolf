@@ -16,12 +16,13 @@ export const theme = {
     sans: '"Inter", "Noto Sans KR", system-ui, sans-serif',
     kr: '"Noto Sans KR", "Inter", system-ui, sans-serif',
   },
+  // Fluid type: scales down on small screens, capped at the desktop size.
   fontSizes: {
-    h1: '72px',
-    h2: '34px',
-    h3: '22px',
-    krSubhead: '21px',
-    bodyLg: '18px',
+    h1: 'clamp(40px, 8vw, 72px)',
+    h2: 'clamp(27px, 5vw, 34px)',
+    h3: 'clamp(20px, 3vw, 22px)',
+    krSubhead: 'clamp(18px, 3vw, 21px)',
+    bodyLg: 'clamp(16px, 2.5vw, 18px)',
     body: '16px',
     nav: '14px',
     eyebrow: '13px',
@@ -30,6 +31,12 @@ export const theme = {
     maxWidth: '1440px',
     pagePadding: '64px',
     sectionPadding: '96px',
+  },
+  breakpoints: {
+    mobile: '768px',
+  },
+  media: {
+    mobile: '@media (max-width: 768px)',
   },
 } as const
 

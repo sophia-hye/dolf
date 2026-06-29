@@ -11,6 +11,15 @@ const NAV_ITEMS = [
   { to: '/admin/settings', label: 'Settings' },
 ]
 
+// Bottom tab bar (mobile) — 5 primary destinations, matching the Figma design.
+const TAB_ITEMS = [
+  { to: '/admin', label: 'Dashboard', end: true },
+  { to: '/admin/members', label: 'Members' },
+  { to: '/admin/orders', label: 'Orders' },
+  { to: '/admin/products', label: 'Products' },
+  { to: '/admin/settings', label: 'Settings' },
+]
+
 export function AdminLayout() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
@@ -41,9 +50,25 @@ export function AdminLayout() {
           </LogoutButton>
         </SidebarFoot>
       </Sidebar>
+
+      <TopBar>
+        <TopBrand>
+          DoLF <TopBrandSub>ADMIN</TopBrandSub>
+        </TopBrand>
+        <Avatar>{(user?.name ?? 'A').charAt(0)}</Avatar>
+      </TopBar>
+
       <Content>
         <Outlet />
       </Content>
+
+      <TabBar>
+        {TAB_ITEMS.map((item) => (
+          <Tab key={item.to} to={item.to} end={item.end}>
+            {item.label}
+          </Tab>
+        ))}
+      </TabBar>
     </Shell>
   )
 }
@@ -51,6 +76,10 @@ export function AdminLayout() {
 const Shell = styled.div`
   display: flex;
   min-height: 100vh;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+  }
 `
 
 const Sidebar = styled.aside`
@@ -61,6 +90,85 @@ const Sidebar = styled.aside`
   background-color: ${({ theme }) => theme.colors.ink};
   color: ${({ theme }) => theme.colors.white};
   padding: 32px 0;
+
+  ${({ theme }) => theme.media.mobile} {
+    display: none;
+  }
+`
+
+const TopBar = styled.header`
+  display: none;
+
+  ${({ theme }) => theme.media.mobile} {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 16px 20px;
+    background-color: ${({ theme }) => theme.colors.ink};
+    color: ${({ theme }) => theme.colors.white};
+  }
+`
+
+const TopBrand = styled.div`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+`
+
+const TopBrandSub = styled.span`
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: 4px;
+`
+
+const Avatar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.15);
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: 13px;
+  font-weight: 600;
+`
+
+const TabBar = styled.nav`
+  display: none;
+
+  ${({ theme }) => theme.media.mobile} {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background-color: ${({ theme }) => theme.colors.white};
+    border-top: 1px solid ${({ theme }) => theme.colors.border};
+  }
+`
+
+const Tab = styled(NavLink)`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 4px;
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: 11px;
+  color: ${({ theme }) => theme.colors.textSecondary};
+
+  &.active {
+    color: ${({ theme }) => theme.colors.brandRed};
+    font-weight: 600;
+  }
 `
 
 const Brand = styled.div`
@@ -141,4 +249,8 @@ const Content = styled.main`
   background-color: ${({ theme }) => theme.colors.surface};
   padding: 36px 40px;
   overflow-x: auto;
+
+  ${({ theme }) => theme.media.mobile} {
+    padding: 24px 20px 84px;
+  }
 `
