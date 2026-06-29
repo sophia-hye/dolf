@@ -37,6 +37,9 @@ export const theme = {
   },
   media: {
     mobile: '@media (max-width: 768px)',
+    // Header nav collapses to a hamburger earlier — the horizontal nav needs
+    // more room than the page content does.
+    nav: '@media (max-width: 1100px)',
   },
 } as const
 

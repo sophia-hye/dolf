@@ -127,7 +127,7 @@ const Nav = styled.nav`
   display: flex;
   gap: 36px;
 
-  ${({ theme }) => theme.media.mobile} {
+  ${({ theme }) => theme.media.nav} {
     display: none;
   }
 `
@@ -151,7 +151,7 @@ const Right = styled.div`
   align-items: center;
   gap: 20px;
 
-  ${({ theme }) => theme.media.mobile} {
+  ${({ theme }) => theme.media.nav} {
     display: none;
   }
 `
@@ -173,7 +173,7 @@ const Hamburger = styled.button`
     background-color: ${({ theme }) => theme.colors.ink};
   }
 
-  ${({ theme }) => theme.media.mobile} {
+  ${({ theme }) => theme.media.nav} {
     display: flex;
   }
 `
@@ -181,7 +181,7 @@ const Hamburger = styled.button`
 const Drawer = styled.div`
   display: none;
 
-  ${({ theme }) => theme.media.mobile} {
+  ${({ theme }) => theme.media.nav} {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -222,6 +222,7 @@ const CartLink = styled(Link)`
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
   font-family: ${({ theme }) => theme.fonts.sans};
   font-size: ${({ theme }) => theme.fontSizes.eyebrow};
   letter-spacing: 1px;
@@ -235,6 +236,7 @@ const CartLink = styled(Link)`
 `
 
 const AccountLink = styled(Link)`
+  white-space: nowrap;
   font-family: ${({ theme }) => theme.fonts.sans};
   font-size: ${({ theme }) => theme.fontSizes.eyebrow};
   letter-spacing: 1px;
