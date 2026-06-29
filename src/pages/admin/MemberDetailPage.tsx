@@ -176,6 +176,10 @@ const DetailGrid = styled.div`
   padding: 20px;
   border-radius: 6px;
   background-color: ${({ theme }) => theme.colors.cream};
+
+  ${({ theme }) => theme.media.mobile} {
+    grid-template-columns: 1fr;
+  }
 `
 
 const DetailItem = styled.div`

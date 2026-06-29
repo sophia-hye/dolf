@@ -29,6 +29,11 @@ const Inner = styled(Container)`
   gap: 18px;
   padding-top: 88px;
   padding-bottom: 64px;
+
+  ${({ theme }) => theme.media.mobile} {
+    padding-top: 56px;
+    padding-bottom: 48px;
+  }
 `
 
 const Title = styled.h1`

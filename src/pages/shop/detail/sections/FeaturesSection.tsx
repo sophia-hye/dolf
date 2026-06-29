@@ -32,6 +32,12 @@ const Inner = styled(Container)`
   gap: 48px;
   padding-top: 96px;
   padding-bottom: 96px;
+
+  ${({ theme }) => theme.media.mobile} {
+    gap: 32px;
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
 `
 
 const Grid = styled.div`
@@ -40,6 +46,10 @@ const Grid = styled.div`
   gap: 32px 24px;
   width: 100%;
   max-width: 1180px;
+
+  ${({ theme }) => theme.media.mobile} {
+    grid-template-columns: 1fr;
+  }
 `
 
 const Cell = styled.div`

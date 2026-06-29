@@ -29,6 +29,10 @@ const Section = styled.section`
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.cream};
   padding: 80px 64px 120px;
+
+  ${({ theme }) => theme.media.mobile} {
+    padding: 56px 20px 64px;
+  }
 `
 
 const Card = styled.div`
@@ -38,6 +42,10 @@ const Card = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 6px;
   padding: 40px;
+
+  ${({ theme }) => theme.media.mobile} {
+    padding: 28px 24px;
+  }
 `
 
 const Head = styled.div`

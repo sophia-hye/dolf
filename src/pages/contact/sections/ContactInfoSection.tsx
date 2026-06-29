@@ -30,6 +30,11 @@ const Inner = styled(Container)`
   justify-content: center;
   padding-top: 80px;
   padding-bottom: 80px;
+
+  ${({ theme }) => theme.media.mobile} {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
 `
 
 const Columns = styled.div`
@@ -37,6 +42,11 @@ const Columns = styled.div`
   gap: 24px;
   width: 100%;
   max-width: 1000px;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+    gap: 32px;
+  }
 `
 
 const Column = styled.div`

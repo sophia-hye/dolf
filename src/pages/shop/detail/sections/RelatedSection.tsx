@@ -35,6 +35,12 @@ const Inner = styled(Container)`
   gap: 40px;
   padding-top: 96px;
   padding-bottom: 104px;
+
+  ${({ theme }) => theme.media.mobile} {
+    gap: 32px;
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
 `
 
 const CenteredEyebrow = styled(Eyebrow)`
@@ -46,6 +52,10 @@ const Cards = styled.div`
   gap: 28px;
   width: 100%;
   max-width: 760px;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+  }
 `
 
 const Card = styled.div`
@@ -61,6 +71,10 @@ const ImageCard = styled.div`
   border-radius: 2px;
   background-color: ${({ theme }) => theme.colors.white};
   overflow: hidden;
+
+  ${({ theme }) => theme.media.mobile} {
+    height: 360px;
+  }
 `
 
 const Img = styled.img`

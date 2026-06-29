@@ -42,6 +42,11 @@ const Section = styled.section`
 const Inner = styled(Container)`
   padding-top: 96px;
   padding-bottom: 96px;
+
+  ${({ theme }) => theme.media.mobile} {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
 `
 
 const Head = styled.div`
@@ -52,6 +57,10 @@ const Head = styled.div`
   gap: 14px;
   max-width: 720px;
   margin: 0 auto 64px;
+
+  ${({ theme }) => theme.media.mobile} {
+    margin-bottom: 40px;
+  }
 `
 
 const Intro = styled.p`
@@ -66,6 +75,11 @@ const Columns = styled.div`
   gap: 32px;
   max-width: 1040px;
   margin: 0 auto;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+    gap: 40px;
+  }
 `
 
 const Column = styled.div`

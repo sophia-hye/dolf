@@ -57,6 +57,13 @@ const Inner = styled(Container)`
   gap: 72px;
   padding-top: 64px;
   padding-bottom: 80px;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+    gap: 32px;
+    padding-top: 56px;
+    padding-bottom: 64px;
+  }
 `
 
 const ImageCard = styled.div`
@@ -66,6 +73,10 @@ const ImageCard = styled.div`
   border-radius: 2px;
   background-color: ${({ theme }) => theme.colors.white};
   overflow: hidden;
+
+  ${({ theme }) => theme.media.mobile} {
+    height: 420px;
+  }
 `
 
 const ProductImage = styled.img`
@@ -136,6 +147,10 @@ const Buttons = styled.div`
   display: flex;
   gap: 12px;
   margin-top: 36px;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+  }
 `
 
 const BuyNow = styled.button`

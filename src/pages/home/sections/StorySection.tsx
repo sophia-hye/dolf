@@ -36,6 +36,11 @@ const Inner = styled(Container)`
   max-width: 720px;
   padding-top: 104px;
   padding-bottom: 104px;
+
+  ${({ theme }) => theme.media.mobile} {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
 `
 
 const Body = styled.p`

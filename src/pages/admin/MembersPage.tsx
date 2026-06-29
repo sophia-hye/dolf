@@ -95,11 +95,21 @@ const Toolbar = styled.div`
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 20px;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
 `
 
 const Tabs = styled.div`
   display: flex;
   gap: 8px;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-wrap: wrap;
+  }
 `
 
 const Tab = styled.button<{ $active: boolean }>`
@@ -122,6 +132,11 @@ const Search = styled.input`
   background-color: ${({ theme }) => theme.colors.white};
   font-family: ${({ theme }) => theme.fonts.kr};
   font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+
+  ${({ theme }) => theme.media.mobile} {
+    width: 100%;
+    box-sizing: border-box;
+  }
 `
 
 const Row = styled.tr`

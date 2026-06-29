@@ -65,6 +65,12 @@ const Inner = styled.div<{ $imageRight: boolean }>`
   max-width: ${({ theme }) => theme.layout.maxWidth};
   margin: 0 auto;
   padding: 80px 96px;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+    gap: 32px;
+    padding: 56px 24px;
+  }
 `
 
 const ImageCard = styled.div`
@@ -74,6 +80,11 @@ const ImageCard = styled.div`
   border-radius: 2px;
   background-color: ${({ theme }) => theme.colors.white};
   overflow: hidden;
+
+  ${({ theme }) => theme.media.mobile} {
+    width: 100%;
+    height: 420px;
+  }
 `
 
 const ProductImage = styled.img`

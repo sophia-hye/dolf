@@ -110,6 +110,11 @@ const StatGrid = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   margin-bottom: 20px;
+
+  ${({ theme }) => theme.media.mobile} {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
 `
 
 const StatCard = styled.div`
@@ -144,6 +149,10 @@ const TwoCol = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin-bottom: 20px;
+
+  ${({ theme }) => theme.media.mobile} {
+    grid-template-columns: 1fr;
+  }
 `
 
 const Bars = styled.div`

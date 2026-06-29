@@ -30,6 +30,11 @@ const Inner = styled(Container)`
   text-align: center;
   padding-top: 96px;
   padding-bottom: 112px;
+
+  ${({ theme }) => theme.media.mobile} {
+    padding-top: 56px;
+    padding-bottom: 64px;
+  }
 `
 
 const Tagline = styled.p`
