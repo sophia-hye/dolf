@@ -35,6 +35,12 @@ const Inner = styled(Container)`
   gap: 44px;
   padding-top: 96px;
   padding-bottom: 96px;
+
+  ${({ theme }) => theme.media.mobile} {
+    gap: 32px;
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
 `
 
 const CenteredEyebrow = styled(Eyebrow)`
@@ -46,6 +52,11 @@ const Columns = styled.div`
   gap: 48px;
   width: 100%;
   max-width: 980px;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+    gap: 32px;
+  }
 `
 
 const Column = styled.div`

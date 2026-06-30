@@ -66,6 +66,11 @@ const Inner = styled(Container)`
   gap: 28px;
   padding-top: 96px;
   padding-bottom: 96px;
+
+  ${({ theme }) => theme.media.mobile} {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
 `
 
 const Head = styled.div`
@@ -89,6 +94,10 @@ const Form = styled.form`
   gap: 14px;
   width: 100%;
   max-width: 560px;
+
+  ${({ theme }) => theme.media.mobile} {
+    max-width: 100%;
+  }
 `
 
 const fieldStyles = `

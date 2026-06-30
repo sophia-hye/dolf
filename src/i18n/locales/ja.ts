@@ -59,7 +59,7 @@ export const ja: Dictionary = {
       },
       {
         name: '2027 Calendar',
-        description: '点字と7セグメントで表現したミニマルカレンダー',
+        description: '点字と数字で表現したミニマルカレンダー',
       },
     ],
   },
@@ -125,21 +125,22 @@ export const ja: Dictionary = {
         name: 'Bible Reading Tracker',
         description:
           '1節を一つの点（Dot）に。点が集まって線となり、面となる通読の旅路を視覚的に完成させる記録ツールです。',
-        spec: 'B5  ·  120P',
+        spec: 'B5  ·  120P  ·  LAY-FLAT',
       },
       {
         name: '2027 Calendar',
         description:
-          '点字（braille）と7セグメントのラインで月を表現したミニマルカレンダー。B5両面とB2ポスターで構成されます。',
+          '点字（braille）と数字で月を表現したミニマルカレンダー。B5両面とB2ポスターで構成されます。',
         spec: 'B5 DOUBLE-SIDE  ·  B2 POSTER',
       },
       {
         name: 'Topical Reading Tracker',
         description:
           '福音書の調和、詩篇・箴言、並行箇所など、一つのテーマを深く追って読む1枚の通読トラッカーです。一枚もの、または折りたたみ形式からお選びいただけます。',
-        spec: 'B5  ·  一枚もの / 折りたたみ  ·  テーマ別',
+        spec: 'B5  ·  SINGLE / FOLDED  ·  BY THEME',
       },
     ],
+    detailCta: '詳しく見る',
   },
   community: {
     hero: {

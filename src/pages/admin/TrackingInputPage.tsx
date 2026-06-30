@@ -136,6 +136,10 @@ const BackLink = styled(Link)`
 
 const FormPanel = styled(Panel)`
   max-width: 520px;
+
+  ${({ theme }) => theme.media.mobile} {
+    max-width: 100%;
+  }
 `
 
 const FieldGroup = styled.div`

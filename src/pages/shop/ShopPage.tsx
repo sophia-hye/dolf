@@ -4,11 +4,12 @@ import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
-import { products } from '@/data/products'
+import { getProducts } from '@/data/products'
 
 export function ShopPage() {
-  const { t } = useLocale()
+  const { t, locale } = useLocale()
   const { addItem } = useCart()
+  const products = getProducts(locale)
 
   return (
     <>
@@ -64,6 +65,11 @@ const HeroInner = styled(Container)`
   gap: 18px;
   padding-top: 88px;
   padding-bottom: 56px;
+
+  ${({ theme }) => theme.media.mobile} {
+    padding-top: 56px;
+    padding-bottom: 40px;
+  }
 `
 
 const Title = styled.h1`
@@ -93,6 +99,12 @@ const Grid = styled(Container)`
   max-width: 1180px;
   padding-top: 40px;
   padding-bottom: 96px;
+
+  ${({ theme }) => theme.media.mobile} {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-bottom: 64px;
+  }
 `
 
 const Card = styled.div`
@@ -108,7 +120,8 @@ const CardLink = styled(Link)`
 `
 
 const ImageCard = styled.div`
-  height: 512px;
+  width: 100%;
+  aspect-ratio: 348 / 494;
   border: 1.5px solid ${({ theme }) => theme.colors.border};
   border-radius: 2px;
   background-color: ${({ theme }) => theme.colors.white};

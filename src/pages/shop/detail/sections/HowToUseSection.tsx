@@ -33,6 +33,12 @@ const Inner = styled(Container)`
   gap: 48px;
   padding-top: 96px;
   padding-bottom: 96px;
+
+  ${({ theme }) => theme.media.mobile} {
+    gap: 32px;
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
 `
 
 const Steps = styled.div`
@@ -40,6 +46,10 @@ const Steps = styled.div`
   gap: 40px;
   width: 100%;
   max-width: 1040px;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+  }
 `
 
 const Step = styled.div`

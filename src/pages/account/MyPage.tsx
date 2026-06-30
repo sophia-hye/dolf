@@ -8,7 +8,7 @@ import { mockOrders, mockWishlistSlugs } from '@/data/mock-account'
 import { getProductBySlug } from '@/data/products'
 
 export function MyPage() {
-  const { t } = useLocale()
+  const { t, locale } = useLocale()
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const c = t.account.myPage
@@ -16,7 +16,7 @@ export function MyPage() {
   if (!user) return null
 
   const wishlist = mockWishlistSlugs
-    .map((slug) => getProductBySlug(slug))
+    .map((slug) => getProductBySlug(slug, locale))
     .filter((p): p is NonNullable<typeof p> => Boolean(p))
 
   const settings = [
@@ -133,9 +133,14 @@ const Subhead = styled.p`
 `
 
 const Stats = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   margin-bottom: 56px;
+
+  ${({ theme }) => theme.media.mobile} {
+    grid-template-columns: 1fr;
+  }
 `
 
 const Stat = styled.div`
@@ -186,6 +191,10 @@ const OrderRow = styled.div`
   gap: 24px;
   padding: 20px 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+
+  ${({ theme }) => theme.media.mobile} {
+    gap: 12px;
+  }
 `
 
 const OrderMeta = styled.div`
@@ -223,6 +232,11 @@ const Wishlist = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
+
+  ${({ theme }) => theme.media.mobile} {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
 `
 
 const WishCard = styled(Link)`
@@ -242,6 +256,10 @@ const WishImage = styled.div`
     width: 100%;
     height: 100%;
     object-fit: contain;
+  }
+
+  ${({ theme }) => theme.media.mobile} {
+    height: 200px;
   }
 `
 
@@ -270,6 +288,10 @@ const SettingRow = styled.div`
   gap: 24px;
   padding: 16px 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+
+  ${({ theme }) => theme.media.mobile} {
+    gap: 12px;
+  }
 `
 
 const SettingLabel = styled.span`

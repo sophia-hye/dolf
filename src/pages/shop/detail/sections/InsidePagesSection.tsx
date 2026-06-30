@@ -34,6 +34,12 @@ const Inner = styled(Container)`
   gap: 48px;
   padding-top: 96px;
   padding-bottom: 96px;
+
+  ${({ theme }) => theme.media.mobile} {
+    gap: 32px;
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
 `
 
 const Gallery = styled.div`
@@ -41,6 +47,10 @@ const Gallery = styled.div`
   gap: 24px;
   width: 100%;
   max-width: 1180px;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+  }
 `
 
 const Figure = styled.figure`
@@ -56,6 +66,10 @@ const ImageCard = styled.div`
   border-radius: 2px;
   background-color: ${({ theme }) => theme.colors.white};
   overflow: hidden;
+
+  ${({ theme }) => theme.media.mobile} {
+    height: 360px;
+  }
 `
 
 const Img = styled.img`

@@ -5,6 +5,6 @@ export const Container = styled.div`
   width: 100%;
   max-width: ${({ theme }) => theme.layout.maxWidth};
   margin: 0 auto;
-  padding-left: ${({ theme }) => theme.layout.pagePadding};
-  padding-right: ${({ theme }) => theme.layout.pagePadding};
+  padding-left: clamp(28px, 5vw, 64px);
+  padding-right: clamp(28px, 5vw, 64px);
 `

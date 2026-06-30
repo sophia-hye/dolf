@@ -22,22 +22,22 @@ export const ko: Dictionary = {
     items: [
       {
         title: 'Dot',
-        description: '하루의 작은 실천. QT 5분, 성경 한 장, 감사 한 줄.',
+        description: '하루의 작은 실천.\nQT 5분, 성경 한 장, 감사 한 줄.',
       },
       {
         title: 'Line',
-        description: '작은 실천이 반복되어 습관이 되고, 지속 가능한 루틴이 됩니다.',
+        description: '작은 실천이 반복되어 습관이 되고,\n지속 가능한 루틴이 됩니다.',
       },
       {
         title: 'Form',
-        description: '습관이 쌓여 삶의 형태가 되고, 하나님과 동행하는 삶이 됩니다.',
+        description: '습관이 쌓여 삶의 형태가 되고,\n하나님과 동행하는 삶이 됩니다.',
       },
     ],
   },
   story: {
     eyebrow: 'OUR STORY',
     title: 'This is the story of DoLF',
-    body: '태초에 하나님은 점에서 시작된 생명을 빚으셨습니다. 그 생명은 선으로 이어지고, 빛으로 드러나 마침내 하나의 형상(form)으로 회복됩니다. DoLF는 이 회복의 여정을 일상의 작은 실천으로 함께 걷고자 합니다.',
+    body: '태초에 하나님은 자신의 형상으로 사람을 빚으셨지만,\n인간의 죄로 하나님과 사람 사이의 선(line)은 끊어졌습니다.\n그때 독생자 예수님이 한 점(dot)으로 이 땅에 오셔서,\n십자가의 죽음과 부활로 끊어졌던 선을 다시 이어 생명의 길을 여셨습니다.\n\n하루하루 이어지는 삶이 하나님의 구원과 만날 때,\n절망뿐이던 일상에 은혜가 흐르고 잃어버렸던 주님의 형상(form)이 믿음 안에서 새 피조물로 회복됩니다.\n작은 점이 모여 선이 되고,\n선이 빛으로 드러나 완전한 형상이 되는 것 —\n이것이 DoLF의 이야기입니다.',
     closing: [
       '점으로 시작된 생명의 이야기,',
       '선으로 이어지는 믿음의 여정,',
@@ -58,7 +58,7 @@ export const ko: Dictionary = {
       },
       {
         name: '2027 Calendar',
-        description: '점자와 7-세그먼트로 표현한 미니멀 캘린더',
+        description: '점자와 숫자로 표현한 미니멀 캘린더',
       },
     ],
   },
@@ -122,21 +122,22 @@ export const ko: Dictionary = {
         name: 'Bible Reading Tracker',
         description:
           '1절을 하나의 점(Dot)으로. 점이 모여 선이 되고 면이 되는 통독의 여정을 시각적으로 완성하는 기록 도구입니다.',
-        spec: 'B5  ·  120P',
+        spec: 'B5  ·  120P  ·  LAY-FLAT',
       },
       {
         name: '2027 Calendar',
         description:
-          '점자(braille)와 7-세그먼트 라인으로 월을 표현한 미니멀 캘린더. B5 양면과 B2 포스터로 구성됩니다.',
+          '점자(braille)와 숫자로 월을 표현한 미니멀 캘린더. B5 양면과 B2 포스터로 구성됩니다.',
         spec: 'B5 DOUBLE-SIDE  ·  B2 POSTER',
       },
       {
         name: 'Topical Reading Tracker',
         description:
-          '복음서 조화, 시편·잠언, 평행 본문 등 한 주제를 깊이 따라 읽는 1장짜리 통독 트래커입니다. 낱장과 접지 형태로 고를 수 있습니다.',
-        spec: 'B5  ·  낱장 / 접지  ·  주제별',
+          '사복음서 대조, 시편·잠언, 평행 본문 등 한 주제를 깊이 따라 읽는 1장짜리 통독 트래커입니다. 낱장과 접지 형태로 고를 수 있습니다.',
+        spec: 'B5  ·  SINGLE / FOLDED  ·  BY THEME',
       },
     ],
+    detailCta: '자세히 보기',
   },
   community: {
     hero: {

@@ -38,6 +38,12 @@ const Inner = styled(Container)`
   gap: 56px;
   padding-top: 96px;
   padding-bottom: 96px;
+
+  ${({ theme }) => theme.media.mobile} {
+    gap: 40px;
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
 `
 
 const Rows = styled.div`
@@ -46,6 +52,10 @@ const Rows = styled.div`
   gap: 56px;
   width: 100%;
   max-width: 1040px;
+
+  ${({ theme }) => theme.media.mobile} {
+    gap: 40px;
+  }
 `
 
 const Row = styled.div<{ $imageRight: boolean }>`
@@ -53,6 +63,12 @@ const Row = styled.div<{ $imageRight: boolean }>`
   flex-direction: ${({ $imageRight }) => ($imageRight ? 'row-reverse' : 'row')};
   align-items: center;
   gap: 56px;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
 `
 
 const ImageCard = styled.div`
@@ -63,6 +79,12 @@ const ImageCard = styled.div`
   border-radius: 2px;
   background-color: ${({ theme }) => theme.colors.white};
   overflow: hidden;
+
+  ${({ theme }) => theme.media.mobile} {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 340 / 483;
+  }
 `
 
 const Img = styled.img`

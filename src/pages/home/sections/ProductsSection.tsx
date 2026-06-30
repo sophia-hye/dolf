@@ -43,6 +43,11 @@ const Section = styled.section`
 const Inner = styled(Container)`
   padding-top: 96px;
   padding-bottom: 104px;
+
+  ${({ theme }) => theme.media.mobile} {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
 `
 
 const Head = styled.div`
@@ -52,6 +57,10 @@ const Head = styled.div`
   text-align: center;
   gap: 14px;
   margin-bottom: 56px;
+
+  ${({ theme }) => theme.media.mobile} {
+    margin-bottom: 36px;
+  }
 `
 
 const Grid = styled.div`
@@ -59,6 +68,11 @@ const Grid = styled.div`
   gap: 28px;
   max-width: 1100px;
   margin: 0 auto;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+    gap: 32px;
+  }
 `
 
 const Card = styled.div`
@@ -69,7 +83,7 @@ const Card = styled.div`
 
 const ImageWrap = styled.div`
   width: 100%;
-  height: 494px;
+  aspect-ratio: 348 / 494;
   border: 1.5px solid ${({ theme }) => theme.colors.border};
   border-radius: 2px;
   background-color: ${({ theme }) => theme.colors.white};

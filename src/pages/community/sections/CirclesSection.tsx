@@ -35,6 +35,12 @@ const Inner = styled(Container)`
   gap: 44px;
   padding-top: 88px;
   padding-bottom: 88px;
+
+  ${({ theme }) => theme.media.mobile} {
+    gap: 32px;
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
 `
 
 const CenteredEyebrow = styled(Eyebrow)`
@@ -46,6 +52,11 @@ const Cards = styled.div`
   gap: 24px;
   width: 100%;
   max-width: 1120px;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+    gap: 20px;
+  }
 `
 
 const Card = styled.div`

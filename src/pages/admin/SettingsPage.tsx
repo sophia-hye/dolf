@@ -161,6 +161,12 @@ const Section = styled(Panel)`
   gap: 20px;
   padding: 28px;
   margin-bottom: 24px;
+
+  ${({ theme }) => theme.media.mobile} {
+    gap: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
 `
 
 const SectionHead = styled.div`
@@ -186,6 +192,11 @@ const FieldGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+
+  ${({ theme }) => theme.media.mobile} {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 `
 
 const Field = styled.div`

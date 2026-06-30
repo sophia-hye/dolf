@@ -3,6 +3,7 @@ import { Layout } from '@/components/layout/Layout'
 import { HomePage } from '@/pages/home/HomePage'
 import { AboutPage } from '@/pages/about/AboutPage'
 import { ProductsPage } from '@/pages/products/ProductsPage'
+import { ProductDetailPage } from '@/pages/products/ProductDetailPage'
 import { CommunityPage } from '@/pages/community/CommunityPage'
 import { ContactPage } from '@/pages/contact/ContactPage'
 import { ShopPage } from '@/pages/shop/ShopPage'
@@ -21,6 +22,7 @@ import { ProductsPage as AdminProductsPage } from '@/pages/admin/ProductsPage'
 import { SettingsPage } from '@/pages/admin/SettingsPage'
 import { CustomerInsightsPage } from '@/pages/admin/CustomerInsightsPage'
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
+import { ScrollToTop } from '@/app/ScrollToTop'
 import { PlaceholderPage } from '@/pages/PlaceholderPage'
 
 // gh-pages serves under /dolf/ in production; BASE_URL handles both envs.
@@ -29,11 +31,13 @@ const basename = import.meta.env.BASE_URL
 export function App() {
   return (
     <BrowserRouter basename={basename}>
+      <ScrollToTop />
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="products" element={<ProductsPage />} />
+          <Route path="products/:slug" element={<ProductDetailPage />} />
           <Route path="community" element={<CommunityPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="shop" element={<ShopPage />} />

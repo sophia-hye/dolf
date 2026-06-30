@@ -58,6 +58,11 @@ const TopRow = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   gap: 40px;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+    gap: 28px;
+  }
 `
 
 const Brand = styled.div`
@@ -84,6 +89,10 @@ const Right = styled.div`
   flex-direction: column;
   align-items: flex-end;
   gap: 16px;
+
+  ${({ theme }) => theme.media.mobile} {
+    align-items: flex-start;
+  }
 `
 
 const Instagram = styled.span`

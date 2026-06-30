@@ -36,6 +36,12 @@ const Inner = styled(Container)`
   gap: 48px;
   padding-top: 96px;
   padding-bottom: 96px;
+
+  ${({ theme }) => theme.media.mobile} {
+    gap: 32px;
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
 `
 
 const Content = styled.div`
