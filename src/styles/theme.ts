@@ -10,11 +10,13 @@ export const theme = {
     border: '#e2dfd9', // card borders / dividers
     white: '#ffffff',
   },
+  // "Umeboshi Zatsu Memo" sits first but only renders Japanese glyphs
+  // (limited by unicode-range in GlobalStyle); KO/EN fall through to the rest.
   fonts: {
-    serif: '"Cormorant", Georgia, serif',
+    serif: '"Umeboshi Zatsu Memo", "Cormorant", Georgia, serif',
     script: '"Reenie Beanie", cursive',
-    sans: '"Inter", "Noto Sans KR", system-ui, sans-serif',
-    kr: '"Noto Sans KR", "Inter", system-ui, sans-serif',
+    sans: '"Umeboshi Zatsu Memo", "Inter", "Noto Sans KR", system-ui, sans-serif',
+    kr: '"Umeboshi Zatsu Memo", "Noto Sans KR", "Inter", system-ui, sans-serif',
   },
   // Fluid type: scales down on small screens, capped at the desktop size.
   fontSizes: {

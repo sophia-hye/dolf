@@ -1,6 +1,16 @@
 import { createGlobalStyle } from 'styled-components'
+import umeboshiWoff2 from '@/assets/fonts/umeboshi-zatsu-memo.woff2'
 
 export const GlobalStyle = createGlobalStyle`
+  /* Japanese handwriting font (toga's Umeboshi Zatsu Memo). unicode-range
+     limits it to Japanese glyphs, so KO/EN text keeps its own fonts. */
+  @font-face {
+    font-family: 'Umeboshi Zatsu Memo';
+    src: url(${umeboshiWoff2}) format('woff2');
+    font-display: swap;
+    unicode-range: U+3000-303F, U+3040-309F, U+30A0-30FF, U+4E00-9FFF, U+FF00-FFEF, U+FF65-FF9F;
+  }
+
   *, *::before, *::after {
     box-sizing: border-box;
   }
