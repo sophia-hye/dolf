@@ -83,16 +83,12 @@ const Card = styled.div`
 
 const ImageWrap = styled.div`
   width: 100%;
-  height: 494px;
+  aspect-ratio: 348 / 494;
   border: 1.5px solid ${({ theme }) => theme.colors.border};
   border-radius: 2px;
   background-color: ${({ theme }) => theme.colors.white};
   overflow: hidden;
   margin-bottom: 20px;
-
-  ${({ theme }) => theme.media.mobile} {
-    height: 360px;
-  }
 `
 
 const ProductImage = styled.img`
