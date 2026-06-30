@@ -122,7 +122,7 @@ export const ko: Dictionary = {
         name: 'Bible Reading Tracker',
         description:
           '1절을 하나의 점(Dot)으로. 점이 모여 선이 되고 면이 되는 통독의 여정을 시각적으로 완성하는 기록 도구입니다.',
-        spec: 'B5  ·  120P',
+        spec: 'B5  ·  120P  ·  LAY-FLAT',
       },
       {
         name: '2027 Calendar',

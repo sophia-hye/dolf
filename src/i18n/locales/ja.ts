@@ -125,7 +125,7 @@ export const ja: Dictionary = {
         name: 'Bible Reading Tracker',
         description:
           '1節を一つの点（Dot）に。点が集まって線となり、面となる通読の旅路を視覚的に完成させる記録ツールです。',
-        spec: 'B5  ·  120P',
+        spec: 'B5  ·  120P  ·  LAY-FLAT',
       },
       {
         name: '2027 Calendar',

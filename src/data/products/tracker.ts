@@ -24,7 +24,7 @@ export const tracker: Record<Locale, ShopProduct> = {
       price: '$30',
       description:
         '1절을 하나의 점(Dot)으로 기록합니다. 점이 모여 선이 되고 면이 되는 통독의 여정을 시각적으로 완성하며, 완주를 향한 동기를 지속시킵니다.',
-      specLines: ['B5 · 176 × 250mm', '120 페이지', '성경 66권 전체'],
+      specLines: ['B5 · 176 × 250mm', '120 페이지', 'Lay-flat 제본', '성경 66권 전체'],
     },
     story: {
       eyebrow: 'ABOUT THIS PRODUCT',
@@ -109,7 +109,7 @@ export const tracker: Record<Locale, ShopProduct> = {
       rows: [
         { label: 'Size', value: 'B5 · 176 × 250mm' },
         { label: 'Pages', value: '120 페이지' },
-        { label: 'Binding', value: '사철 제본' },
+        { label: 'Binding', value: 'Lay-flat 사철 제본' },
         { label: 'Paper', value: '미색 모조지' },
         { label: 'Layout', value: '절 단위 체크 · 진행률 시각화' },
         { label: 'Coverage', value: '성경 66권 전체' },
@@ -159,7 +159,7 @@ export const tracker: Record<Locale, ShopProduct> = {
       price: '$30',
       description:
         'Record each verse as a single dot. As dots gather into lines and surfaces, your reading journey takes visual shape, keeping your motivation alive all the way to the finish.',
-      specLines: ['B5 · 176 × 250mm', '120 pages', 'All 66 books of the Bible'],
+      specLines: ['B5 · 176 × 250mm', '120 pages', 'Lay-flat binding', 'All 66 books of the Bible'],
     },
     story: {
       eyebrow: 'ABOUT THIS PRODUCT',
@@ -244,7 +244,7 @@ export const tracker: Record<Locale, ShopProduct> = {
       rows: [
         { label: 'Size', value: 'B5 · 176 × 250mm' },
         { label: 'Pages', value: '120 pages' },
-        { label: 'Binding', value: 'Thread-sewn binding' },
+        { label: 'Binding', value: 'Lay-flat thread-sewn binding' },
         { label: 'Paper', value: 'Cream uncoated paper' },
         { label: 'Layout', value: 'Verse-by-verse check · progress visualization' },
         { label: 'Coverage', value: 'All 66 books of the Bible' },
@@ -294,7 +294,7 @@ export const tracker: Record<Locale, ShopProduct> = {
       price: '$30',
       description:
         '1節を1つの点（Dot）として記録します。点が集まって線になり面になる通読の旅を視覚的に完成させ、読み通すための動機を持続させます。',
-      specLines: ['B5 · 176 × 250mm', '120ページ', '聖書66巻すべて'],
+      specLines: ['B5 · 176 × 250mm', '120ページ', 'Lay-flat製本', '聖書66巻すべて'],
     },
     story: {
       eyebrow: 'ABOUT THIS PRODUCT',
@@ -379,7 +379,7 @@ export const tracker: Record<Locale, ShopProduct> = {
       rows: [
         { label: 'Size', value: 'B5 · 176 × 250mm' },
         { label: 'Pages', value: '120ページ' },
-        { label: 'Binding', value: '糸かがり製本' },
+        { label: 'Binding', value: 'Lay-flat 糸かがり製本' },
         { label: 'Paper', value: 'クリーム色の上質紙' },
         { label: 'Layout', value: '節単位チェック · 進捗の可視化' },
         { label: 'Coverage', value: '聖書66巻すべて' },

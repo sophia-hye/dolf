@@ -123,7 +123,7 @@ export const en: Dictionary = {
         name: 'Bible Reading Tracker',
         description:
           'One verse as a single dot. A recording tool that visually completes the reading journey as dots gather into lines, and lines into a whole.',
-        spec: 'B5  ·  120P',
+        spec: 'B5  ·  120P  ·  LAY-FLAT',
       },
       {
         name: '2027 Calendar',
