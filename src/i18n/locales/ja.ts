@@ -137,7 +137,7 @@ export const ja: Dictionary = {
         name: 'Topical Reading Tracker',
         description:
           '福音書の調和、詩篇・箴言、並行箇所など、一つのテーマを深く追って読む1枚の通読トラッカーです。一枚もの、または折りたたみ形式からお選びいただけます。',
-        spec: 'B5  ·  一枚もの / 折りたたみ  ·  テーマ別',
+        spec: 'B5  ·  SINGLE / FOLDED  ·  BY THEME',
       },
     ],
     detailCta: '詳しく見る',

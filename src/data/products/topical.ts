@@ -21,14 +21,14 @@ export const topical: Record<Locale, ShopProduct> = {
       subtitle: 'Single Sheet & Foldout — 주제별 성경 통독 트래커',
       price: 'from $12',
       description:
-        '한 주제를 깊이 따라 읽는 1장짜리 통독 트래커입니다. 복음서 조화, 시편·잠언, 평행 본문 등 주제별로 골라보세요.',
+        '한 주제를 깊이 따라 읽는 1장짜리 통독 트래커입니다. 사복음서 대조, 시편·잠언, 평행 본문 등 주제별로 골라보세요.',
       specLines: ['B5 · 176 × 250mm', '낱장(Single) 또는 접지(Foldout)', '주제별 디자인'],
     },
     story: {
       eyebrow: 'ABOUT THIS PRODUCT',
       title: 'Why topical reading?',
       paragraphs: [
-        '성경 전체 통독이 부담될 때, 한 주제를 깊이 따라가 보세요. 복음서 조화, 시편·잠언, 평행 본문 등 주제별로 짜인 1장짜리 트래커입니다.',
+        '성경 전체 통독이 부담될 때, 한 주제를 깊이 따라가 보세요. 사복음서 대조, 시편·잠언, 평행 본문 등 주제별로 짜인 1장짜리 트래커입니다.',
         '낱장은 가볍게, 접지는 펼쳐서 더 넓게. 원하는 형태를 골라 책상에 두거나 성경에 끼워 사용하세요.',
       ],
     },
@@ -75,7 +75,7 @@ export const topical: Record<Locale, ShopProduct> = {
       eyebrow: "WHAT'S INSIDE",
       title: 'What you get',
       items: [
-        { title: '9 Topics', desc: '복음서 조화부터 평행 본문까지' },
+        { title: '9 Topics', desc: '사복음서 대조부터 평행 본문까지' },
         { title: 'Single & Foldout', desc: '낱장 또는 접지 형태 선택' },
         { title: 'By Chapter', desc: '장(chapter)을 점으로 체크' },
         { title: 'By Theme', desc: '한 주제를 깊이 따라 읽기' },

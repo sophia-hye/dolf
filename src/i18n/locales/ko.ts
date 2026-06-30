@@ -133,8 +133,8 @@ export const ko: Dictionary = {
       {
         name: 'Topical Reading Tracker',
         description:
-          '복음서 조화, 시편·잠언, 평행 본문 등 한 주제를 깊이 따라 읽는 1장짜리 통독 트래커입니다. 낱장과 접지 형태로 고를 수 있습니다.',
-        spec: 'B5  ·  낱장 / 접지  ·  주제별',
+          '사복음서 대조, 시편·잠언, 평행 본문 등 한 주제를 깊이 따라 읽는 1장짜리 통독 트래커입니다. 낱장과 접지 형태로 고를 수 있습니다.',
+        spec: 'B5  ·  SINGLE / FOLDED  ·  BY THEME',
       },
     ],
     detailCta: '자세히 보기',
