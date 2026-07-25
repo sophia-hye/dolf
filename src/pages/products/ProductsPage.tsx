@@ -6,9 +6,31 @@ import coverTracker from '@/assets/products/cover-tracker.png'
 import coverCalendar from '@/assets/products/cover-calendar.png'
 import coverTopical from '@/assets/products/cover-topical.png'
 
-const IMAGES = [coverBreathe, coverTracker, coverCalendar, coverTopical]
-const BACKGROUNDS = ['cream', 'surface', 'cream', 'cream'] as const
-const SLUGS = ['breathe', 'tracker', 'calendar', 'topical']
+// breathe-en / breathe-jp share the Breathe cover art (different edition).
+const IMAGES = [
+  coverBreathe,
+  coverBreathe,
+  coverBreathe,
+  coverTracker,
+  coverCalendar,
+  coverTopical,
+]
+const BACKGROUNDS = [
+  'cream',
+  'surface',
+  'cream',
+  'surface',
+  'cream',
+  'surface',
+] as const
+const SLUGS = [
+  'breathe',
+  'breathe-en',
+  'breathe-jp',
+  'tracker',
+  'calendar',
+  'topical',
+]
 
 export function ProductsPage() {
   const { t } = useLocale()

@@ -1,6 +1,8 @@
 import type { ShopProduct } from '@/data/shop-types'
 import type { Locale } from '@/i18n/types'
 import { breathe } from '@/data/products/breathe'
+import { breatheEn } from '@/data/products/breathe-en'
+import { breatheJp } from '@/data/products/breathe-jp'
 import { tracker } from '@/data/products/tracker'
 import { calendar } from '@/data/products/calendar'
 import { poster } from '@/data/products/poster'
@@ -9,6 +11,8 @@ import { topical } from '@/data/products/topical'
 // Each product holds a per-locale ShopProduct. Catalog order = Shop grid order.
 const localizedProducts: Record<Locale, ShopProduct>[] = [
   breathe,
+  breatheEn,
+  breatheJp,
   tracker,
   calendar,
   poster,

@@ -119,6 +119,18 @@ export const ko: Dictionary = {
         spec: 'B5  ·  128P  ·  LAY-FLAT',
       },
       {
+        name: 'Breathe — English',
+        description:
+          '신앙 색채를 덜어 누구나 쓰기 좋은 영문 일반판. Monthly · Weekly · Daily Journal 구성으로 하루를 계획하고 자유롭게 기록합니다.',
+        spec: 'B5  ·  128P  ·  ENGLISH',
+      },
+      {
+        name: 'Breathe — 日本語',
+        description:
+          '신앙 색채를 덜어 누구나 쓰기 좋은 일문 일반판. Monthly · Weekly · Daily Journal 구성으로 하루를 계획하고 자유롭게 기록합니다.',
+        spec: 'B5  ·  128P  ·  日本語',
+      },
+      {
         name: 'Bible Reading Tracker',
         description:
           '1절을 하나의 점(Dot)으로. 점이 모여 선이 되고 면이 되는 통독의 여정을 시각적으로 완성하는 기록 도구입니다.',
