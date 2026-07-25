@@ -268,4 +268,36 @@ export const ja: Dictionary = {
       edit: '編集',
     },
   },
+  seo: {
+    home: {
+      title: 'DoLF — dot of line and form',
+      description:
+        '信仰を日常のルーティンにつなぐライフスタイルブランド。日々の小さな実践が習慣になり、習慣が人生のかたちになります。',
+    },
+    about: {
+      title: 'About',
+      description:
+        'DoLFのストーリー — 信仰を日常のルーティンに変えるブランドの哲学とミッション。',
+    },
+    products: {
+      title: 'Products',
+      description:
+        'Breatheプランナー＆ダイアリー、聖書通読トラッカーなど、信仰の習慣のためのDoLFの製品。',
+    },
+    community: {
+      title: 'Community',
+      description:
+        'QTと聖書通読を分かち合い、信仰を習慣にするDoLFコミュニティ。',
+    },
+    contact: {
+      title: 'Contact',
+      description:
+        'DoLFへのお問い合わせ — 製品・協業・卸のお問い合わせを歓迎します。',
+    },
+    shop: {
+      title: 'Shop',
+      description:
+        'DoLF公式ストアでBreatheプランナーと聖書通読トラッカーをご覧ください。',
+    },
+  },
 }

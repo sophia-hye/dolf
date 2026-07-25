@@ -265,4 +265,35 @@ export const ko: Dictionary = {
       edit: '수정',
     },
   },
+  seo: {
+    home: {
+      title: 'DoLF — dot of line and form',
+      description:
+        '신앙을 일상의 루틴으로 연결하는 라이프스타일 브랜드. 매일의 작은 실천이 습관이 되고, 습관이 삶의 형태가 됩니다.',
+    },
+    about: {
+      title: 'About',
+      description:
+        'DoLF의 이야기 — 신앙을 일상의 루틴으로 연결하는 브랜드의 철학과 미션.',
+    },
+    products: {
+      title: 'Products',
+      description:
+        'Breathe 플래너 & 다이어리, 성경통독 트래커 등 신앙 습관을 위한 DoLF의 제품.',
+    },
+    community: {
+      title: 'Community',
+      description:
+        'QT와 성경 읽기를 함께 나누며 신앙을 습관으로 만드는 DoLF 커뮤니티.',
+    },
+    contact: {
+      title: 'Contact',
+      description: 'DoLF에 문의하기 — 제품·협업·도매 문의를 환영합니다.',
+    },
+    shop: {
+      title: 'Shop',
+      description:
+        'DoLF 공식 스토어에서 Breathe 플래너와 성경통독 트래커를 만나보세요.',
+    },
+  },
 }

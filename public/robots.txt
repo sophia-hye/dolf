@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /mypage
+Disallow: /signin
+Disallow: /signup
+
+Sitemap: https://dolfstory.com/sitemap.xml
