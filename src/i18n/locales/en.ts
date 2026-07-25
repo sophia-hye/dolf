@@ -120,6 +120,18 @@ export const en: Dictionary = {
         spec: 'B5  ·  128P  ·  LAY-FLAT',
       },
       {
+        name: 'Breathe — English',
+        description:
+          'The English everyday edition — a Monthly · Weekly · Daily Journal planner anyone can use, without the devotional pages.',
+        spec: 'B5  ·  128P  ·  ENGLISH',
+      },
+      {
+        name: 'Breathe — 日本語',
+        description:
+          'The Japanese everyday edition — Monthly · Weekly · Daily Journal, without the devotional pages.',
+        spec: 'B5  ·  128P  ·  日本語',
+      },
+      {
         name: 'Bible Reading Tracker',
         description:
           'One verse as a single dot. A recording tool that visually completes the reading journey as dots gather into lines, and lines into a whole.',

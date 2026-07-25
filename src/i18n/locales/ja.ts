@@ -122,6 +122,18 @@ export const ja: Dictionary = {
         spec: 'B5  ·  128P  ·  LAY-FLAT',
       },
       {
+        name: 'Breathe — English',
+        description:
+          '信仰的な要素を控えた、誰でも使いやすい英語の一般版。Monthly · Weekly · Daily Journal 構成で一日を計画し、自由に記録します。',
+        spec: 'B5  ·  128P  ·  ENGLISH',
+      },
+      {
+        name: 'Breathe — 日本語',
+        description:
+          '信仰的な要素を控えた、誰でも使いやすい日本語の一般版。Monthly · Weekly · Daily Journal 構成で一日を計画し、自由に記録します。',
+        spec: 'B5  ·  128P  ·  日本語',
+      },
+      {
         name: 'Bible Reading Tracker',
         description:
           '1節を一つの点（Dot）に。点が集まって線となり、面となる通読の旅路を視覚的に完成させる記録ツールです。',
