@@ -26,6 +26,7 @@ function build(locale: Locale): ShopProduct {
     ...base,
     slug: 'breathe-jp',
     catalogName: 'Breathe — 日本語',
+    badge: 'JP',
     // Skip sections whose reused assets are devotional-specific (QT pages).
     pagesExplained: undefined,
     hero: {

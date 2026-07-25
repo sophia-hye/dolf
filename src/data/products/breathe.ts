@@ -19,6 +19,7 @@ export const breathe: Record<Locale, ShopProduct> = {
     slug: 'breathe',
     catalogImage: catalog,
     catalogName: 'Breathe — Planner & Diary',
+    badge: 'KO',
     catalogPrice: '$38',
     hero: {
       gallery: [hero],
@@ -162,6 +163,7 @@ export const breathe: Record<Locale, ShopProduct> = {
     slug: 'breathe',
     catalogImage: catalog,
     catalogName: 'Breathe — Planner & Diary',
+    badge: 'KO',
     catalogPrice: '$38',
     hero: {
       gallery: [hero],
@@ -308,6 +310,7 @@ export const breathe: Record<Locale, ShopProduct> = {
     slug: 'breathe',
     catalogImage: catalog,
     catalogName: 'Breathe — Planner & Diary',
+    badge: 'KO',
     catalogPrice: '$38',
     hero: {
       gallery: [hero],

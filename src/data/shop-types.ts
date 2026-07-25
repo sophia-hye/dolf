@@ -104,6 +104,8 @@ export interface ShopProduct {
   readonly catalogImage: string
   readonly catalogName: string
   readonly catalogPrice: string
+  // Short language/edition badge shown over the cover (e.g. KO / EN / JP).
+  readonly badge?: string
   // Detail page sections
   readonly hero: ShopHeroData
   readonly story?: StoryData
