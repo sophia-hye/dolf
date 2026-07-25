@@ -31,6 +31,7 @@ const SLUGS = [
   'calendar',
   'topical',
 ]
+const BADGES: (string | undefined)[] = ['KO', 'EN', 'JP']
 
 export function ProductsPage() {
   const { t } = useLocale()
@@ -47,6 +48,7 @@ export function ProductsPage() {
           description={feature.description}
           spec={feature.spec}
           image={IMAGES[i]}
+          badge={BADGES[i]}
           detailHref={`/products/${SLUGS[i]}`}
           detailLabel={t.productsPage.detailCta}
         />

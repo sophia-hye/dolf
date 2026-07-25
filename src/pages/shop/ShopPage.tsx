@@ -27,6 +27,7 @@ export function ShopPage() {
             <Card key={product.slug}>
               <CardLink to={`/shop/${product.slug}`}>
                 <ImageCard>
+                  {product.badge && <Badge>{product.badge}</Badge>}
                   <ProductImage src={product.catalogImage} alt={product.catalogName} />
                 </ImageCard>
                 <Name>{product.catalogName}</Name>
@@ -120,12 +121,28 @@ const CardLink = styled(Link)`
 `
 
 const ImageCard = styled.div`
+  position: relative;
   width: 100%;
   aspect-ratio: 348 / 494;
   border: 1.5px solid ${({ theme }) => theme.colors.border};
   border-radius: 2px;
   background-color: ${({ theme }) => theme.colors.white};
   overflow: hidden;
+`
+
+const Badge = styled.span`
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background-color: ${({ theme }) => theme.colors.ink};
+  color: ${({ theme }) => theme.colors.white};
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
 `
 
 const ProductImage = styled.img`

@@ -8,6 +8,7 @@ interface ProductFeatureRowProps {
   readonly description: string
   readonly spec: string
   readonly image: string
+  readonly badge?: string
   readonly detailHref: string
   readonly detailLabel: string
 }
@@ -19,6 +20,7 @@ export function ProductFeatureRow({
   description,
   spec,
   image,
+  badge,
   detailHref,
   detailLabel,
 }: ProductFeatureRowProps) {
@@ -26,6 +28,7 @@ export function ProductFeatureRow({
     <Section $background={background}>
       <Inner $imageRight={imageSide === 'right'}>
         <ImageCard>
+          {badge && <Badge>{badge}</Badge>}
           <ProductImage src={image} alt={name} />
         </ImageCard>
         <Text>
@@ -74,6 +77,7 @@ const Inner = styled.div<{ $imageRight: boolean }>`
 `
 
 const ImageCard = styled.div`
+  position: relative;
   flex: 1;
   /* Lock to the page ratio so it never distorts with window size. */
   aspect-ratio: 499 / 709;
@@ -85,6 +89,21 @@ const ImageCard = styled.div`
   ${({ theme }) => theme.media.mobile} {
     width: 100%;
   }
+`
+
+const Badge = styled.span`
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 1;
+  padding: 5px 13px;
+  border-radius: 999px;
+  background-color: ${({ theme }) => theme.colors.ink};
+  color: ${({ theme }) => theme.colors.white};
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
 `
 
 const ProductImage = styled.img`
