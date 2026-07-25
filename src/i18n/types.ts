@@ -38,6 +38,11 @@ export interface ContactInfoItem {
   readonly value: string
 }
 
+export interface SeoMeta {
+  readonly title: string
+  readonly description: string
+}
+
 export interface Dictionary {
   readonly nav: {
     readonly about: string
@@ -209,5 +214,13 @@ export interface Dictionary {
       readonly settingMembership: string
       readonly edit: string
     }
+  }
+  readonly seo: {
+    readonly home: SeoMeta
+    readonly about: SeoMeta
+    readonly products: SeoMeta
+    readonly community: SeoMeta
+    readonly contact: SeoMeta
+    readonly shop: SeoMeta
   }
 }

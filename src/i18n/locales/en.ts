@@ -266,4 +266,36 @@ export const en: Dictionary = {
       edit: 'Edit',
     },
   },
+  seo: {
+    home: {
+      title: 'DoLF — dot of line and form',
+      description:
+        'A lifestyle brand connecting faith to daily routine. Small daily practices become habits, and habits become the shape of your life.',
+    },
+    about: {
+      title: 'About',
+      description:
+        "DoLF's story — the philosophy and mission of a brand that turns faith into a daily routine.",
+    },
+    products: {
+      title: 'Products',
+      description:
+        'Breathe Planner & Diary, Bible Reading Tracker, and more — DoLF products for faith habits.',
+    },
+    community: {
+      title: 'Community',
+      description:
+        'Share QT and Bible reading together and make faith a habit with the DoLF community.',
+    },
+    contact: {
+      title: 'Contact',
+      description:
+        'Get in touch with DoLF — product, partnership, and wholesale inquiries welcome.',
+    },
+    shop: {
+      title: 'Shop',
+      description:
+        'Shop the Breathe Planner and Bible Reading Tracker at the official DoLF store.',
+    },
+  },
 }

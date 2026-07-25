@@ -1,5 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { HelmetProvider } from 'react-helmet-async'
 import { ThemeProvider } from 'styled-components'
 import { App } from '@/app/App'
 import { theme } from '@/styles/theme'
@@ -10,15 +11,17 @@ import { AuthProvider } from '@/state/AuthProvider'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <LocaleProvider>
-        <AuthProvider>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </AuthProvider>
-      </LocaleProvider>
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <LocaleProvider>
+          <AuthProvider>
+            <CartProvider>
+              <App />
+            </CartProvider>
+          </AuthProvider>
+        </LocaleProvider>
+      </ThemeProvider>
+    </HelmetProvider>
   </StrictMode>,
 )
