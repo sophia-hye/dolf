@@ -68,14 +68,16 @@ const Inner = styled(Container)`
 
 const ImageCard = styled.div`
   flex: 1;
-  height: 835px;
+  /* Keep the page ratio fixed instead of stretching to the row height. */
+  align-self: flex-start;
+  aspect-ratio: 499 / 709;
   border: 1.5px solid ${({ theme }) => theme.colors.border};
   border-radius: 2px;
   background-color: ${({ theme }) => theme.colors.white};
   overflow: hidden;
 
   ${({ theme }) => theme.media.mobile} {
-    height: 420px;
+    align-self: stretch;
   }
 `
 

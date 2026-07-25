@@ -75,7 +75,8 @@ const Inner = styled.div<{ $imageRight: boolean }>`
 
 const ImageCard = styled.div`
   flex: 1;
-  height: 835px;
+  /* Lock to the page ratio so it never distorts with window size. */
+  aspect-ratio: 499 / 709;
   border: 1.5px solid ${({ theme }) => theme.colors.border};
   border-radius: 2px;
   background-color: ${({ theme }) => theme.colors.white};
@@ -83,7 +84,6 @@ const ImageCard = styled.div`
 
   ${({ theme }) => theme.media.mobile} {
     width: 100%;
-    height: 420px;
   }
 `
 

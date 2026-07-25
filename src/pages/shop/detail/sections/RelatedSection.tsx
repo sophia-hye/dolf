@@ -66,15 +66,13 @@ const Card = styled.div`
 `
 
 const ImageCard = styled.div`
-  height: 520px;
+  width: 100%;
+  /* Lock to the page ratio so it never distorts with window size. */
+  aspect-ratio: 499 / 709;
   border: 1.5px solid ${({ theme }) => theme.colors.border};
   border-radius: 2px;
   background-color: ${({ theme }) => theme.colors.white};
   overflow: hidden;
-
-  ${({ theme }) => theme.media.mobile} {
-    height: 360px;
-  }
 `
 
 const Img = styled.img`
