@@ -1,6 +1,7 @@
 import type { ShopProduct } from '@/data/shop-types'
 import type { Locale } from '@/i18n/types'
 import { breathe } from '@/data/products/breathe'
+import { generalStory, generalFeatures } from '@/data/products/breathe-general'
 import insideMonthly from '@/assets/shop/breathe-en/inside-monthly.png'
 import insideWeekly from '@/assets/shop/breathe-en/inside-weekly.png'
 import insideDaily from '@/assets/shop/breathe-en/inside-daily.png'
@@ -28,7 +29,23 @@ function build(locale: Locale): ShopProduct {
     slug: 'breathe-en',
     catalogName: 'Breathe — English',
     badge: 'EN',
-    // Skip sections whose reused assets are devotional-specific (QT pages).
+    story: generalStory[locale],
+    features: generalFeatures[locale],
+    // Replace the reused (devotional) Layout row with the general layout.
+    specs: base.specs && {
+      ...base.specs,
+      rows: base.specs.rows.map((r) =>
+        r.label === 'Layout'
+          ? {
+              ...r,
+              value:
+                'Monthly · Weekly · Tracker · Daily Journal · Dot grid · Still Becoming',
+            }
+          : r,
+      ),
+    },
+    // Skip sections whose reused copy/assets are devotional-specific.
+    howToUse: undefined,
     pagesExplained: undefined,
     hero: {
       ...base.hero,
