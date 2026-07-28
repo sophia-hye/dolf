@@ -195,7 +195,7 @@ export const ja: Dictionary = {
     },
     info: [
       { label: 'Instagram', value: '@dolf._official' },
-      { label: 'Shop', value: 'Etsy (B2C) · Faire (B2B)' },
+      { label: 'Shop', value: 'dolfstory.com' },
       { label: 'Inquiry', value: 'DMまたはメールでお問い合わせください' },
     ],
     form: {

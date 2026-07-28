@@ -192,7 +192,7 @@ export const ko: Dictionary = {
     },
     info: [
       { label: 'Instagram', value: '@dolf._official' },
-      { label: 'Shop', value: 'Etsy (B2C) · Faire (B2B)' },
+      { label: 'Shop', value: 'dolfstory.com' },
       { label: 'Inquiry', value: 'DM 또는 이메일로 문의해 주세요' },
     ],
     form: {
