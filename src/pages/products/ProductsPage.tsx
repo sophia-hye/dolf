@@ -31,7 +31,7 @@ const SLUGS = [
   'calendar',
   'topical',
 ]
-const BADGES: (string | undefined)[] = ['KO', 'EN', 'JP']
+const BADGES: (string | undefined)[] = ['Faith', 'EN', 'JP']
 
 export function ProductsPage() {
   const { t } = useLocale()
