@@ -128,7 +128,7 @@ export const tracker: Record<Locale, ShopProduct> = {
           a: 'Undated 방식으로, 원하는 날부터 자유롭게 시작할 수 있습니다.',
         },
         { q: 'Q. 선물 포장이 되나요?', a: 'DM으로 요청해 주시면 선물 포장을 안내해 드립니다.' },
-        { q: 'Q. 해외 배송이 가능한가요?', a: 'Etsy를 통해 글로벌 배송이 가능합니다.' },
+        { q: 'Q. 해외 배송이 가능한가요?', a: '우체국 K-Packet으로 해외 배송이 가능합니다.' },
       ],
     },
     related: {
@@ -263,7 +263,7 @@ export const tracker: Record<Locale, ShopProduct> = {
           a: "It's undated, so you can start freely from any day you like.",
         },
         { q: 'Q. Is gift wrapping available?', a: 'Send us a DM and we will guide you through gift wrapping.' },
-        { q: 'Q. Is international shipping available?', a: 'Global shipping is available through Etsy.' },
+        { q: 'Q. Is international shipping available?', a: 'International shipping is available via Korea Post K-Packet.' },
       ],
     },
     related: {
@@ -398,7 +398,7 @@ export const tracker: Record<Locale, ShopProduct> = {
           a: 'Undated（日付なし）方式で、お好きな日から自由に始められます。',
         },
         { q: 'Q. ギフト包装はできますか？', a: 'DMでご依頼いただければ、ギフト包装についてご案内いたします。' },
-        { q: 'Q. 海外配送は可能ですか？', a: 'Etsyを通じて海外配送が可能です。' },
+        { q: 'Q. 海外配送は可能ですか？', a: '郵便局のK-Packetで海外配送が可能です。' },
       ],
     },
     related: {
