@@ -156,6 +156,12 @@ export const ko: Dictionary = {
       },
     ],
     detailCta: '자세히 보기',
+    b2b: {
+      eyebrow: 'WHOLESALE · B2B',
+      title: 'B2B 도매 문의',
+      body: '매장 입점·대량 주문을 위한 B2B 도매가는 별도로 안내드립니다.\n아래로 문의해 주세요.',
+      cta: 'B2B 문의하기',
+    },
   },
   community: {
     hero: {
@@ -170,24 +176,26 @@ export const ko: Dictionary = {
           title: 'Bible Reading Circle',
           subhead: '성경 1독 소모임',
           description: '12주 동안 함께 통독하며 완주를 돕는 소모임입니다.',
+          fee: '12주 · ₩99,000 · 트래커 포함',
         },
         {
           title: 'QT Circle',
           subhead: 'QT 습관 형성',
           description: '매일의 묵상을 함께 나누며 QT를 습관으로 만듭니다.',
+          fee: '8주 ₩79,000 · 16주 ₩159,000 · 다이어리 포함',
         },
         {
           title: 'Faith & Life Circle',
           subhead: '신앙과 삶',
           description: '신앙과 일상의 고민을 함께 나누는 공동체입니다.',
+          comingSoon: true,
         },
       ],
     },
     program: {
       eyebrow: 'PROGRAM',
-      title: 'Start your 12 weeks',
-      body: 'Bible Reading Circle은 12주 프로그램으로 운영되며, 참가비 49,000–99,000원에 트래커 제품이 포함됩니다.',
       cta: '함께하기 문의',
+      comingSoon: '준비중',
     },
   },
   contact: {

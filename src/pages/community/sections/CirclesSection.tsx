@@ -3,7 +3,13 @@ import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { useLocale } from '@/i18n/context'
 
-export function CirclesSection() {
+export function CirclesSection({
+  selected,
+  onSelect,
+}: {
+  selected: number
+  onSelect: (index: number) => void
+}) {
   const { t } = useLocale()
 
   return (
@@ -11,8 +17,14 @@ export function CirclesSection() {
       <Inner>
         <CenteredEyebrow>{t.community.circles.eyebrow}</CenteredEyebrow>
         <Cards>
-          {t.community.circles.items.map((item) => (
-            <Card key={item.title}>
+          {t.community.circles.items.map((item, i) => (
+            <Card
+              key={item.title}
+              type="button"
+              $active={i === selected}
+              aria-pressed={i === selected}
+              onClick={() => onSelect(i)}
+            >
               <CardTitle>{item.title}</CardTitle>
               <CardSubhead>{item.subhead}</CardSubhead>
               <CardDesc>{item.description}</CardDesc>
@@ -59,16 +71,29 @@ const Cards = styled.div`
   }
 `
 
-const Card = styled.div`
+const Card = styled.button<{ $active: boolean }>`
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  text-align: left;
+  cursor: pointer;
   background-color: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  border: 1px solid
+    ${({ theme, $active }) => ($active ? theme.colors.ink : theme.colors.border)};
+  box-shadow: ${({ theme, $active }) =>
+    $active ? `0 0 0 1px ${theme.colors.ink}` : 'none'};
   border-radius: 3px;
   padding: 36px 32px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.ink};
+  }
 `
+
 
 const CardTitle = styled.h3`
   font-family: ${({ theme }) => theme.fonts.serif};
