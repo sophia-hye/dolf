@@ -44,7 +44,9 @@ export function Header() {
   useEffect(() => setOpen(false), [location.pathname])
 
   const accountLink = user
-    ? { to: user.role === 'admin' ? '/admin' : '/mypage', label: t.account.myPageNav }
+    ? user.role === 'admin'
+      ? { to: '/admin', label: t.account.adminNav }
+      : { to: '/mypage', label: t.account.myPageNav }
     : { to: '/signin', label: t.account.signInNav }
 
   const navItems = [

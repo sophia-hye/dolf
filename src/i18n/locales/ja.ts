@@ -250,6 +250,7 @@ export const ja: Dictionary = {
   account: {
     signInNav: 'Sign In',
     myPageNav: 'My Page',
+    adminNav: 'Admin',
     logout: 'ログアウト',
     signIn: {
       eyebrow: 'WELCOME BACK',
