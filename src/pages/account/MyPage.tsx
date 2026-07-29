@@ -478,7 +478,8 @@ const WishLink = styled(Link)`
 `
 
 const WishImage = styled.div`
-  height: 280px;
+  width: 100%;
+  aspect-ratio: 348 / 494;
   border: 1.5px solid ${({ theme }) => theme.colors.border};
   border-radius: 2px;
   background-color: ${({ theme }) => theme.colors.white};
@@ -488,10 +489,6 @@ const WishImage = styled.div`
     width: 100%;
     height: 100%;
     object-fit: contain;
-  }
-
-  ${({ theme }) => theme.media.mobile} {
-    height: 200px;
   }
 `
 
