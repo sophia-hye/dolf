@@ -5,9 +5,11 @@ import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { useLocale } from '@/i18n/context'
 import { useAuth } from '@/state/auth-context'
+import { useProductOverrides } from '@/state/products-context'
 import { mockWishlistSlugs } from '@/data/mock-account'
 import { getProductBySlug } from '@/data/products'
 import { fetchMyOrders, formatMoney, type OrderRow } from '@/lib/orders'
+import { effectivePriceString } from '@/lib/product-pricing'
 
 // Compact order title from its line items, e.g. "Breathe +2" for multiple.
 function orderTitle(order: OrderRow): string {
@@ -20,6 +22,7 @@ function orderTitle(order: OrderRow): string {
 export function MyPage() {
   const { t, locale } = useLocale()
   const { user, signOut } = useAuth()
+  const { overrides } = useProductOverrides()
   const navigate = useNavigate()
   const c = t.account.myPage
 
@@ -109,7 +112,7 @@ export function MyPage() {
                 <img src={p.catalogImage} alt={p.catalogName} />
               </WishImage>
               <WishName>{p.catalogName}</WishName>
-              <WishPrice>{p.catalogPrice}</WishPrice>
+              <WishPrice>{effectivePriceString(p.slug, locale, overrides)}</WishPrice>
             </WishCard>
           ))}
         </Wishlist>

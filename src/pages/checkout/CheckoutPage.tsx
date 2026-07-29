@@ -6,19 +6,21 @@ import { Eyebrow } from '@/components/ui/Eyebrow'
 import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
 import { useAuth } from '@/state/auth-context'
+import { useProductOverrides } from '@/state/products-context'
 import { getProductBySlug } from '@/data/products'
 import {
   createOrder,
-  parseAmount,
   formatMoney,
   shippingFeeFor,
   CURRENCY_BY_LOCALE,
 } from '@/lib/orders'
+import { effectivePriceAmount } from '@/lib/product-pricing'
 
 export function CheckoutPage() {
   const { t, locale } = useLocale()
   const { items, clear } = useCart()
   const { user } = useAuth()
+  const { overrides } = useProductOverrides()
   const navigate = useNavigate()
   const c = t.account.checkout
 
@@ -43,7 +45,7 @@ export function CheckoutPage() {
   )
 
   const subtotal = lines.reduce(
-    (sum, l) => sum + parseAmount(l.product.catalogPrice) * l.quantity,
+    (sum, l) => sum + effectivePriceAmount(l.slug, locale, overrides) * l.quantity,
     0,
   )
   const shipping = lines.length ? shippingFeeFor(currency, subtotal) : 0
@@ -64,7 +66,7 @@ export function CheckoutPage() {
       items: lines.map((l) => ({
         productSlug: l.slug,
         name: l.product.catalogName,
-        unitPrice: parseAmount(l.product.catalogPrice),
+        unitPrice: effectivePriceAmount(l.slug, locale, overrides),
         currency,
         quantity: l.quantity,
       })),
@@ -152,7 +154,7 @@ export function CheckoutPage() {
                       </span>
                       <span>
                         {formatMoney(
-                          parseAmount(product.catalogPrice) * quantity,
+                          effectivePriceAmount(slug, locale, overrides) * quantity,
                           currency,
                         )}
                       </span>

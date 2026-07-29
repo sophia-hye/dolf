@@ -3,17 +3,15 @@ import styled from 'styled-components'
 import { Container } from '@/components/ui/Container'
 import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
+import { useProductOverrides } from '@/state/products-context'
 import { getProductBySlug } from '@/data/products'
-import {
-  parseAmount,
-  formatMoney,
-  shippingFeeFor,
-  CURRENCY_BY_LOCALE,
-} from '@/lib/orders'
+import { formatMoney, shippingFeeFor, CURRENCY_BY_LOCALE } from '@/lib/orders'
+import { effectivePriceAmount } from '@/lib/product-pricing'
 
 export function CartPage() {
   const { t, locale } = useLocale()
   const { items, setQuantity, removeItem, clear } = useCart()
+  const { overrides } = useProductOverrides()
   const navigate = useNavigate()
   const c = t.shop.cartPage
 
@@ -27,7 +25,7 @@ export function CartPage() {
 
   const currency = CURRENCY_BY_LOCALE[locale]
   const subtotal = lines.reduce(
-    (sum, l) => sum + parseAmount(l.product.catalogPrice) * l.quantity,
+    (sum, l) => sum + effectivePriceAmount(l.slug, locale, overrides) * l.quantity,
     0,
   )
   const shipping = lines.length ? shippingFeeFor(currency, subtotal) : 0
@@ -53,7 +51,9 @@ export function CartPage() {
                   </Thumb>
                   <Info>
                     <Name to={`/shop/${slug}`}>{product.catalogName}</Name>
-                    <UnitPrice>{product.catalogPrice}</UnitPrice>
+                    <UnitPrice>
+                      {formatMoney(effectivePriceAmount(slug, locale, overrides), currency)}
+                    </UnitPrice>
                     <RemoveButton type="button" onClick={() => removeItem(slug)}>
                       {c.remove}
                     </RemoveButton>

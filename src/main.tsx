@@ -8,6 +8,7 @@ import { GlobalStyle } from '@/styles/GlobalStyle'
 import { LocaleProvider } from '@/i18n/LocaleContext'
 import { CartProvider } from '@/state/CartProvider'
 import { AuthProvider } from '@/state/AuthProvider'
+import { ProductsProvider } from '@/state/ProductsProvider'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -16,9 +17,11 @@ createRoot(document.getElementById('root')!).render(
         <GlobalStyle />
         <LocaleProvider>
           <AuthProvider>
-            <CartProvider>
-              <App />
-            </CartProvider>
+            <ProductsProvider>
+              <CartProvider>
+                <App />
+              </CartProvider>
+            </ProductsProvider>
           </AuthProvider>
         </LocaleProvider>
       </ThemeProvider>
