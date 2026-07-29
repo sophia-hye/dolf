@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -6,43 +6,72 @@ import {
   PageTitle,
   PageDesc,
   Panel,
-  GhostButton,
   Table,
   Th,
   Td,
   StatusBadge,
 } from '@/pages/admin/components/ui'
-import { adminOrders, type OrderStatus } from '@/data/admin-mock'
+import {
+  fetchAllOrders,
+  formatMoney,
+  ORDER_STATUS_LABEL_KO,
+  ALL_STATUSES,
+  type OrderRow,
+  type OrderStatus,
+} from '@/lib/orders'
 
-const TABS = ['전체', 'Paid', 'Shipped', 'Pending', 'Cancelled'] as const
+const TABS = ['전체', ...ALL_STATUSES] as const
+
+function orderProduct(o: OrderRow): string {
+  const first = o.order_items[0]
+  if (!first) return '—'
+  const extra = o.order_items.length - 1
+  return extra > 0 ? `${first.name} +${extra}` : first.name
+}
 
 export function OrdersPage() {
   const [tab, setTab] = useState<(typeof TABS)[number]>('전체')
+  const [orders, setOrders] = useState<OrderRow[]>([])
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
-  const rows = adminOrders.filter(
-    (o) => tab === '전체' || o.status === (tab as OrderStatus),
+  useEffect(() => {
+    let active = true
+    void fetchAllOrders().then((rows) => {
+      if (!active) return
+      setOrders(rows)
+      setLoading(false)
+    })
+    return () => {
+      active = false
+    }
+  }, [])
+
+  const rows = useMemo(
+    () =>
+      orders.filter((o) => tab === '전체' || o.status === (tab as OrderStatus)),
+    [orders, tab],
   )
+
+  const overseasCount = orders.filter((o) => o.currency !== 'KRW').length
 
   return (
     <>
       <PageHeader>
         <div>
           <PageTitle>Orders</PageTitle>
-          <PageDesc>전체 3,672건의 주문을 관리합니다.</PageDesc>
+          <PageDesc>전체 {orders.length}건의 주문을 관리합니다.</PageDesc>
         </div>
-        <GhostButton type="button">주문 내보내기</GhostButton>
       </PageHeader>
 
       <Toolbar>
         <Tabs>
           {TABS.map((t) => (
             <Tab key={t} type="button" $active={tab === t} onClick={() => setTab(t)}>
-              {t}
+              {t === '전체' ? '전체' : ORDER_STATUS_LABEL_KO[t as OrderStatus]}
             </Tab>
           ))}
         </Tabs>
-        <Search placeholder="주문번호 · 고객 검색…" />
       </Toolbar>
 
       <Panel>
@@ -61,30 +90,26 @@ export function OrdersPage() {
           <tbody>
             {rows.map((o) => (
               <Row key={o.id} onClick={() => navigate(`/admin/orders/${o.id}`)}>
-                <Td>#{o.id}</Td>
-                <Td>{o.customer}</Td>
-                <Td>{o.product}</Td>
-                <Td>{o.amount}</Td>
-                <Td>{o.overseas ? '해외' : '국내'}</Td>
+                <Td>#{o.id.slice(0, 8)}</Td>
+                <Td>{o.recipient ?? '—'}</Td>
+                <Td>{orderProduct(o)}</Td>
+                <Td>{formatMoney(o.total, o.currency)}</Td>
+                <Td>{o.currency === 'KRW' ? '국내' : '해외'}</Td>
                 <Td>
-                  <StatusBadge $status={o.status}>{o.status}</StatusBadge>
+                  <StatusBadge $status={o.status}>
+                    {ORDER_STATUS_LABEL_KO[o.status]}
+                  </StatusBadge>
                 </Td>
-                <Td>{o.date}</Td>
+                <Td>{o.created_at.slice(0, 10)}</Td>
               </Row>
             ))}
           </tbody>
         </Table>
+        {!loading && rows.length === 0 && <Empty>주문이 없습니다.</Empty>}
         <Footer>
-          <FootInfo>1–8 / 3,672건 · 해외 1,420건</FootInfo>
-          <Pagination>
-            <PageBtn>‹</PageBtn>
-            <PageBtn $active>1</PageBtn>
-            <PageBtn>2</PageBtn>
-            <PageBtn>3</PageBtn>
-            <PageBtn>…</PageBtn>
-            <PageBtn>459</PageBtn>
-            <PageBtn>›</PageBtn>
-          </Pagination>
+          <FootInfo>
+            {rows.length}건 표시 · 전체 {orders.length}건 · 해외 {overseasCount}건
+          </FootInfo>
         </Footer>
       </Panel>
     </>
@@ -126,21 +151,6 @@ const Tab = styled.button<{ $active: boolean }>`
   cursor: pointer;
 `
 
-const Search = styled.input`
-  width: 280px;
-  padding: 10px 14px;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: 4px;
-  background-color: ${({ theme }) => theme.colors.white};
-  font-family: ${({ theme }) => theme.fonts.kr};
-  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
-
-  ${({ theme }) => theme.media.mobile} {
-    width: 100%;
-    box-sizing: border-box;
-  }
-`
-
 const Row = styled.tr`
   cursor: pointer;
   transition: background-color 0.15s ease;
@@ -163,19 +173,10 @@ const FootInfo = styled.span`
   color: ${({ theme }) => theme.colors.textSecondary};
 `
 
-const Pagination = styled.div`
-  display: flex;
-  gap: 6px;
-`
-
-const PageBtn = styled.button<{ $active?: boolean }>`
-  min-width: 32px;
-  height: 32px;
-  border: 1px solid
-    ${({ theme, $active }) => ($active ? theme.colors.ink : theme.colors.border)};
-  border-radius: 4px;
-  background-color: ${({ theme, $active }) => ($active ? theme.colors.ink : theme.colors.white)};
-  color: ${({ theme, $active }) => ($active ? theme.colors.white : theme.colors.textSecondary)};
-  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
-  cursor: pointer;
+const Empty = styled.div`
+  padding: 40px 0;
+  text-align: center;
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.body};
+  color: ${({ theme }) => theme.colors.textSecondary};
 `
