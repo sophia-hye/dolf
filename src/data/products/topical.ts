@@ -2,6 +2,7 @@ import type { ShopProduct } from '@/data/shop-types'
 import type { Locale } from '@/i18n/types'
 import catalog from '@/assets/shop/topical.png'
 import hero from '@/assets/shop/topical/hero.png'
+import coverBack from '@/assets/shop/topical/cover-back.png'
 import insideFoldout from '@/assets/shop/topical/inside-foldout.png'
 import topicPsalms from '@/assets/shop/topical/topic-psalms.png'
 import topicKings from '@/assets/shop/topical/topic-kings.png'
@@ -16,7 +17,7 @@ export const topical: Record<Locale, ShopProduct> = {
     catalogName: 'Topical Reading Tracker',
     catalogPrice: 'from $12',
     hero: {
-      gallery: [hero],
+      gallery: [hero, coverBack],
       title: 'Topical Reading Tracker',
       subtitle: 'Single Sheet & Foldout — 주제별 성경 통독 트래커',
       price: 'from $12',
@@ -133,7 +134,7 @@ export const topical: Record<Locale, ShopProduct> = {
     catalogName: 'Topical Reading Tracker',
     catalogPrice: 'from $12',
     hero: {
-      gallery: [hero],
+      gallery: [hero, coverBack],
       title: 'Topical Reading Tracker',
       subtitle: 'Single Sheet & Foldout — Topical Bible Reading Tracker',
       price: 'from $12',
@@ -250,7 +251,7 @@ export const topical: Record<Locale, ShopProduct> = {
     catalogName: 'Topical Reading Tracker',
     catalogPrice: 'from $12',
     hero: {
-      gallery: [hero],
+      gallery: [hero, coverBack],
       title: 'Topical Reading Tracker',
       subtitle: 'Single Sheet & Foldout — テーマ別聖書通読トラッカー',
       price: 'from $12',
