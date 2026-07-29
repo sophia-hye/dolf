@@ -1,13 +1,30 @@
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Container } from '@/components/ui/Container'
 import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
 import type { ShopProduct } from '@/data/shop-types'
 
+// How long each cover stays fully visible before cross-fading to the next.
+const SLIDE_MS = 3200
+
 export function DetailHero({ product }: { product: ShopProduct }) {
   const { t } = useLocale()
   const { addItem } = useCart()
   const { hero } = product
+  const gallery = hero.gallery
+
+  // Auto cross-fade between cover images (e.g. front ↔ back). Single-image
+  // products stay static.
+  const [active, setActive] = useState(0)
+  useEffect(() => {
+    if (gallery.length < 2) return
+    const id = setInterval(
+      () => setActive((a) => (a + 1) % gallery.length),
+      SLIDE_MS,
+    )
+    return () => clearInterval(id)
+  }, [gallery.length])
 
   const add = () =>
     addItem({
@@ -21,7 +38,28 @@ export function DetailHero({ product }: { product: ShopProduct }) {
     <Section>
       <Inner>
         <ImageCard>
-          <ProductImage src={hero.gallery[0]} alt={hero.title} />
+          {gallery.map((src, i) => (
+            <ProductImage
+              key={src}
+              src={src}
+              alt={hero.title}
+              $visible={i === active}
+              aria-hidden={i !== active}
+            />
+          ))}
+          {gallery.length > 1 && (
+            <Dots>
+              {gallery.map((src, i) => (
+                <Dot
+                  key={src}
+                  type="button"
+                  $active={i === active}
+                  aria-label={`View cover ${i + 1}`}
+                  onClick={() => setActive(i)}
+                />
+              ))}
+            </Dots>
+          )}
         </ImageCard>
         <Info>
           <Title>{hero.title}</Title>
@@ -67,6 +105,7 @@ const Inner = styled(Container)`
 `
 
 const ImageCard = styled.div`
+  position: relative;
   flex: 1;
   /* Keep the page ratio fixed instead of stretching to the row height. */
   align-self: flex-start;
@@ -81,10 +120,40 @@ const ImageCard = styled.div`
   }
 `
 
-const ProductImage = styled.img`
+const ProductImage = styled.img<{ $visible: boolean }>`
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  transition: opacity 0.9s ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+`
+
+const Dots = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+`
+
+const Dot = styled.button<{ $active: boolean }>`
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: ${({ theme, $active }) =>
+    $active ? theme.colors.ink : theme.colors.border};
+  transition: background-color 0.3s ease;
 `
 
 const Info = styled.div`

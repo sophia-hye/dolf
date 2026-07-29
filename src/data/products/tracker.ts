@@ -2,6 +2,7 @@ import type { ShopProduct } from '@/data/shop-types'
 import type { Locale } from '@/i18n/types'
 import catalog from '@/assets/shop/tracker.png'
 import hero from '@/assets/shop/tracker/hero.png'
+import coverBack from '@/assets/shop/tracker/cover-back.png'
 import insideNewTestament from '@/assets/shop/tracker/inside-new-testament.png'
 import insideChapter from '@/assets/shop/tracker/inside-chapter.png'
 import insideVerse from '@/assets/shop/tracker/inside-verse.png'
@@ -18,7 +19,7 @@ export const tracker: Record<Locale, ShopProduct> = {
     catalogName: 'Bible Reading Tracker',
     catalogPrice: '$30',
     hero: {
-      gallery: [hero],
+      gallery: [hero, coverBack],
       title: 'Bible Reading Tracker',
       subtitle: 'Reading Tracker — 성경 통독을 한눈에 시각화하는 기록 도구',
       price: '$30',
@@ -153,7 +154,7 @@ export const tracker: Record<Locale, ShopProduct> = {
     catalogName: 'Bible Reading Tracker',
     catalogPrice: '$30',
     hero: {
-      gallery: [hero],
+      gallery: [hero, coverBack],
       title: 'Bible Reading Tracker',
       subtitle: 'Reading Tracker — a journaling tool that visualizes your Bible reading at a glance',
       price: '$30',
@@ -288,7 +289,7 @@ export const tracker: Record<Locale, ShopProduct> = {
     catalogName: 'Bible Reading Tracker',
     catalogPrice: '$30',
     hero: {
-      gallery: [hero],
+      gallery: [hero, coverBack],
       title: 'Bible Reading Tracker',
       subtitle: 'Reading Tracker — 聖書通読を一目で可視化する記録ツールです',
       price: '$30',
