@@ -30,6 +30,7 @@ import { SettingsPage } from '@/pages/admin/SettingsPage'
 import { CustomerInsightsPage } from '@/pages/admin/CustomerInsightsPage'
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
 import { ScrollToTop } from '@/app/ScrollToTop'
+import { Analytics } from '@/app/Analytics'
 import { PlaceholderPage } from '@/pages/PlaceholderPage'
 
 // gh-pages serves under /dolf/ in production; BASE_URL handles both envs.
@@ -39,6 +40,7 @@ export function App() {
   return (
     <BrowserRouter basename={basename}>
       <ScrollToTop />
+      <Analytics />
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<HomePage />} />
