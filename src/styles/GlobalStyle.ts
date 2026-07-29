@@ -29,6 +29,9 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    /* Umeboshi (Japanese) ships a single 400 weight; block faux-bold so JP
+       glyphs don't render heavy at font-weight 600 (e.g. product names). */
+    font-synthesis-weight: none;
   }
 
   h1, h2, h3, h4, h5, h6, p, figure {
