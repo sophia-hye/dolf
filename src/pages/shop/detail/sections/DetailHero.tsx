@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Container } from '@/components/ui/Container'
 import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
+import { pushEvent } from '@/lib/gtm'
 import type { ShopProduct } from '@/data/shop-types'
 
 // How long each cover stays fully visible before cross-fading to the next.
@@ -28,9 +29,15 @@ export function DetailHero({ product }: { product: ShopProduct }) {
     return () => clearInterval(id)
   }, [gallery.length])
 
-  const add = () => addItem(product.slug)
-  const buyNow = () => {
+  const add = () => {
     addItem(product.slug)
+    pushEvent('add_to_cart', {
+      item_id: product.slug,
+      item_name: product.catalogName,
+    })
+  }
+  const buyNow = () => {
+    add()
     navigate('/cart')
   }
 

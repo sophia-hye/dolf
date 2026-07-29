@@ -7,6 +7,7 @@ import { useCart } from '@/state/cart-context'
 import { useProductOverrides } from '@/state/products-context'
 import { getProducts } from '@/data/products'
 import { effectivePriceString, isPublished } from '@/lib/product-pricing'
+import { pushEvent } from '@/lib/gtm'
 
 export function ShopPage() {
   const { t, locale } = useLocale()
@@ -36,7 +37,16 @@ export function ShopPage() {
                 <Name>{product.catalogName}</Name>
                 <Price>{effectivePriceString(product.slug, locale, overrides)}</Price>
               </CardLink>
-              <AddButton type="button" onClick={() => addItem(product.slug)}>
+              <AddButton
+                type="button"
+                onClick={() => {
+                  addItem(product.slug)
+                  pushEvent('add_to_cart', {
+                    item_id: product.slug,
+                    item_name: product.catalogName,
+                  })
+                }}
+              >
                 {t.shop.addToCart}
               </AddButton>
             </Card>
