@@ -116,19 +116,19 @@ export const ko: Dictionary = {
         name: 'Breathe — Planner & Diary',
         description:
           '하루를 계획하는 동시에 감사·묵상·성찰을 기록하며, 하나님과의 관계를 일상 속에서 이어가는 DoLF의 플래그십 플래너입니다.',
-        spec: 'B5  ·  128P  ·  LAY-FLAT',
+        spec: 'B6  ·  128P  ·  LAY-FLAT',
       },
       {
         name: 'Breathe — English',
         description:
           '신앙 색채를 덜어 누구나 쓰기 좋은 영문 일반판. Monthly · Weekly · Daily Journal 구성으로 하루를 계획하고 자유롭게 기록합니다.',
-        spec: 'B5  ·  128P  ·  ENGLISH',
+        spec: 'B6  ·  128P  ·  ENGLISH',
       },
       {
         name: 'Breathe — 日本語',
         description:
           '신앙 색채를 덜어 누구나 쓰기 좋은 일문 일반판. Monthly · Weekly · Daily Journal 구성으로 하루를 계획하고 자유롭게 기록합니다.',
-        spec: 'B5  ·  128P  ·  日本語',
+        spec: 'B6  ·  128P  ·  日本語',
       },
       {
         name: 'Breathe — Planner & Diary (version.1)',
@@ -140,13 +140,13 @@ export const ko: Dictionary = {
         name: 'Bible Reading Tracker',
         description:
           '1절을 하나의 점(Dot)으로. 점이 모여 선이 되고 면이 되는 통독의 여정을 시각적으로 완성하는 기록 도구입니다.',
-        spec: 'B5  ·  120P  ·  LAY-FLAT',
+        spec: 'B6  ·  120P  ·  LAY-FLAT',
       },
       {
         name: '2027 Calendar',
         description:
-          '점자(braille)와 숫자로 월을 표현한 미니멀 캘린더. B5 양면과 B2 포스터로 구성됩니다.',
-        spec: 'B5 DOUBLE-SIDE  ·  B2 POSTER',
+          '점자(braille)와 숫자로 월을 표현한 미니멀 낱장 캘린더.',
+        spec: 'B6  ·  DOUBLE-SIDE  ·  SINGLE SHEET',
       },
       {
         name: 'Topical Reading Tracker',

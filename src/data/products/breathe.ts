@@ -21,15 +21,15 @@ export const breathe: Record<Locale, ShopProduct> = {
     catalogImage: catalog,
     catalogName: 'Breathe — Planner & Diary',
     badge: 'Faith',
-    catalogPrice: '$38',
+    catalogPrice: '₩52,000',
     hero: {
       gallery: [hero, coverBack],
       title: 'Breathe',
       subtitle: 'Planner & Diary — 신앙과 일상을 함께 기록하는 플래너',
-      price: '$38',
+      price: '₩52,000',
       description:
         '하루를 계획하는 동시에 감사·묵상·성찰을 기록할 수 있도록 설계된 루틴 플래너입니다. 완벽한 계획보다 하루를 의미 있게 살아가는 데 집중하도록 돕습니다.',
-      specLines: ['B5 · 176 × 250mm', '128 페이지', 'Lay-flat 제본'],
+      specLines: ['B6 · 128 × 182mm', '128 페이지', 'Lay-flat 제본'],
     },
     story: {
       eyebrow: 'ABOUT THIS PRODUCT',
@@ -120,7 +120,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       eyebrow: 'SPECIFICATIONS',
       title: 'The details',
       rows: [
-        { label: 'Size', value: 'B5 · 176 × 250mm' },
+        { label: 'Size', value: 'B6 · 128 × 182mm' },
         { label: 'Pages', value: '128 페이지' },
         { label: 'Binding', value: 'Lay-flat 사철 제본' },
         { label: 'Paper', value: '미색 모조지' },
@@ -173,7 +173,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       price: '$38',
       description:
         'A routine planner designed to let you plan your day while recording gratitude, devotion, and reflection. It helps you focus on living each day meaningfully rather than planning it perfectly.',
-      specLines: ['B5 · 176 × 250mm', '128 pages', 'Lay-flat binding'],
+      specLines: ['B6 · 128 × 182mm', '128 pages', 'Lay-flat binding'],
     },
     story: {
       eyebrow: 'ABOUT THIS PRODUCT',
@@ -267,7 +267,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       eyebrow: 'SPECIFICATIONS',
       title: 'The details',
       rows: [
-        { label: 'Size', value: 'B5 · 176 × 250mm' },
+        { label: 'Size', value: 'B6 · 128 × 182mm' },
         { label: 'Pages', value: '128 pages' },
         { label: 'Binding', value: 'Lay-flat thread-sewn binding' },
         { label: 'Paper', value: 'Cream wood-free paper' },
@@ -312,15 +312,15 @@ export const breathe: Record<Locale, ShopProduct> = {
     catalogImage: catalog,
     catalogName: 'Breathe — Planner & Diary',
     badge: 'Faith',
-    catalogPrice: '$38',
+    catalogPrice: '¥5,900',
     hero: {
       gallery: [hero, coverBack],
       title: 'Breathe',
       subtitle: 'Planner & Diary — 信仰と日常をともに記録するプランナー',
-      price: '$38',
+      price: '¥5,900',
       description:
         '一日を計画すると同時に、感謝・黙想・省察を記録できるよう設計されたルーティンプランナーです。完璧な計画よりも、一日を意味あるものとして生きることに集中できるよう手助けします。',
-      specLines: ['B5 · 176 × 250mm', '128ページ', 'Lay-flat 製本'],
+      specLines: ['B6 · 128 × 182mm', '128ページ', 'Lay-flat 製本'],
     },
     story: {
       eyebrow: 'ABOUT THIS PRODUCT',
@@ -414,7 +414,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       eyebrow: 'SPECIFICATIONS',
       title: 'The details',
       rows: [
-        { label: 'Size', value: 'B5 · 176 × 250mm' },
+        { label: 'Size', value: 'B6 · 128 × 182mm' },
         { label: 'Pages', value: '128ページ' },
         { label: 'Binding', value: 'Lay-flat 糸かがり製本' },
         { label: 'Paper', value: 'クリーム色の上質紙' },

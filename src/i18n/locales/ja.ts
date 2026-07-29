@@ -119,19 +119,19 @@ export const ja: Dictionary = {
         name: 'Breathe — Planner & Diary',
         description:
           '一日を計画すると同時に、感謝・黙想・省察を記録し、神との関係を日常の中で育んでいくDoLFのフラッグシッププランナーです。',
-        spec: 'B5  ·  128P  ·  LAY-FLAT',
+        spec: 'B6  ·  128P  ·  LAY-FLAT',
       },
       {
         name: 'Breathe — English',
         description:
           '信仰的な要素を控えた、誰でも使いやすい英語の一般版。Monthly · Weekly · Daily Journal 構成で一日を計画し、自由に記録します。',
-        spec: 'B5  ·  128P  ·  ENGLISH',
+        spec: 'B6  ·  128P  ·  ENGLISH',
       },
       {
         name: 'Breathe — 日本語',
         description:
           '信仰的な要素を控えた、誰でも使いやすい日本語の一般版。Monthly · Weekly · Daily Journal 構成で一日を計画し、自由に記録します。',
-        spec: 'B5  ·  128P  ·  日本語',
+        spec: 'B6  ·  128P  ·  日本語',
       },
       {
         name: 'Breathe — Planner & Diary (version.1)',
@@ -143,13 +143,13 @@ export const ja: Dictionary = {
         name: 'Bible Reading Tracker',
         description:
           '1節を一つの点（Dot）に。点が集まって線となり、面となる通読の旅路を視覚的に完成させる記録ツールです。',
-        spec: 'B5  ·  120P  ·  LAY-FLAT',
+        spec: 'B6  ·  120P  ·  LAY-FLAT',
       },
       {
         name: '2027 Calendar',
         description:
-          '点字（braille）と数字で月を表現したミニマルカレンダー。B5両面とB2ポスターで構成されます。',
-        spec: 'B5 DOUBLE-SIDE  ·  B2 POSTER',
+          '点字（braille）と数字で月を表現したミニマルな1枚カレンダー。',
+        spec: 'B6  ·  DOUBLE-SIDE  ·  SINGLE SHEET',
       },
       {
         name: 'Topical Reading Tracker',
