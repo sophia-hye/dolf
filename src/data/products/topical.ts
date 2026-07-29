@@ -15,6 +15,7 @@ export const topical: Record<Locale, ShopProduct> = {
     slug: 'topical',
     catalogImage: catalog,
     catalogName: 'Topical Reading Tracker',
+    badge: 'Faith',
     catalogPrice: 'from $12',
     hero: {
       gallery: [hero, coverBack],
@@ -132,6 +133,7 @@ export const topical: Record<Locale, ShopProduct> = {
     slug: 'topical',
     catalogImage: catalog,
     catalogName: 'Topical Reading Tracker',
+    badge: 'Faith',
     catalogPrice: 'from $12',
     hero: {
       gallery: [hero, coverBack],
@@ -249,6 +251,7 @@ export const topical: Record<Locale, ShopProduct> = {
     slug: 'topical',
     catalogImage: catalog,
     catalogName: 'Topical Reading Tracker',
+    badge: 'Faith',
     catalogPrice: 'from $12',
     hero: {
       gallery: [hero, coverBack],

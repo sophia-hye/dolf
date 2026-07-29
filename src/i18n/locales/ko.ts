@@ -131,7 +131,7 @@ export const ko: Dictionary = {
         spec: 'B5  ·  128P  ·  日本語',
       },
       {
-        name: 'Breathe v1',
+        name: 'Breathe — Planner & Diary (version.1)',
         description:
           '손에 잡히는 B6 컴팩트 판형의 새 Breathe. Monthly · Weekly · Tracker · Daily로 하루를 계획하고, 감사와 묵상을 가볍게 들고 다니며 기록합니다.',
         spec: 'B6  ·  112P  ·  LAY-FLAT',

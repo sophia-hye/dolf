@@ -134,7 +134,7 @@ export const ja: Dictionary = {
         spec: 'B5  ·  128P  ·  日本語',
       },
       {
-        name: 'Breathe v1',
+        name: 'Breathe — Planner & Diary (version.1)',
         description:
           '手になじむB6コンパクト版の新しいBreathe。Monthly · Weekly · Tracker · Daily で一日を計画し、感謝と黙想を軽やかに持ち歩いて記録します。',
         spec: 'B6  ·  112P  ·  LAY-FLAT',

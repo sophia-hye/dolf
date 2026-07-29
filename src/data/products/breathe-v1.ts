@@ -43,8 +43,8 @@ function build(locale: Locale): ShopProduct {
     ...base,
     slug: 'breathe-v1',
     catalogImage: cover,
-    catalogName: 'Breathe v1',
-    badge: 'v1',
+    catalogName: 'Breathe — Planner & Diary (version.1)',
+    badge: 'Faith',
     hero: {
       ...base.hero,
       gallery: [cover, coverBack],

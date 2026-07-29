@@ -17,6 +17,7 @@ export const tracker: Record<Locale, ShopProduct> = {
     slug: 'tracker',
     catalogImage: catalog,
     catalogName: 'Bible Reading Tracker',
+    badge: 'Faith',
     catalogPrice: '$30',
     hero: {
       gallery: [hero, coverBack],
@@ -152,6 +153,7 @@ export const tracker: Record<Locale, ShopProduct> = {
     slug: 'tracker',
     catalogImage: catalog,
     catalogName: 'Bible Reading Tracker',
+    badge: 'Faith',
     catalogPrice: '$30',
     hero: {
       gallery: [hero, coverBack],
@@ -287,6 +289,7 @@ export const tracker: Record<Locale, ShopProduct> = {
     slug: 'tracker',
     catalogImage: catalog,
     catalogName: 'Bible Reading Tracker',
+    badge: 'Faith',
     catalogPrice: '$30',
     hero: {
       gallery: [hero, coverBack],
