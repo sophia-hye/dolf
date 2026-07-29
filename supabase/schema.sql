@@ -1,0 +1,142 @@
+-- ============================================================================
+-- DoLF — Supabase schema (auth profiles + orders)
+-- ----------------------------------------------------------------------------
+-- How to apply:
+--   • Supabase dashboard → SQL Editor → paste this file → Run, OR
+--   • supabase db push   (with the Supabase CLI + a linked project)
+--
+-- Products stay in the frontend code for now; orders snapshot the product
+-- slug + name + unit price so an order is self-contained.
+-- Row Level Security (RLS) is enabled everywhere: a user only sees their own
+-- rows; admins (profiles.role = 'admin') see everything.
+-- ============================================================================
+
+-- ─── profiles ───────────────────────────────────────────────────────────────
+-- One row per auth user. Created automatically on signup by a trigger below.
+create table if not exists public.profiles (
+  id         uuid primary key references auth.users (id) on delete cascade,
+  name       text,
+  country    text,
+  phone      text,
+  role       text not null default 'user' check (role in ('user', 'admin')),
+  grade      text not null default 'Basic',
+  status     text not null default 'Active',
+  created_at timestamptz not null default now()
+);
+
+-- ─── orders ──────────────────────────────────────────────────────────────────
+create table if not exists public.orders (
+  id           uuid primary key default gen_random_uuid(),
+  user_id      uuid not null references auth.users (id) on delete cascade,
+  status       text not null default 'pending'
+               check (status in ('pending', 'paid', 'shipped', 'delivered', 'cancelled')),
+  currency     text not null default 'KRW',
+  subtotal     numeric(12, 2) not null default 0,
+  shipping_fee numeric(12, 2) not null default 0,
+  total        numeric(12, 2) not null default 0,
+  recipient    text,
+  address      text,
+  phone        text,
+  payment_ref  text, -- Toss Payments paymentKey, filled after approval
+  created_at   timestamptz not null default now()
+);
+create index if not exists orders_user_id_idx on public.orders (user_id);
+
+-- ─── order_items ─────────────────────────────────────────────────────────────
+create table if not exists public.order_items (
+  id           uuid primary key default gen_random_uuid(),
+  order_id     uuid not null references public.orders (id) on delete cascade,
+  product_slug text not null,
+  name         text not null,          -- snapshot at purchase time
+  unit_price   numeric(12, 2) not null, -- snapshot amount (no currency symbol)
+  currency     text not null,
+  quantity     integer not null check (quantity > 0)
+);
+create index if not exists order_items_order_id_idx on public.order_items (order_id);
+
+-- ─── helper: is the caller an admin? ────────────────────────────────────────
+-- SECURITY DEFINER so it can read profiles without tripping profiles' own RLS.
+create or replace function public.is_admin()
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.profiles
+    where id = auth.uid() and role = 'admin'
+  );
+$$;
+
+-- ─── auto-create a profile on signup ────────────────────────────────────────
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  insert into public.profiles (id, name, country, phone)
+  values (
+    new.id,
+    coalesce(new.raw_user_meta_data ->> 'name', ''),
+    coalesce(new.raw_user_meta_data ->> 'country', ''),
+    coalesce(new.raw_user_meta_data ->> 'phone', '')
+  );
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute function public.handle_new_user();
+
+-- ============================================================================
+-- Row Level Security
+-- ============================================================================
+alter table public.profiles    enable row level security;
+alter table public.orders      enable row level security;
+alter table public.order_items enable row level security;
+
+-- profiles: read/update your own; admins read all.
+drop policy if exists "profiles: select own or admin" on public.profiles;
+create policy "profiles: select own or admin" on public.profiles
+  for select using (id = auth.uid() or public.is_admin());
+
+drop policy if exists "profiles: update own" on public.profiles;
+create policy "profiles: update own" on public.profiles
+  for update using (id = auth.uid()) with check (id = auth.uid());
+
+-- orders: users manage their own; admins read + update all.
+drop policy if exists "orders: select own or admin" on public.orders;
+create policy "orders: select own or admin" on public.orders
+  for select using (user_id = auth.uid() or public.is_admin());
+
+drop policy if exists "orders: insert own" on public.orders;
+create policy "orders: insert own" on public.orders
+  for insert with check (user_id = auth.uid());
+
+drop policy if exists "orders: admin update" on public.orders;
+create policy "orders: admin update" on public.orders
+  for update using (public.is_admin());
+
+-- order_items: readable/insertable via the owning order; admins read all.
+drop policy if exists "order_items: select via order" on public.order_items;
+create policy "order_items: select via order" on public.order_items
+  for select using (
+    public.is_admin()
+    or exists (
+      select 1 from public.orders o
+      where o.id = order_items.order_id and o.user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "order_items: insert via own order" on public.order_items;
+create policy "order_items: insert via own order" on public.order_items
+  for insert with check (
+    exists (
+      select 1 from public.orders o
+      where o.id = order_items.order_id and o.user_id = auth.uid()
+    )
+  );
