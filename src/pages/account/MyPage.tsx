@@ -9,7 +9,7 @@ import { getProductBySlug } from '@/data/products'
 
 export function MyPage() {
   const { t, locale } = useLocale()
-  const { user, logout } = useAuth()
+  const { user, signOut } = useAuth()
   const navigate = useNavigate()
   const c = t.account.myPage
 
@@ -28,7 +28,7 @@ export function MyPage() {
   ]
 
   const handleLogout = () => {
-    logout()
+    void signOut()
     navigate('/', { replace: true })
   }
 

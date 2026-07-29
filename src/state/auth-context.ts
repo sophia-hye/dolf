@@ -15,16 +15,29 @@ export interface User {
 export interface SignUpInput {
   readonly name: string
   readonly email: string
+  readonly password: string
   readonly phone?: string
+  readonly country?: string
+  // UI locale at signup; stored in user metadata so auth emails can localize.
+  readonly locale?: string
+}
+
+export interface AuthResult {
+  readonly error: string | null
+  readonly user?: User
 }
 
 export interface AuthContextValue {
   readonly user: User | null
-  // Mock auth: matches by email against seed + registered accounts.
-  // Password is never stored or validated (no backend).
-  readonly login: (email: string) => User | null
-  readonly signUp: (input: SignUpInput) => User
-  readonly logout: () => void
+  // True while the initial Supabase session is being resolved.
+  readonly loading: boolean
+  readonly signIn: (email: string, password: string) => Promise<AuthResult>
+  readonly signUp: (input: SignUpInput) => Promise<AuthResult>
+  readonly signOut: () => Promise<void>
+  // Sends a localized password-reset email with a link back to /reset-password.
+  readonly resetPassword: (email: string, locale?: string) => Promise<AuthResult>
+  // Updates the current (recovery) session's password.
+  readonly updatePassword: (password: string) => Promise<AuthResult>
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null)
