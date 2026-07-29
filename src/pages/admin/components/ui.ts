@@ -65,6 +65,13 @@ export const GhostButton = styled.button`
   cursor: pointer;
 `
 
+// Wrap wide tables so they scroll horizontally within their panel instead of
+// overflowing the layout.
+export const TableWrap = styled.div`
+  width: 100%;
+  overflow-x: auto;
+`
+
 export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;

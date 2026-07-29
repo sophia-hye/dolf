@@ -8,6 +8,7 @@ import {
   Panel,
   PrimaryButton,
   Table,
+  TableWrap,
   Th,
   Td,
   StatusBadge,
@@ -44,36 +45,38 @@ export function MembersPage() {
       </Toolbar>
 
       <Panel>
-        <Table>
-          <thead>
-            <tr>
-              <Th>이름</Th>
-              <Th>이메일</Th>
-              <Th>가입일</Th>
-              <Th>주문</Th>
-              <Th>총 구매액</Th>
-              <Th>등급</Th>
-              <Th>상태</Th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((m) => (
-              <Row key={m.id} onClick={() => navigate(`/admin/members/${m.id}`)}>
-                <Td>{m.name}</Td>
-                <Td>{m.email}</Td>
-                <Td>{m.joinedAt}</Td>
-                <Td>{m.orders}</Td>
-                <Td>{m.totalSpent}</Td>
-                <Td>
-                  <Grade $vip={m.grade === 'VIP'}>{m.grade}</Grade>
-                </Td>
-                <Td>
-                  <StatusBadge $status={m.status}>{m.status}</StatusBadge>
-                </Td>
-              </Row>
-            ))}
-          </tbody>
-        </Table>
+        <TableWrap>
+          <Table>
+            <thead>
+              <tr>
+                <Th>이름</Th>
+                <Th>이메일</Th>
+                <Th>가입일</Th>
+                <Th>주문</Th>
+                <Th>총 구매액</Th>
+                <Th>등급</Th>
+                <Th>상태</Th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((m) => (
+                <Row key={m.id} onClick={() => navigate(`/admin/members/${m.id}`)}>
+                  <Td>{m.name}</Td>
+                  <Td>{m.email}</Td>
+                  <Td>{m.joinedAt}</Td>
+                  <Td>{m.orders}</Td>
+                  <Td>{m.totalSpent}</Td>
+                  <Td>
+                    <Grade $vip={m.grade === 'VIP'}>{m.grade}</Grade>
+                  </Td>
+                  <Td>
+                    <StatusBadge $status={m.status}>{m.status}</StatusBadge>
+                  </Td>
+                </Row>
+              ))}
+            </tbody>
+          </Table>
+        </TableWrap>
         <Footer>
           <FootInfo>1–8 / 1,284명</FootInfo>
           <Pagination>

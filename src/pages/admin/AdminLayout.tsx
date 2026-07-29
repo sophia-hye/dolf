@@ -246,6 +246,7 @@ const LogoutButton = styled.button`
 
 const Content = styled.main`
   flex: 1;
+  min-width: 0;
   background-color: ${({ theme }) => theme.colors.surface};
   padding: 36px 40px;
   overflow-x: auto;
