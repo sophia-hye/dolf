@@ -232,6 +232,17 @@ export const en: Dictionary = {
     buyNow: 'Buy Now',
     cart: 'Cart',
     added: 'Added to your cart',
+    cartPage: {
+      title: 'Cart',
+      empty: 'Your cart is empty.',
+      continueShopping: 'Continue shopping',
+      remove: 'Remove',
+      subtotal: 'Subtotal',
+      checkout: 'Checkout',
+      clear: 'Clear',
+      paymentSoon:
+        'Checkout is coming soon — it opens once Toss Payments is connected.',
+    },
   },
   account: {
     signInNav: 'Sign In',

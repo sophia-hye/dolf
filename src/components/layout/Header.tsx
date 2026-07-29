@@ -10,6 +10,25 @@ import logoUrl from '@/assets/logo.png'
 
 const LOCALES: Locale[] = ['en', 'ko', 'ja']
 
+function CartIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M5.5 8h13l-1 11.4a1.6 1.6 0 0 1-1.6 1.45H8.1A1.6 1.6 0 0 1 6.5 19.4L5.5 8Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M8.5 8V6.5a3.5 3.5 0 0 1 7 0V8"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
 export function Header() {
   const { t, locale, setLocale } = useLocale()
   const { count: cartCount } = useCart()
@@ -47,6 +66,13 @@ export function Header() {
     </LangSwitcher>
   )
 
+  const cartLink = (
+    <CartLink to="/cart" aria-label={t.shop.cart}>
+      <CartIcon />
+      {cartCount > 0 && <Badge>{cartCount}</Badge>}
+    </CartLink>
+  )
+
   return (
     <Wrapper>
       <Inner>
@@ -65,17 +91,21 @@ export function Header() {
         <Right>
           {langSwitcher}
           <AccountLink to={accountLink.to}>{accountLink.label}</AccountLink>
-          <CartLink to="/shop">
-            {t.shop.cart}
-            {cartCount > 0 && <Badge>{cartCount}</Badge>}
-          </CartLink>
+          {cartLink}
         </Right>
 
-        <Hamburger type="button" aria-label="Menu" onClick={() => setOpen((v) => !v)}>
-          <span />
-          <span />
-          <span />
-        </Hamburger>
+        <MobileActions>
+          {cartLink}
+          <Hamburger
+            type="button"
+            aria-label="Menu"
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span />
+            <span />
+            <span />
+          </Hamburger>
+        </MobileActions>
       </Inner>
 
       {open && (
@@ -90,10 +120,6 @@ export function Header() {
           <DrawerDivider />
           <DrawerRow>
             <DrawerLink to={accountLink.to}>{accountLink.label}</DrawerLink>
-            <CartLink to="/shop">
-              {t.shop.cart}
-              {cartCount > 0 && <Badge>{cartCount}</Badge>}
-            </CartLink>
           </DrawerRow>
           {langSwitcher}
         </Drawer>
@@ -162,8 +188,18 @@ const Right = styled.div`
   }
 `
 
-const Hamburger = styled.button`
+const MobileActions = styled.div`
   display: none;
+
+  ${({ theme }) => theme.media.nav} {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+`
+
+const Hamburger = styled.button`
+  display: flex;
   flex-direction: column;
   gap: 4px;
   width: 24px;
@@ -177,10 +213,6 @@ const Hamburger = styled.button`
     height: 2px;
     border-radius: 1px;
     background-color: ${({ theme }) => theme.colors.ink};
-  }
-
-  ${({ theme }) => theme.media.nav} {
-    display: flex;
   }
 `
 
@@ -225,14 +257,9 @@ const DrawerRow = styled.div`
 `
 
 const CartLink = styled(Link)`
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-  font-family: ${({ theme }) => theme.fonts.sans};
-  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
-  letter-spacing: 1px;
-  text-transform: uppercase;
   color: ${({ theme }) => theme.colors.ink};
   transition: color 0.2s ease;
 
@@ -256,18 +283,22 @@ const AccountLink = styled(Link)`
 `
 
 const Badge = styled.span`
+  position: absolute;
+  top: -6px;
+  right: -8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 5px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
   border-radius: 9px;
   background-color: ${({ theme }) => theme.colors.brandRed};
   color: ${({ theme }) => theme.colors.white};
-  font-size: 11px;
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0;
+  line-height: 1;
 `
 
 const LangSwitcher = styled.div`

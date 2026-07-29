@@ -231,6 +231,16 @@ export const ko: Dictionary = {
     buyNow: 'Buy Now',
     cart: 'Cart',
     added: '장바구니에 담겼습니다',
+    cartPage: {
+      title: '장바구니',
+      empty: '장바구니가 비어 있습니다.',
+      continueShopping: '쇼핑 계속하기',
+      remove: '삭제',
+      subtotal: '합계',
+      checkout: '결제하기',
+      clear: '비우기',
+      paymentSoon: '결제 기능은 준비 중입니다. 토스페이먼츠 연동 후 오픈됩니다.',
+    },
   },
   account: {
     signInNav: 'Sign In',

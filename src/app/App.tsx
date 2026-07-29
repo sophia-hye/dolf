@@ -8,6 +8,7 @@ import { CommunityPage } from '@/pages/community/CommunityPage'
 import { ContactPage } from '@/pages/contact/ContactPage'
 import { ShopPage } from '@/pages/shop/ShopPage'
 import { ShopDetailPage } from '@/pages/shop/detail/ShopDetailPage'
+import { CartPage } from '@/pages/cart/CartPage'
 import { SignInPage } from '@/pages/auth/SignInPage'
 import { SignUpPage } from '@/pages/auth/SignUpPage'
 import { MyPage } from '@/pages/account/MyPage'
@@ -45,6 +46,7 @@ export function App() {
           <Route path="contact" element={<ContactPage />} />
           <Route path="shop" element={<ShopPage />} />
           <Route path="shop/:slug" element={<ShopDetailPage />} />
+          <Route path="cart" element={<CartPage />} />
           <Route path="signin" element={<SignInPage />} />
           <Route path="signup" element={<SignUpPage />} />
           <Route

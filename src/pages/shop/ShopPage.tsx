@@ -33,17 +33,7 @@ export function ShopPage() {
                 <Name>{product.catalogName}</Name>
                 <Price>{product.catalogPrice}</Price>
               </CardLink>
-              <AddButton
-                type="button"
-                onClick={() =>
-                  addItem({
-                    slug: product.slug,
-                    name: product.catalogName,
-                    price: product.catalogPrice,
-                    image: product.catalogImage,
-                  })
-                }
-              >
+              <AddButton type="button" onClick={() => addItem(product.slug)}>
                 {t.shop.addToCart}
               </AddButton>
             </Card>

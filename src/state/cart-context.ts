@@ -1,19 +1,20 @@
 import { createContext, useContext } from 'react'
 
-export interface CartItem {
+// The cart stores only a slug + quantity. Display data (name, price, image)
+// is derived from the product catalog for the current locale at render time,
+// so prices always match the active language and never go stale.
+export interface CartLine {
   readonly slug: string
-  readonly name: string
-  readonly price: string
-  readonly image: string
   readonly quantity: number
 }
 
-export type AddPayload = Omit<CartItem, 'quantity'>
-
 export interface CartContextValue {
-  readonly items: CartItem[]
+  readonly items: CartLine[]
   readonly count: number
-  readonly addItem: (item: AddPayload, quantity?: number) => void
+  readonly addItem: (slug: string, quantity?: number) => void
+  readonly removeItem: (slug: string) => void
+  readonly setQuantity: (slug: string, quantity: number) => void
+  readonly clear: () => void
 }
 
 export const CartContext = createContext<CartContextValue | null>(null)
