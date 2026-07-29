@@ -9,8 +9,12 @@ interface ProtectedRouteProps {
 
 // Guards routes by auth state and (optionally) role.
 export function ProtectedRoute({ children, role }: ProtectedRouteProps) {
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
 
+  // Wait for the initial session to resolve before deciding to redirect.
+  if (loading) {
+    return null
+  }
   if (!user) {
     return <Navigate to="/signin" replace />
   }

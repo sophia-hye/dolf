@@ -21,11 +21,11 @@ const TAB_ITEMS = [
 ]
 
 export function AdminLayout() {
-  const { user, logout } = useAuth()
+  const { user, signOut } = useAuth()
   const navigate = useNavigate()
 
   const handleLogout = () => {
-    logout()
+    void signOut()
     navigate('/', { replace: true })
   }
 

@@ -18,17 +18,21 @@ import { useAuth } from '@/state/auth-context'
 
 export function SignInPage() {
   const { t } = useLocale()
-  const { login } = useAuth()
+  const { signIn } = useAuth()
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
   const c = t.account.signIn
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const user = login(email)
-    if (!user) {
+    setError('')
+    setBusy(true)
+    const { error: err, user } = await signIn(email, password)
+    setBusy(false)
+    if (err || !user) {
       setError(c.notFound)
       return
     }
@@ -53,7 +57,7 @@ export function SignInPage() {
         <Field>
           <FieldRow>
             <Label htmlFor="password">{c.passwordLabel}</Label>
-            <InlineLink as="span">{c.forgotPassword}</InlineLink>
+            <Link to="/forgot-password"><InlineLink>{c.forgotPassword}</InlineLink></Link>
           </FieldRow>
           <Input
             id="password"
@@ -61,13 +65,16 @@ export function SignInPage() {
             placeholder={c.passwordPlaceholder}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </Field>
         <CheckboxRow>
           <input type="checkbox" defaultChecked />
           {c.keepLoggedIn}
         </CheckboxRow>
-        <SubmitButton type="submit">{c.submit}</SubmitButton>
+        <SubmitButton type="submit" disabled={busy}>
+          {c.submit}
+        </SubmitButton>
       </form>
       <Notice>{c.notice}</Notice>
       <FootNote>

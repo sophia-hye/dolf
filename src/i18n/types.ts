@@ -213,6 +213,31 @@ export interface Dictionary {
       readonly submit: string
       readonly hasAccount: string
       readonly signInLink: string
+      readonly passwordMismatch: string
+      readonly passwordWeak: string
+      readonly phoneInvalid: string
+    }
+    readonly forgotPassword: {
+      readonly eyebrow: string
+      readonly title: string
+      readonly subhead: string
+      readonly emailLabel: string
+      readonly emailPlaceholder: string
+      readonly submit: string
+      readonly sent: string
+      readonly backToSignIn: string
+    }
+    readonly resetPassword: {
+      readonly eyebrow: string
+      readonly title: string
+      readonly subhead: string
+      readonly passwordLabel: string
+      readonly passwordPlaceholder: string
+      readonly passwordConfirmLabel: string
+      readonly passwordConfirmPlaceholder: string
+      readonly submit: string
+      readonly success: string
+      readonly noSession: string
     }
     readonly myPage: {
       readonly eyebrow: string

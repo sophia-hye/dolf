@@ -11,6 +11,8 @@ import { ShopDetailPage } from '@/pages/shop/detail/ShopDetailPage'
 import { CartPage } from '@/pages/cart/CartPage'
 import { SignInPage } from '@/pages/auth/SignInPage'
 import { SignUpPage } from '@/pages/auth/SignUpPage'
+import { ForgotPasswordPage } from '@/pages/auth/ForgotPasswordPage'
+import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage'
 import { MyPage } from '@/pages/account/MyPage'
 import { TermsPage } from '@/pages/legal/TermsPage'
 import { PrivacyPage } from '@/pages/legal/PrivacyPage'
@@ -49,6 +51,8 @@ export function App() {
           <Route path="cart" element={<CartPage />} />
           <Route path="signin" element={<SignInPage />} />
           <Route path="signup" element={<SignUpPage />} />
+          <Route path="forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="reset-password" element={<ResetPasswordPage />} />
           <Route
             path="mypage"
             element={
