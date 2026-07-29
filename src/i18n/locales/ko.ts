@@ -328,6 +328,11 @@ export const ko: Dictionary = {
       settingAddress: '주소',
       settingMembership: '멤버십',
       edit: '수정',
+      save: '저장',
+      cancel: '취소',
+      ordersNote: '최근 3개월 주문만 표시됩니다.',
+      removeWish: '위시리스트에서 제거',
+      emptyWishlist: '위시리스트가 비어 있습니다.',
     },
     checkout: {
       eyebrow: 'CHECKOUT',

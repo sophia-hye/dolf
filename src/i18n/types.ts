@@ -259,6 +259,11 @@ export interface Dictionary {
       readonly settingAddress: string
       readonly settingMembership: string
       readonly edit: string
+      readonly save: string
+      readonly cancel: string
+      readonly ordersNote: string
+      readonly removeWish: string
+      readonly emptyWishlist: string
     }
     readonly checkout: {
       readonly eyebrow: string

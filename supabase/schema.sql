@@ -18,6 +18,7 @@ create table if not exists public.profiles (
   name       text,
   country    text,
   phone      text,
+  address    text,
   role       text not null default 'user' check (role in ('user', 'admin')),
   grade      text not null default 'Basic',
   status     text not null default 'Active',

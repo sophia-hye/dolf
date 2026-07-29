@@ -331,6 +331,11 @@ export const ja: Dictionary = {
       settingAddress: '住所',
       settingMembership: 'メンバーシップ',
       edit: '編集',
+      save: '保存',
+      cancel: 'キャンセル',
+      ordersNote: '直近3か月の注文のみ表示しています。',
+      removeWish: 'ウィッシュリストから削除',
+      emptyWishlist: 'ウィッシュリストは空です。',
     },
     checkout: {
       eyebrow: 'CHECKOUT',
