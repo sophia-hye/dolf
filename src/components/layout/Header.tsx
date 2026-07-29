@@ -6,6 +6,7 @@ import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
 import { useAuth } from '@/state/auth-context'
 import type { Locale } from '@/i18n/types'
+import { pushEvent } from '@/lib/gtm'
 import logoUrl from '@/assets/logo.png'
 
 const LOCALES: Locale[] = ['en', 'ko', 'ja']
@@ -69,7 +70,10 @@ export function Header() {
           key={code}
           type="button"
           $active={locale === code}
-          onClick={() => setLocale(code)}
+          onClick={() => {
+            setLocale(code)
+            pushEvent('language_change', { language: code })
+          }}
         >
           {LOCALE_LABEL[code]}
         </LangButton>

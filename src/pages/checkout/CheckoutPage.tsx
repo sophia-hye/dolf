@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Container } from '@/components/ui/Container'
@@ -15,6 +15,7 @@ import {
   CURRENCY_BY_LOCALE,
 } from '@/lib/orders'
 import { effectivePriceAmount } from '@/lib/product-pricing'
+import { pushEvent } from '@/lib/gtm'
 
 export function CheckoutPage() {
   const { t, locale } = useLocale()
@@ -51,11 +52,22 @@ export function CheckoutPage() {
   const shipping = lines.length ? shippingFeeFor(currency, subtotal) : 0
   const total = subtotal + shipping
 
+  // Report begin_checkout once when the checkout is entered with items.
+  useEffect(() => {
+    if (lines.length === 0) return
+    pushEvent('begin_checkout', {
+      value: total,
+      currency,
+      item_count: lines.reduce((n, l) => n + l.quantity, 0),
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError('')
     setBusy(true)
-    const { error: err } = await createOrder({
+    const { id, error: err } = await createOrder({
       currency,
       subtotal,
       shippingFee: shipping,
@@ -76,6 +88,12 @@ export function CheckoutPage() {
       setError(err)
       return
     }
+    pushEvent('purchase', {
+      transaction_id: id ?? undefined,
+      value: total,
+      currency,
+      item_count: lines.reduce((n, l) => n + l.quantity, 0),
+    })
     clear()
     setDone(true)
   }

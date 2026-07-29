@@ -15,6 +15,7 @@ import {
 import { useLocale } from '@/i18n/context'
 import { useAuth } from '@/state/auth-context'
 import { isStrongPassword, isValidPhone } from '@/lib/validation'
+import { pushEvent } from '@/lib/gtm'
 
 export function SignUpPage() {
   const { t, locale } = useLocale()
@@ -59,6 +60,7 @@ export function SignUpPage() {
       setError(err)
       return
     }
+    pushEvent('sign_up', { method: 'email' })
     navigate(user ? '/mypage' : '/signin', { replace: true })
   }
 
