@@ -22,8 +22,14 @@ import {
   type ProductOverride,
 } from '@/lib/products-admin'
 
+// SKU rule: brand prefix + zero-padded catalog index (fixed 3 digits).
+function skuFor(index: number): string {
+  return `DLF-${String(index + 1).padStart(3, '0')}`
+}
+
 interface Row {
   readonly slug: string
+  readonly sku: string
   readonly name: string
   readonly priceKrw: number
   readonly priceUsd: number
@@ -63,10 +69,11 @@ export function ProductsPage() {
 
   const rows = useMemo<Row[]>(
     () =>
-      getProducts('ko').map((p) => {
+      getProducts('ko').map((p, i) => {
         const o = overrides[p.slug]
         return {
           slug: p.slug,
+          sku: skuFor(i),
           name: p.catalogName,
           priceKrw: o?.price_krw ?? catalogPrice(p.slug, 'ko'),
           priceUsd: o?.price_usd ?? catalogPrice(p.slug, 'en'),
@@ -138,11 +145,12 @@ export function ProductsPage() {
           <Table>
             <thead>
               <tr>
+                <Th>공개</Th>
+                <Th>SKU</Th>
                 <Th>상품명</Th>
                 <Th>가격 (₩ / $ / ¥)</Th>
                 <Th>재고</Th>
                 <Th>판매</Th>
-                <Th>공개</Th>
                 <Th>관리</Th>
               </tr>
             </thead>
@@ -151,19 +159,6 @@ export function ProductsPage() {
                 const low = r.stock < r.threshold
                 return (
                   <tr key={r.slug}>
-                    <Td>{r.name}</Td>
-                    <Td>
-                      <Prices>
-                        <span>{formatMoney(r.priceKrw, 'KRW')}</span>
-                        <span>{formatMoney(r.priceUsd, 'USD')}</span>
-                        <span>{formatMoney(r.priceJpy, 'JPY')}</span>
-                      </Prices>
-                    </Td>
-                    <StockCell $low={low}>
-                      {r.stock}
-                      {low && <LowTag>부족</LowTag>}
-                    </StockCell>
-                    <Muted>{r.sales}</Muted>
                     <Td>
                       <ToggleWrap>
                         <Toggle
@@ -181,6 +176,20 @@ export function ProductsPage() {
                         </ToggleText>
                       </ToggleWrap>
                     </Td>
+                    <Sku>{r.sku}</Sku>
+                    <Td>{r.name}</Td>
+                    <Td>
+                      <Prices>
+                        <span>{formatMoney(r.priceKrw, 'KRW')}</span>
+                        <span>{formatMoney(r.priceUsd, 'USD')}</span>
+                        <span>{formatMoney(r.priceJpy, 'JPY')}</span>
+                      </Prices>
+                    </Td>
+                    <StockCell $low={low}>
+                      {r.stock}
+                      {low && <LowTag>부족</LowTag>}
+                    </StockCell>
+                    <Muted>{r.sales}</Muted>
                     <Td>
                       <EditButton type="button" onClick={() => openEdit(r)}>
                         수정
@@ -237,6 +246,13 @@ export function ProductsPage() {
     </>
   )
 }
+
+const Sku = styled(Td)`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  white-space: nowrap;
+`
 
 const Prices = styled.div`
   display: flex;

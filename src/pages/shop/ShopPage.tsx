@@ -4,12 +4,15 @@ import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
+import { useProductOverrides } from '@/state/products-context'
 import { getProducts } from '@/data/products'
+import { effectivePriceString, isPublished } from '@/lib/product-pricing'
 
 export function ShopPage() {
   const { t, locale } = useLocale()
   const { addItem } = useCart()
-  const products = getProducts(locale)
+  const { overrides } = useProductOverrides()
+  const products = getProducts(locale).filter((p) => isPublished(p.slug, overrides))
 
   return (
     <>
@@ -31,7 +34,7 @@ export function ShopPage() {
                   <ProductImage src={product.catalogImage} alt={product.catalogName} />
                 </ImageCard>
                 <Name>{product.catalogName}</Name>
-                <Price>{product.catalogPrice}</Price>
+                <Price>{effectivePriceString(product.slug, locale, overrides)}</Price>
               </CardLink>
               <AddButton type="button" onClick={() => addItem(product.slug)}>
                 {t.shop.addToCart}
