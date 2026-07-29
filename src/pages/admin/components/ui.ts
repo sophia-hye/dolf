@@ -97,6 +97,12 @@ const STATUS_COLORS: Record<string, string> = {
   Cancelled: '#b0b0b4',
   Active: '#a81212',
   Inactive: '#b0b0b4',
+  // Supabase order statuses (lowercase)
+  paid: '#a81212',
+  shipped: '#1f1f21',
+  delivered: '#1f1f21',
+  pending: '#6e6e72',
+  cancelled: '#b0b0b4',
 }
 
 export const StatusBadge = styled.span<{ $status: string }>`

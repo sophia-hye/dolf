@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import {
@@ -6,81 +7,51 @@ import {
   PageDesc,
   Panel,
   PanelTitle,
-  PrimaryButton,
-  GhostButton,
   Table,
   Th,
   Td,
   StatusBadge,
 } from '@/pages/admin/components/ui'
-import { getOrderById } from '@/data/admin-mock'
-
-// Fields the shared mock lacks (contact, shipping, intl. customs) — local to this page.
-interface OrderDetailExtra {
-  readonly email: string
-  readonly phone: string
-  readonly country: string
-  readonly address: string
-  readonly addressLine2: string
-  readonly carrier: string
-  readonly trackingNo: string
-  readonly hsCode: string
-  readonly customsTerms: string
-  readonly qty: number
-  readonly subtotal: string
-  readonly intlShipping: string
-  readonly payment: string
-  readonly currency: string
-  readonly total: string
-}
-
-const ORDER_EXTRAS: Record<string, OrderDetailExtra> = {
-  'DLF-2045': {
-    email: 'emma.w@example.com',
-    phone: '+1 415-555-0142',
-    country: 'United States (US)',
-    address: '123 Market St, San Francisco',
-    addressLine2: 'CA 94103',
-    carrier: 'EMS (국제특급)',
-    trackingNo: 'EE123456789KR',
-    hsCode: '4910.00 · Calendars',
-    customsTerms: 'DDU (관세 수취인 부담)',
-    qty: 1,
-    subtotal: '$32',
-    intlShipping: '$18',
-    payment: 'PayPal',
-    currency: 'USD ($)',
-    total: '$50 USD',
-  },
-}
-
-const DEFAULT_EXTRA: OrderDetailExtra = {
-  email: '—',
-  phone: '—',
-  country: '대한민국 (KR)',
-  address: '주소 정보 없음',
-  addressLine2: '',
-  carrier: '—',
-  trackingNo: '—',
-  hsCode: '—',
-  customsTerms: '—',
-  qty: 1,
-  subtotal: '—',
-  intlShipping: '$0',
-  payment: '—',
-  currency: 'USD ($)',
-  total: '—',
-}
+import {
+  fetchOrderById,
+  updateOrderStatus,
+  formatMoney,
+  ORDER_STATUS_LABEL_KO,
+  ALL_STATUSES,
+  type OrderRow,
+  type OrderStatus,
+} from '@/lib/orders'
 
 export function OrderDetailPage() {
   const { id = '' } = useParams()
-  const order = getOrderById(id)
+  const [order, setOrder] = useState<OrderRow | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [updating, setUpdating] = useState(false)
 
-  if (!order) {
-    return <Navigate to="/admin/orders" replace />
+  useEffect(() => {
+    let active = true
+    void fetchOrderById(id).then((row) => {
+      if (!active) return
+      setOrder(row)
+      setLoading(false)
+    })
+    return () => {
+      active = false
+    }
+  }, [id])
+
+  if (loading) return null
+  if (!order) return <Navigate to="/admin/orders" replace />
+
+  const overseas = order.currency !== 'KRW'
+
+  const handleStatus = async (next: OrderStatus) => {
+    if (next === order.status) return
+    setUpdating(true)
+    const { error } = await updateOrderStatus(order.id, next)
+    setUpdating(false)
+    if (!error) setOrder({ ...order, status: next })
   }
-
-  const extra = ORDER_EXTRAS[order.id] ?? DEFAULT_EXTRA
 
   return (
     <>
@@ -88,52 +59,51 @@ export function OrderDetailPage() {
         <div>
           <BackLink to="/admin/orders">‹ 주문 목록</BackLink>
           <TitleRow>
-            <PageTitle>주문 #{order.id}</PageTitle>
-            <StatusBadge $status={order.status}>{order.status}</StatusBadge>
-            {order.overseas && <Tag>International</Tag>}
+            <PageTitle>주문 #{order.id.slice(0, 8)}</PageTitle>
+            <StatusBadge $status={order.status}>
+              {ORDER_STATUS_LABEL_KO[order.status]}
+            </StatusBadge>
+            {overseas && <Tag>International</Tag>}
           </TitleRow>
-          <PageDesc>{order.date} · {order.customer}</PageDesc>
+          <PageDesc>
+            {order.created_at.slice(0, 10)} · {order.recipient ?? '—'}
+          </PageDesc>
         </div>
         <Actions>
-          <GhostButton type="button">상태 변경 ▾</GhostButton>
-          <PrimaryButton as={Link} to={`/admin/orders/${order.id}/tracking`}>
-            배송 추적
-          </PrimaryButton>
+          <StatusLabel>상태 변경</StatusLabel>
+          <StatusSelect
+            value={order.status}
+            disabled={updating}
+            onChange={(e) => handleStatus(e.target.value as OrderStatus)}
+          >
+            {ALL_STATUSES.map((s) => (
+              <option key={s} value={s}>
+                {ORDER_STATUS_LABEL_KO[s]}
+              </option>
+            ))}
+          </StatusSelect>
         </Actions>
       </PageHeader>
 
       <Grid>
         <Panel>
           <PanelTitle>고객 (Customer)</PanelTitle>
-          <Field label="이름" value={order.customer} />
-          <Field label="이메일" value={extra.email} />
-          <Field label="연락처" value={extra.phone} />
+          <Field label="받는 분" value={order.recipient ?? '—'} />
+          <Field label="연락처" value={order.phone ?? '—'} />
         </Panel>
 
         <Panel>
           <PanelTitle>배송지 (Ship to)</PanelTitle>
-          <Field label="국가" value={extra.country} />
-          <Field label="주소" value={extra.address} />
-          {extra.addressLine2 && <Field label="" value={extra.addressLine2} />}
+          <Field label="구분" value={overseas ? '해외' : '국내'} />
+          <Field label="주소" value={order.address ?? '주소 정보 없음'} />
         </Panel>
-
-        {order.overseas && (
-          <Panel>
-            <PanelTitle>국제배송 (International Shipping)</PanelTitle>
-            <Field label="배송 수단" value={extra.carrier} />
-            <Field label="트래킹 번호" value={extra.trackingNo} />
-            <Field label="HS Code" value={extra.hsCode} />
-            <Field label="통관 조건" value={extra.customsTerms} />
-          </Panel>
-        )}
 
         <Panel>
           <PanelTitle>결제</PanelTitle>
-          <Field label="결제수단" value={extra.payment} />
-          <Field label="통화" value={extra.currency} />
-          <Field label="소계 (Subtotal)" value={extra.subtotal} />
-          <Field label="국제배송비 (Intl. shipping)" value={extra.intlShipping} />
-          <TotalField label="합계 (Total)" value={extra.total} />
+          <Field label="통화" value={order.currency} />
+          <Field label="소계 (Subtotal)" value={formatMoney(order.subtotal, order.currency)} />
+          <Field label="배송비 (Shipping)" value={formatMoney(order.shipping_fee, order.currency)} />
+          <TotalField label="합계 (Total)" value={formatMoney(order.total, order.currency)} />
         </Panel>
       </Grid>
 
@@ -148,11 +118,13 @@ export function OrderDetailPage() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <Td>{order.product}</Td>
-              <Td>×{extra.qty}</Td>
-              <Td>{order.amount}</Td>
-            </tr>
+            {order.order_items.map((it) => (
+              <tr key={it.product_slug}>
+                <Td>{it.name}</Td>
+                <Td>×{it.quantity}</Td>
+                <Td>{formatMoney(it.unit_price * it.quantity, it.currency)}</Td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       </Panel>
@@ -209,7 +181,28 @@ const Tag = styled.span`
 const Actions = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+`
+
+const StatusLabel = styled.span`
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  color: ${({ theme }) => theme.colors.textSecondary};
+`
+
+const StatusSelect = styled.select`
+  padding: 8px 12px;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 4px;
+  background-color: ${({ theme }) => theme.colors.white};
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  color: ${({ theme }) => theme.colors.ink};
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+  }
 `
 
 const Grid = styled.div`

@@ -142,21 +142,44 @@ export async function createOrder(
   return { id: order.id, error: null }
 }
 
-// The current user's orders (newest first), with line items. RLS scopes the
-// result to the signed-in account automatically.
-export async function fetchMyOrders(): Promise<OrderRow[]> {
-  if (!supabase) return []
-  const { data, error } = await supabase
-    .from('orders')
-    .select(
-      'id, status, currency, subtotal, shipping_fee, total, recipient, address, phone, created_at, order_items ( product_slug, name, unit_price, currency, quantity )',
-    )
-    .order('created_at', { ascending: false })
+export const ALL_STATUSES: readonly OrderStatus[] = [
+  'pending',
+  'paid',
+  'shipped',
+  'delivered',
+  'cancelled',
+]
 
-  if (error || !data) return []
+// Korean labels for the admin console (admin UI is Korean-only).
+export const ORDER_STATUS_LABEL_KO: Record<OrderStatus, string> = {
+  pending: '주문접수',
+  paid: '결제완료',
+  shipped: '배송중',
+  delivered: '배송완료',
+  cancelled: '취소',
+}
 
-  // Postgres `numeric` can arrive as a string via PostgREST; coerce to numbers.
-  return (data as unknown as RawOrderRow[]).map((o) => ({
+const ORDER_SELECT =
+  'id, status, currency, subtotal, shipping_fee, total, recipient, address, phone, created_at, order_items ( product_slug, name, unit_price, currency, quantity )'
+
+interface RawOrderRow
+  extends Omit<OrderRow, 'subtotal' | 'shipping_fee' | 'total' | 'order_items'> {
+  subtotal: number | string
+  shipping_fee: number | string
+  total: number | string
+  order_items:
+    | Array<
+        Omit<OrderItemRow, 'unit_price' | 'quantity'> & {
+          unit_price: number | string
+          quantity: number | string
+        }
+      >
+    | null
+}
+
+// Postgres `numeric` can arrive as a string via PostgREST; coerce to numbers.
+function normalizeOrder(o: RawOrderRow): OrderRow {
+  return {
     ...o,
     subtotal: Number(o.subtotal),
     shipping_fee: Number(o.shipping_fee),
@@ -166,15 +189,53 @@ export async function fetchMyOrders(): Promise<OrderRow[]> {
       unit_price: Number(it.unit_price),
       quantity: Number(it.quantity),
     })),
-  }))
+  }
 }
 
-interface RawOrderRow extends Omit<OrderRow, 'subtotal' | 'shipping_fee' | 'total' | 'order_items'> {
-  subtotal: number | string
-  shipping_fee: number | string
-  total: number | string
-  order_items: Array<Omit<OrderItemRow, 'unit_price' | 'quantity'> & {
-    unit_price: number | string
-    quantity: number | string
-  }> | null
+// The current user's orders (newest first), with line items. RLS scopes the
+// result to the signed-in account automatically.
+export async function fetchMyOrders(): Promise<OrderRow[]> {
+  if (!supabase) return []
+  const { data, error } = await supabase
+    .from('orders')
+    .select(ORDER_SELECT)
+    .order('created_at', { ascending: false })
+  if (error || !data) return []
+  return (data as unknown as RawOrderRow[]).map(normalizeOrder)
+}
+
+// All orders (admin only — RLS returns everything when is_admin()).
+export async function fetchAllOrders(): Promise<OrderRow[]> {
+  if (!supabase) return []
+  const { data, error } = await supabase
+    .from('orders')
+    .select(ORDER_SELECT)
+    .order('created_at', { ascending: false })
+  if (error || !data) return []
+  return (data as unknown as RawOrderRow[]).map(normalizeOrder)
+}
+
+// A single order by id (own order, or any order for an admin, per RLS).
+export async function fetchOrderById(id: string): Promise<OrderRow | null> {
+  if (!supabase) return null
+  const { data, error } = await supabase
+    .from('orders')
+    .select(ORDER_SELECT)
+    .eq('id', id)
+    .maybeSingle()
+  if (error || !data) return null
+  return normalizeOrder(data as unknown as RawOrderRow)
+}
+
+// Admin-only status change (enforced by the "orders: admin update" policy).
+export async function updateOrderStatus(
+  id: string,
+  status: OrderStatus,
+): Promise<{ error: string | null }> {
+  if (!supabase) return { error: 'Supabase is not configured.' }
+  const { error } = await supabase
+    .from('orders')
+    .update({ status })
+    .eq('id', id)
+  return { error: error ? error.message : null }
 }
