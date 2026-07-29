@@ -31,6 +31,8 @@ export interface CircleItem {
   readonly title: string
   readonly subhead: string
   readonly description: string
+  readonly fee?: string
+  readonly comingSoon?: boolean
 }
 
 export interface ContactInfoItem {
@@ -109,6 +111,12 @@ export interface Dictionary {
     }
     readonly features: readonly ProductFeature[]
     readonly detailCta: string
+    readonly b2b: {
+      readonly eyebrow: string
+      readonly title: string
+      readonly body: string
+      readonly cta: string
+    }
   }
   readonly community: {
     readonly hero: {
@@ -122,9 +130,8 @@ export interface Dictionary {
     }
     readonly program: {
       readonly eyebrow: string
-      readonly title: string
-      readonly body: string
       readonly cta: string
+      readonly comingSoon: string
     }
   }
   readonly contact: {

@@ -157,6 +157,12 @@ export const en: Dictionary = {
       },
     ],
     detailCta: 'View details',
+    b2b: {
+      eyebrow: 'WHOLESALE · B2B',
+      title: 'B2B & Wholesale',
+      body: 'B2B wholesale pricing for stockists and bulk orders is available on request.\nPlease get in touch below.',
+      cta: 'Contact for B2B',
+    },
   },
   community: {
     hero: {
@@ -171,24 +177,26 @@ export const en: Dictionary = {
           title: 'Bible Reading Circle',
           subhead: 'Read the Bible together',
           description: 'A circle that reads through Scripture together over 12 weeks and helps you finish the journey.',
+          fee: '12 weeks · ₩99,000 · tracker included',
         },
         {
           title: 'QT Circle',
           subhead: 'Building the quiet time habit',
           description: 'Share daily meditations together and turn quiet time into a habit.',
+          fee: '8 weeks ₩79,000 · 16 weeks ₩159,000 · diary included',
         },
         {
           title: 'Faith & Life Circle',
           subhead: 'Faith and life',
           description: 'A community for sharing the questions of faith and everyday life together.',
+          comingSoon: true,
         },
       ],
     },
     program: {
       eyebrow: 'PROGRAM',
-      title: 'Start your 12 weeks',
-      body: 'The Bible Reading Circle runs as a 12-week program. The participation fee of 49,000–99,000 KRW includes a tracker product.',
       cta: 'Inquire about joining',
+      comingSoon: 'Coming soon',
     },
   },
   contact: {
