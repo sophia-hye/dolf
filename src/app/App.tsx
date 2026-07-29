@@ -65,7 +65,7 @@ export function App() {
           <Route
             path="mypage"
             element={
-              <ProtectedRoute role="user">
+              <ProtectedRoute>
                 <MyPage />
               </ProtectedRoute>
             }
