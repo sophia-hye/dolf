@@ -140,3 +140,31 @@ create policy "order_items: insert via own order" on public.order_items
       where o.id = order_items.order_id and o.user_id = auth.uid()
     )
   );
+
+-- ─── products (operational overrides) ────────────────────────────────────────
+-- Catalog content (names, images, copy, base prices) stays in the frontend.
+-- This table holds admin-managed operational data per product slug: per-currency
+-- price overrides (null = use the catalog price), stock, low-stock threshold,
+-- and whether the product is published to the storefront. Rows are created on
+-- demand (upsert) when an admin first edits a product.
+create table if not exists public.products (
+  slug                text primary key,
+  price_krw           numeric(12, 2),
+  price_usd           numeric(12, 2),
+  price_jpy           numeric(12, 2),
+  stock               integer not null default 0,
+  low_stock_threshold integer not null default 20,
+  published           boolean not null default true,
+  updated_at          timestamptz not null default now()
+);
+
+alter table public.products enable row level security;
+
+-- Anyone may read (the storefront will use this later); only admins may write.
+drop policy if exists "products: public read" on public.products;
+create policy "products: public read" on public.products
+  for select using (true);
+
+drop policy if exists "products: admin write" on public.products;
+create policy "products: admin write" on public.products
+  for all using (public.is_admin()) with check (public.is_admin());
