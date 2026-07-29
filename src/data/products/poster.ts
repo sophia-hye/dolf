@@ -11,12 +11,12 @@ export const poster: Record<Locale, ShopProduct> = {
     slug: 'poster',
     catalogImage: catalog,
     catalogName: '2027 Poster (B2)',
-    catalogPrice: '$32',
+    catalogPrice: '₩28,000',
     hero: {
       gallery: [hero],
       title: '2027 Poster',
       subtitle: 'B2 Wall Poster — 점자와 숫자로 표현한 캘린더 포스터',
-      price: '$32',
+      price: '₩28,000',
       description:
         'DoLF 2027 캘린더를 B2(500×707mm) 대형 포스터로. 미니멀한 점·선 디자인이 한 해 동안 공간을 채웁니다.',
       specLines: ['B2 · 500 × 707mm', '대형 월 포스터', '점자 + 숫자'],
@@ -103,12 +103,12 @@ export const poster: Record<Locale, ShopProduct> = {
     slug: 'poster',
     catalogImage: catalog,
     catalogName: '2027 Poster (B2)',
-    catalogPrice: '$32',
+    catalogPrice: '$20',
     hero: {
       gallery: [hero],
       title: '2027 Poster',
       subtitle: 'B2 Wall Poster — a calendar poster rendered in Braille and numbers',
-      price: '$32',
+      price: '$20',
       description:
         'The DoLF 2027 calendar as a large B2 (500×707mm) poster. A minimal dot-and-line design fills your space all year long.',
       specLines: ['B2 · 500 × 707mm', 'Large monthly poster', 'Braille + numbers'],
@@ -195,12 +195,12 @@ export const poster: Record<Locale, ShopProduct> = {
     slug: 'poster',
     catalogImage: catalog,
     catalogName: '2027 Poster (B2)',
-    catalogPrice: '$32',
+    catalogPrice: '¥3,100',
     hero: {
       gallery: [hero],
       title: '2027 Poster',
       subtitle: 'B2 Wall Poster — 点字と数字で表現したカレンダーポスター',
-      price: '$32',
+      price: '¥3,100',
       description:
         'DoLF 2027カレンダーをB2(500×707mm)の大判ポスターに。ミニマルな点と線のデザインが一年を通して空間を彩ります。',
       specLines: ['B2 · 500 × 707mm', '大判マンスリーポスター', '点字 + 数字'],

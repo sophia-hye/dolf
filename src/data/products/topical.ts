@@ -16,12 +16,12 @@ export const topical: Record<Locale, ShopProduct> = {
     catalogImage: catalog,
     catalogName: 'Topical Reading Tracker',
     badge: 'Faith',
-    catalogPrice: 'from $12',
+    catalogPrice: 'from ₩8,000',
     hero: {
       gallery: [hero, coverBack],
       title: 'Topical Reading Tracker',
       subtitle: 'Single Sheet & Foldout — 주제별 성경 통독 트래커',
-      price: 'from $12',
+      price: 'from ₩8,000',
       description:
         '한 주제를 깊이 따라 읽는 1장짜리 통독 트래커입니다. 사복음서 대조, 시편·잠언, 평행 본문 등 주제별로 골라보세요.',
       specLines: ['B5 · 176 × 250mm', '낱장(Single) 또는 접지(Foldout)', '주제별 디자인'],
@@ -94,7 +94,7 @@ export const topical: Record<Locale, ShopProduct> = {
         { label: 'Topics', value: '낱장 9종 · 접지 3종' },
         { label: 'Print', value: '단면 또는 양면' },
         { label: 'Paper', value: '미색 모조지' },
-        { label: 'Foldout', value: '+$4 추가' },
+        { label: 'Foldout', value: '+₩8,000 추가' },
       ],
     },
     shippingFaq: {
@@ -134,12 +134,12 @@ export const topical: Record<Locale, ShopProduct> = {
     catalogImage: catalog,
     catalogName: 'Topical Reading Tracker',
     badge: 'Faith',
-    catalogPrice: 'from $12',
+    catalogPrice: 'from $6',
     hero: {
       gallery: [hero, coverBack],
       title: 'Topical Reading Tracker',
       subtitle: 'Single Sheet & Foldout — Topical Bible Reading Tracker',
-      price: 'from $12',
+      price: 'from $6',
       description:
         'A one-page reading tracker for following a single theme in depth. Choose by topic—a Harmony of the Gospels, Psalms & Proverbs, parallel passages, and more.',
       specLines: ['B5 · 176 × 250mm', 'Single sheet or Foldout', 'Designed by topic'],
@@ -212,7 +212,7 @@ export const topical: Record<Locale, ShopProduct> = {
         { label: 'Topics', value: '9 single sheets · 3 foldouts' },
         { label: 'Print', value: 'Single-sided or double-sided' },
         { label: 'Paper', value: 'Ivory woodfree paper' },
-        { label: 'Foldout', value: '+$4 extra' },
+        { label: 'Foldout', value: '+$6 extra' },
       ],
     },
     shippingFaq: {
@@ -252,12 +252,12 @@ export const topical: Record<Locale, ShopProduct> = {
     catalogImage: catalog,
     catalogName: 'Topical Reading Tracker',
     badge: 'Faith',
-    catalogPrice: 'from $12',
+    catalogPrice: 'from ¥900',
     hero: {
       gallery: [hero, coverBack],
       title: 'Topical Reading Tracker',
       subtitle: 'Single Sheet & Foldout — テーマ別聖書通読トラッカー',
-      price: 'from $12',
+      price: 'from ¥900',
       description:
         '一つのテーマを深く追って読む、1枚の通読トラッカーです。福音書の調和、詩篇・箴言、並行箇所など、テーマ別にお選びください。',
       specLines: ['B5 · 176 × 250mm', '1枚（Single）または折り（Foldout）', 'テーマ別デザイン'],
@@ -330,7 +330,7 @@ export const topical: Record<Locale, ShopProduct> = {
         { label: 'Topics', value: '1枚9種 · 折り3種' },
         { label: 'Print', value: '片面または両面' },
         { label: 'Paper', value: 'アイボリー上質紙' },
-        { label: 'Foldout', value: '+$4 追加' },
+        { label: 'Foldout', value: '+¥900 追加' },
       ],
     },
     shippingFaq: {

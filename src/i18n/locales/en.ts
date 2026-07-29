@@ -117,19 +117,19 @@ export const en: Dictionary = {
         name: 'Breathe — Planner & Diary',
         description:
           "DoLF's flagship planner that lets you plan your day while recording gratitude, meditation, and reflection — carrying your relationship with God through everyday life.",
-        spec: 'B5  ·  128P  ·  LAY-FLAT',
+        spec: 'B6  ·  128P  ·  LAY-FLAT',
       },
       {
         name: 'Breathe — English',
         description:
           'The English everyday edition — a Monthly · Weekly · Daily Journal planner anyone can use, without the devotional pages.',
-        spec: 'B5  ·  128P  ·  ENGLISH',
+        spec: 'B6  ·  128P  ·  ENGLISH',
       },
       {
         name: 'Breathe — 日本語',
         description:
           'The Japanese everyday edition — Monthly · Weekly · Daily Journal, without the devotional pages.',
-        spec: 'B5  ·  128P  ·  日本語',
+        spec: 'B6  ·  128P  ·  日本語',
       },
       {
         name: 'Breathe — Planner & Diary (version.1)',
@@ -141,13 +141,13 @@ export const en: Dictionary = {
         name: 'Bible Reading Tracker',
         description:
           'One verse as a single dot. A recording tool that visually completes the reading journey as dots gather into lines, and lines into a whole.',
-        spec: 'B5  ·  120P  ·  LAY-FLAT',
+        spec: 'B6  ·  120P  ·  LAY-FLAT',
       },
       {
         name: '2027 Calendar',
         description:
-          'A minimal calendar that expresses each month through braille and numbers. Available as a B5 double-sided sheet and a B2 poster.',
-        spec: 'B5 DOUBLE-SIDE  ·  B2 POSTER',
+          'A minimal calendar that expresses each month through braille and numbers — a B6 double-sided single sheet.',
+        spec: 'B6  ·  DOUBLE-SIDE  ·  SINGLE SHEET',
       },
       {
         name: 'Topical Reading Tracker',
