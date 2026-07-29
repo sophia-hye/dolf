@@ -1,17 +1,38 @@
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { useLocale } from '@/i18n/context'
 import { useAuth } from '@/state/auth-context'
-import { mockOrders, mockWishlistSlugs } from '@/data/mock-account'
+import { mockWishlistSlugs } from '@/data/mock-account'
 import { getProductBySlug } from '@/data/products'
+import { fetchMyOrders, formatMoney, type OrderRow } from '@/lib/orders'
+
+// Compact order title from its line items, e.g. "Breathe +2" for multiple.
+function orderTitle(order: OrderRow): string {
+  const first = order.order_items[0]
+  if (!first) return `#${order.id.slice(0, 8)}`
+  const extra = order.order_items.length - 1
+  return extra > 0 ? `${first.name} +${extra}` : first.name
+}
 
 export function MyPage() {
   const { t, locale } = useLocale()
   const { user, signOut } = useAuth()
   const navigate = useNavigate()
   const c = t.account.myPage
+
+  const [orders, setOrders] = useState<OrderRow[]>([])
+  useEffect(() => {
+    let active = true
+    void fetchMyOrders().then((rows) => {
+      if (active) setOrders(rows)
+    })
+    return () => {
+      active = false
+    }
+  }, [])
 
   if (!user) return null
 
@@ -42,7 +63,7 @@ export function MyPage() {
 
       <Stats>
         <Stat>
-          <StatValue>{mockOrders.length}</StatValue>
+          <StatValue>{orders.length}</StatValue>
           <StatLabel>{c.statsOrders}</StatLabel>
         </Stat>
         <Stat>
@@ -57,20 +78,26 @@ export function MyPage() {
 
       <Section>
         <SectionTitle>{c.ordersTitle}</SectionTitle>
-        <Orders>
-          {mockOrders.map((order) => (
-            <OrderRow key={order.id}>
-              <OrderMeta>
-                <OrderId>
-                  {order.id} · {order.date}
-                </OrderId>
-                <OrderTitle>{order.title}</OrderTitle>
-                <OrderStatus>{order.status}</OrderStatus>
-              </OrderMeta>
-              <OrderAmount>{order.amount}</OrderAmount>
-            </OrderRow>
-          ))}
-        </Orders>
+        {orders.length === 0 ? (
+          <EmptyOrders>{c.noOrders}</EmptyOrders>
+        ) : (
+          <Orders>
+            {orders.map((order) => (
+              <OrderRow key={order.id}>
+                <OrderMeta>
+                  <OrderId>
+                    #{order.id.slice(0, 8)} · {order.created_at.slice(0, 10)}
+                  </OrderId>
+                  <OrderTitle>{orderTitle(order)}</OrderTitle>
+                  <OrderStatus>{t.account.orderStatus[order.status]}</OrderStatus>
+                </OrderMeta>
+                <OrderAmount>
+                  {formatMoney(order.total, order.currency)}
+                </OrderAmount>
+              </OrderRow>
+            ))}
+          </Orders>
+        )}
       </Section>
 
       <Section>
@@ -181,6 +208,14 @@ const SectionTitle = styled.h2`
 const Orders = styled.div`
   display: flex;
   flex-direction: column;
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
+`
+
+const EmptyOrders = styled.p`
+  padding: 24px 0;
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.body};
+  color: ${({ theme }) => theme.colors.textSecondary};
   border-top: 1px solid ${({ theme }) => theme.colors.border};
 `
 

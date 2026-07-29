@@ -169,6 +169,8 @@ export interface Dictionary {
       readonly continueShopping: string
       readonly remove: string
       readonly subtotal: string
+      readonly shipping: string
+      readonly total: string
       readonly checkout: string
       readonly clear: string
       readonly paymentSoon: string
@@ -247,6 +249,7 @@ export interface Dictionary {
       readonly statsWishlist: string
       readonly statsSpent: string
       readonly ordersTitle: string
+      readonly noOrders: string
       readonly wishlistTitle: string
       readonly settingsTitle: string
       readonly settingName: string
@@ -255,6 +258,33 @@ export interface Dictionary {
       readonly settingAddress: string
       readonly settingMembership: string
       readonly edit: string
+    }
+    readonly checkout: {
+      readonly eyebrow: string
+      readonly title: string
+      readonly recipientLabel: string
+      readonly recipientPlaceholder: string
+      readonly phoneLabel: string
+      readonly phonePlaceholder: string
+      readonly addressLabel: string
+      readonly addressPlaceholder: string
+      readonly subtotal: string
+      readonly shipping: string
+      readonly total: string
+      readonly placeOrder: string
+      readonly placing: string
+      readonly success: string
+      readonly successNote: string
+      readonly emptyCart: string
+      readonly backToShop: string
+      readonly viewOrders: string
+    }
+    readonly orderStatus: {
+      readonly pending: string
+      readonly paid: string
+      readonly shipped: string
+      readonly delivered: string
+      readonly cancelled: string
     }
   }
   readonly seo: {

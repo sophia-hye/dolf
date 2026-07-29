@@ -1,28 +1,20 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Container } from '@/components/ui/Container'
 import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
 import { getProductBySlug } from '@/data/products'
-
-// Prices are display strings (e.g. "₩52,000", "$38", "from ₩8,000"). Within a
-// locale session they share one currency, so we parse the number for math and
-// reuse the symbol for formatting the total.
-function parseAmount(price: string): number {
-  const digits = price.replace(/[^0-9.]/g, '')
-  return Number(digits) || 0
-}
-
-function symbolOf(price: string): string {
-  const m = price.match(/[₩$¥]/)
-  return m ? m[0] : ''
-}
+import {
+  parseAmount,
+  formatMoney,
+  shippingFeeFor,
+  CURRENCY_BY_LOCALE,
+} from '@/lib/orders'
 
 export function CartPage() {
   const { t, locale } = useLocale()
   const { items, setQuantity, removeItem, clear } = useCart()
-  const [showNotice, setShowNotice] = useState(false)
+  const navigate = useNavigate()
   const c = t.shop.cartPage
 
   // Resolve each cart line to its product for the current locale.
@@ -33,11 +25,13 @@ export function CartPage() {
     })
     .filter((l): l is NonNullable<typeof l> => l !== null)
 
-  const symbol = lines.length ? symbolOf(lines[0].product.catalogPrice) : ''
+  const currency = CURRENCY_BY_LOCALE[locale]
   const subtotal = lines.reduce(
     (sum, l) => sum + parseAmount(l.product.catalogPrice) * l.quantity,
     0,
   )
+  const shipping = lines.length ? shippingFeeFor(currency, subtotal) : 0
+  const total = subtotal + shipping
 
   return (
     <Section>
@@ -86,18 +80,22 @@ export function CartPage() {
             </List>
 
             <Summary>
-              <SubtotalRow>
+              <LineRow>
                 <span>{c.subtotal}</span>
-                <SubtotalValue>
-                  {symbol}
-                  {subtotal.toLocaleString()}
-                </SubtotalValue>
+                <span>{formatMoney(subtotal, currency)}</span>
+              </LineRow>
+              <LineRow>
+                <span>{c.shipping}</span>
+                <span>{formatMoney(shipping, currency)}</span>
+              </LineRow>
+              <SubtotalRow>
+                <span>{c.total}</span>
+                <SubtotalValue>{formatMoney(total, currency)}</SubtotalValue>
               </SubtotalRow>
 
-              <Checkout type="button" onClick={() => setShowNotice(true)}>
+              <Checkout type="button" onClick={() => navigate('/checkout')}>
                 {c.checkout}
               </Checkout>
-              {showNotice && <Notice>{c.paymentSoon}</Notice>}
 
               <Actions>
                 <TextLink to="/shop">{c.continueShopping}</TextLink>
@@ -254,14 +252,26 @@ const Qty = styled.span`
 const Summary = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   margin-top: 32px;
+`
+
+const LineRow = styled.div`
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.body};
+  color: ${({ theme }) => theme.colors.textSecondary};
 `
 
 const SubtotalRow = styled.div`
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+  padding-top: 12px;
+  margin-top: 2px;
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
   font-family: ${({ theme }) => theme.fonts.serif};
   font-size: ${({ theme }) => theme.fontSizes.h3};
   color: ${({ theme }) => theme.colors.ink};
@@ -288,13 +298,6 @@ const Checkout = styled.button`
   &:hover {
     opacity: 0.88;
   }
-`
-
-const Notice = styled.p`
-  text-align: center;
-  font-family: ${({ theme }) => theme.fonts.kr};
-  font-size: ${({ theme }) => theme.fontSizes.body};
-  color: ${({ theme }) => theme.colors.textSecondary};
 `
 
 const Actions = styled.div`
