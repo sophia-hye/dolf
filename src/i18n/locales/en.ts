@@ -249,6 +249,7 @@ export const en: Dictionary = {
   account: {
     signInNav: 'Sign In',
     myPageNav: 'My Page',
+    adminNav: 'Admin',
     logout: 'Log Out',
     signIn: {
       eyebrow: 'WELCOME BACK',

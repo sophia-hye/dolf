@@ -247,6 +247,7 @@ export const ko: Dictionary = {
   account: {
     signInNav: 'Sign In',
     myPageNav: 'My Page',
+    adminNav: 'Admin',
     logout: '로그아웃',
     signIn: {
       eyebrow: 'WELCOME BACK',

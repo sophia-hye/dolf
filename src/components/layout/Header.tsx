@@ -43,9 +43,16 @@ export function Header() {
   // Close the mobile drawer on route change.
   useEffect(() => setOpen(false), [location.pathname])
 
-  const accountLink = user
-    ? { to: user.role === 'admin' ? '/admin' : '/mypage', label: t.account.myPageNav }
-    : { to: '/signin', label: t.account.signInNav }
+  // Admins get both the Admin console and their personal My Page; members get
+  // just My Page; guests get Sign In.
+  const accountLinks = user
+    ? user.role === 'admin'
+      ? [
+          { to: '/admin', label: t.account.adminNav },
+          { to: '/mypage', label: t.account.myPageNav },
+        ]
+      : [{ to: '/mypage', label: t.account.myPageNav }]
+    : [{ to: '/signin', label: t.account.signInNav }]
 
   const navItems = [
     { label: t.nav.about, to: '/about' },
@@ -94,7 +101,11 @@ export function Header() {
 
         <Right>
           {langSwitcher}
-          <AccountLink to={accountLink.to}>{accountLink.label}</AccountLink>
+          {accountLinks.map((l) => (
+            <AccountLink key={l.to} to={l.to}>
+              {l.label}
+            </AccountLink>
+          ))}
           {cartLink}
         </Right>
 
@@ -124,7 +135,11 @@ export function Header() {
           </DrawerNav>
           <DrawerDivider />
           <DrawerRow>
-            <DrawerLink to={accountLink.to}>{accountLink.label}</DrawerLink>
+            {accountLinks.map((l) => (
+              <DrawerLink key={l.to} to={l.to}>
+                {l.label}
+              </DrawerLink>
+            ))}
           </DrawerRow>
         </Drawer>
       )}
@@ -256,8 +271,8 @@ const DrawerDivider = styled.hr`
 
 const DrawerRow = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 18px;
 `
 
 const CartLink = styled(Link)`

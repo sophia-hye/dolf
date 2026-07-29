@@ -179,6 +179,7 @@ export interface Dictionary {
   readonly account: {
     readonly signInNav: string
     readonly myPageNav: string
+    readonly adminNav: string
     readonly logout: string
     readonly signIn: {
       readonly eyebrow: string
