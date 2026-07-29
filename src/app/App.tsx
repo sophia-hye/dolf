@@ -11,6 +11,9 @@ import { ShopDetailPage } from '@/pages/shop/detail/ShopDetailPage'
 import { SignInPage } from '@/pages/auth/SignInPage'
 import { SignUpPage } from '@/pages/auth/SignUpPage'
 import { MyPage } from '@/pages/account/MyPage'
+import { TermsPage } from '@/pages/legal/TermsPage'
+import { PrivacyPage } from '@/pages/legal/PrivacyPage'
+import { RefundPage } from '@/pages/legal/RefundPage'
 import { AdminLayout } from '@/pages/admin/AdminLayout'
 import { DashboardPage } from '@/pages/admin/DashboardPage'
 import { MembersPage } from '@/pages/admin/MembersPage'
@@ -52,6 +55,9 @@ export function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="terms" element={<TermsPage />} />
+          <Route path="privacy" element={<PrivacyPage />} />
+          <Route path="refund" element={<RefundPage />} />
           <Route path="*" element={<PlaceholderPage title="Not Found" />} />
         </Route>
 
