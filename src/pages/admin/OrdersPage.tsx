@@ -7,6 +7,7 @@ import {
   PageDesc,
   Panel,
   Table,
+  TableWrap,
   Th,
   Td,
   StatusBadge,
@@ -75,36 +76,38 @@ export function OrdersPage() {
       </Toolbar>
 
       <Panel>
-        <Table>
-          <thead>
-            <tr>
-              <Th>주문번호</Th>
-              <Th>고객</Th>
-              <Th>상품</Th>
-              <Th>금액</Th>
-              <Th>배송지</Th>
-              <Th>상태</Th>
-              <Th>날짜</Th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((o) => (
-              <Row key={o.id} onClick={() => navigate(`/admin/orders/${o.id}`)}>
-                <Td>#{o.id.slice(0, 8)}</Td>
-                <Td>{o.recipient ?? '—'}</Td>
-                <Td>{orderProduct(o)}</Td>
-                <Td>{formatMoney(o.total, o.currency)}</Td>
-                <Td>{o.currency === 'KRW' ? '국내' : '해외'}</Td>
-                <Td>
-                  <StatusBadge $status={o.status}>
-                    {ORDER_STATUS_LABEL_KO[o.status]}
-                  </StatusBadge>
-                </Td>
-                <Td>{o.created_at.slice(0, 10)}</Td>
-              </Row>
-            ))}
-          </tbody>
-        </Table>
+        <TableWrap>
+          <Table>
+            <thead>
+              <tr>
+                <Th>주문번호</Th>
+                <Th>고객</Th>
+                <Th>상품</Th>
+                <Th>금액</Th>
+                <Th>배송지</Th>
+                <Th>상태</Th>
+                <Th>날짜</Th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((o) => (
+                <Row key={o.id} onClick={() => navigate(`/admin/orders/${o.id}`)}>
+                  <Td>#{o.id.slice(0, 8)}</Td>
+                  <Td>{o.recipient ?? '—'}</Td>
+                  <Td>{orderProduct(o)}</Td>
+                  <Td>{formatMoney(o.total, o.currency)}</Td>
+                  <Td>{o.currency === 'KRW' ? '국내' : '해외'}</Td>
+                  <Td>
+                    <StatusBadge $status={o.status}>
+                      {ORDER_STATUS_LABEL_KO[o.status]}
+                    </StatusBadge>
+                  </Td>
+                  <Td>{o.created_at.slice(0, 10)}</Td>
+                </Row>
+              ))}
+            </tbody>
+          </Table>
+        </TableWrap>
         {!loading && rows.length === 0 && <Empty>주문이 없습니다.</Empty>}
         <Footer>
           <FootInfo>

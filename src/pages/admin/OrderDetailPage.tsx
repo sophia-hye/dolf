@@ -8,6 +8,7 @@ import {
   Panel,
   PanelTitle,
   Table,
+  TableWrap,
   Th,
   Td,
   StatusBadge,
@@ -109,24 +110,26 @@ export function OrderDetailPage() {
 
       <Panel style={{ marginTop: 20 }}>
         <PanelTitle>주문 상품</PanelTitle>
-        <Table>
-          <thead>
-            <tr>
-              <Th>상품</Th>
-              <Th>수량</Th>
-              <Th>금액</Th>
-            </tr>
-          </thead>
-          <tbody>
-            {order.order_items.map((it) => (
-              <tr key={it.product_slug}>
-                <Td>{it.name}</Td>
-                <Td>×{it.quantity}</Td>
-                <Td>{formatMoney(it.unit_price * it.quantity, it.currency)}</Td>
+        <TableWrap>
+          <Table>
+            <thead>
+              <tr>
+                <Th>상품</Th>
+                <Th>수량</Th>
+                <Th>금액</Th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {order.order_items.map((it) => (
+                <tr key={it.product_slug}>
+                  <Td>{it.name}</Td>
+                  <Td>×{it.quantity}</Td>
+                  <Td>{formatMoney(it.unit_price * it.quantity, it.currency)}</Td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </TableWrap>
       </Panel>
     </>
   )

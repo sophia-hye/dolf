@@ -6,6 +6,7 @@ import {
   Panel,
   PrimaryButton,
   Table,
+  TableWrap,
   Th,
   Td,
 } from '@/pages/admin/components/ui'
@@ -32,34 +33,36 @@ export function ProductsPage() {
       </PageHeader>
 
       <Panel>
-        <Table>
-          <thead>
-            <tr>
-              <Th>상품명</Th>
-              <Th>SKU</Th>
-              <Th>가격</Th>
-              <Th>재고</Th>
-              <Th>판매</Th>
-              <Th>상태</Th>
-            </tr>
-          </thead>
-          <tbody>
-            {adminProducts.map((p: AdminProductRow) => {
-              const status = getStatus(p.stock)
-              const low = status === '재고 부족'
-              return (
-                <Row key={p.sku}>
-                  <Td>{p.name}</Td>
-                  <Sku>{p.sku}</Sku>
-                  <Td>{p.price}</Td>
-                  <StockCell $low={low}>{p.stock}</StockCell>
-                  <Muted>{p.sales}</Muted>
-                  <StatusCell $low={low}>{status}</StatusCell>
-                </Row>
-              )
-            })}
-          </tbody>
-        </Table>
+        <TableWrap>
+          <Table>
+            <thead>
+              <tr>
+                <Th>상품명</Th>
+                <Th>SKU</Th>
+                <Th>가격</Th>
+                <Th>재고</Th>
+                <Th>판매</Th>
+                <Th>상태</Th>
+              </tr>
+            </thead>
+            <tbody>
+              {adminProducts.map((p: AdminProductRow) => {
+                const status = getStatus(p.stock)
+                const low = status === '재고 부족'
+                return (
+                  <Row key={p.sku}>
+                    <Td>{p.name}</Td>
+                    <Sku>{p.sku}</Sku>
+                    <Td>{p.price}</Td>
+                    <StockCell $low={low}>{p.stock}</StockCell>
+                    <Muted>{p.sales}</Muted>
+                    <StatusCell $low={low}>{status}</StatusCell>
+                  </Row>
+                )
+              })}
+            </tbody>
+          </Table>
+        </TableWrap>
       </Panel>
     </>
   )
