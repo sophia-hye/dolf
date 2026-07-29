@@ -163,6 +163,16 @@ export interface Dictionary {
     readonly buyNow: string
     readonly cart: string
     readonly added: string
+    readonly cartPage: {
+      readonly title: string
+      readonly empty: string
+      readonly continueShopping: string
+      readonly remove: string
+      readonly subtotal: string
+      readonly checkout: string
+      readonly clear: string
+      readonly paymentSoon: string
+    }
   }
   readonly account: {
     readonly signInNav: string

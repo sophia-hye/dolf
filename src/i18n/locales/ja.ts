@@ -234,6 +234,16 @@ export const ja: Dictionary = {
     buyNow: 'Buy Now',
     cart: 'Cart',
     added: 'カートに追加しました',
+    cartPage: {
+      title: 'カート',
+      empty: 'カートは空です。',
+      continueShopping: '買い物を続ける',
+      remove: '削除',
+      subtotal: '小計',
+      checkout: 'ご購入手続き',
+      clear: '空にする',
+      paymentSoon: '決済機能は準備中です。Toss Payments連携後に公開されます。',
+    },
   },
   account: {
     signInNav: 'Sign In',

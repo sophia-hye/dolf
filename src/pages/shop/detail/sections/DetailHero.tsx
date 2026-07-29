@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Container } from '@/components/ui/Container'
 import { useLocale } from '@/i18n/context'
@@ -11,6 +12,7 @@ const SLIDE_MS = 3200
 export function DetailHero({ product }: { product: ShopProduct }) {
   const { t } = useLocale()
   const { addItem } = useCart()
+  const navigate = useNavigate()
   const { hero } = product
   const gallery = hero.gallery
 
@@ -26,13 +28,11 @@ export function DetailHero({ product }: { product: ShopProduct }) {
     return () => clearInterval(id)
   }, [gallery.length])
 
-  const add = () =>
-    addItem({
-      slug: product.slug,
-      name: hero.title,
-      price: hero.price,
-      image: product.catalogImage,
-    })
+  const add = () => addItem(product.slug)
+  const buyNow = () => {
+    addItem(product.slug)
+    navigate('/cart')
+  }
 
   return (
     <Section>
@@ -73,7 +73,7 @@ export function DetailHero({ product }: { product: ShopProduct }) {
             ))}
           </Specs>
           <Buttons>
-            <BuyNow type="button" onClick={add}>
+            <BuyNow type="button" onClick={buyNow}>
               {t.shop.buyNow}
             </BuyNow>
             <AddToCart type="button" onClick={add}>
