@@ -330,6 +330,11 @@ export const en: Dictionary = {
       settingAddress: 'Address',
       settingMembership: 'Membership',
       edit: 'Edit',
+      save: 'Save',
+      cancel: 'Cancel',
+      ordersNote: 'Showing orders from the last 3 months.',
+      removeWish: 'Remove from wishlist',
+      emptyWishlist: 'Your wishlist is empty.',
     },
     checkout: {
       eyebrow: 'CHECKOUT',

@@ -38,6 +38,14 @@ export interface AuthContextValue {
   readonly resetPassword: (email: string, locale?: string) => Promise<AuthResult>
   // Updates the current (recovery) session's password.
   readonly updatePassword: (password: string) => Promise<AuthResult>
+  // Updates the signed-in user's editable profile fields (name/phone/address).
+  readonly updateProfile: (input: ProfileInput) => Promise<AuthResult>
+}
+
+export interface ProfileInput {
+  readonly name: string
+  readonly phone?: string
+  readonly address?: string
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null)

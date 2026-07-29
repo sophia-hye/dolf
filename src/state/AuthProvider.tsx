@@ -10,6 +10,7 @@ import {
   AuthContext,
   type AuthContextValue,
   type AuthResult,
+  type ProfileInput,
   type Role,
   type SignUpInput,
   type User,
@@ -20,6 +21,7 @@ interface ProfileRow {
   name: string | null
   role: string | null
   phone: string | null
+  address: string | null
   grade: string | null
   created_at: string | null
 }
@@ -34,7 +36,7 @@ async function buildUser(su: SupabaseUser): Promise<User> {
   if (supabase) {
     const { data } = await supabase
       .from('profiles')
-      .select('name, role, phone, grade, created_at')
+      .select('name, role, phone, address, grade, created_at')
       .eq('id', su.id)
       .maybeSingle<ProfileRow>()
     profile = data
@@ -45,6 +47,7 @@ async function buildUser(su: SupabaseUser): Promise<User> {
     name: profile?.name || meta.name || '',
     role: (profile?.role === 'admin' ? 'admin' : 'user') as Role,
     phone: profile?.phone || meta.phone || undefined,
+    address: profile?.address || undefined,
     membership: profile?.grade || undefined,
     joinedAt: formatJoined(profile?.created_at ?? su.created_at),
   }
@@ -153,6 +156,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [],
   )
 
+  const updateProfile = useCallback(
+    async (input: ProfileInput): Promise<AuthResult> => {
+      if (!supabase) return { error: 'Supabase is not configured.' }
+      const { data: auth } = await supabase.auth.getUser()
+      const id = auth.user?.id
+      if (!id) return { error: 'Not signed in.' }
+      const name = input.name.trim()
+      const phone = input.phone?.trim() || null
+      const address = input.address?.trim() || null
+      const { error } = await supabase
+        .from('profiles')
+        .update({ name, phone, address })
+        .eq('id', id)
+      if (error) return { error: error.message }
+      const next = user
+        ? { ...user, name, phone: phone ?? undefined, address: address ?? undefined }
+        : user
+      if (next) setUser(next)
+      return { error: null, user: next ?? undefined }
+    },
+    [user],
+  )
+
   const value = useMemo<AuthContextValue>(
     () => ({
       user,
@@ -162,8 +188,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signOut,
       resetPassword,
       updatePassword,
+      updateProfile,
     }),
-    [user, loading, signIn, signUp, signOut, resetPassword, updatePassword],
+    [
+      user,
+      loading,
+      signIn,
+      signUp,
+      signOut,
+      resetPassword,
+      updatePassword,
+      updateProfile,
+    ],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
