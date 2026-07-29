@@ -10,6 +10,10 @@ import logoUrl from '@/assets/logo.png'
 
 const LOCALES: Locale[] = ['en', 'ko', 'ja']
 
+// Display labels for the switcher. Internal codes stay ISO (en/ko/ja); we show
+// "JP" for Japanese since it reads as more familiar to Japanese visitors.
+const LOCALE_LABEL: Record<Locale, string> = { en: 'EN', ko: 'KO', ja: 'JP' }
+
 function CartIcon() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -60,7 +64,7 @@ export function Header() {
           $active={locale === code}
           onClick={() => setLocale(code)}
         >
-          {code.toUpperCase()}
+          {LOCALE_LABEL[code]}
         </LangButton>
       ))}
     </LangSwitcher>
@@ -95,6 +99,7 @@ export function Header() {
         </Right>
 
         <MobileActions>
+          {langSwitcher}
           {cartLink}
           <Hamburger
             type="button"
@@ -121,7 +126,6 @@ export function Header() {
           <DrawerRow>
             <DrawerLink to={accountLink.to}>{accountLink.label}</DrawerLink>
           </DrawerRow>
-          {langSwitcher}
         </Drawer>
       )}
     </Wrapper>
