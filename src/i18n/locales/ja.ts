@@ -134,6 +134,12 @@ export const ja: Dictionary = {
         spec: 'B5  ·  128P  ·  日本語',
       },
       {
+        name: 'Breathe — Planner & Diary (version.1)',
+        description:
+          '手になじむB6コンパクト版の新しいBreathe。Monthly · Weekly · Tracker · Daily で一日を計画し、感謝と黙想を軽やかに持ち歩いて記録します。',
+        spec: 'B6  ·  112P  ·  LAY-FLAT',
+      },
+      {
         name: 'Bible Reading Tracker',
         description:
           '1節を一つの点（Dot）に。点が集まって線となり、面となる通読の旅路を視覚的に完成させる記録ツールです。',

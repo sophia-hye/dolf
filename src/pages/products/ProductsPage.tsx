@@ -2,15 +2,18 @@ import { ProductsHero } from '@/pages/products/sections/ProductsHero'
 import { ProductFeatureRow } from '@/pages/products/sections/ProductFeatureRow'
 import { useLocale } from '@/i18n/context'
 import coverBreathe from '@/assets/products/cover-breathe.png'
+import coverBreatheV1 from '@/assets/products/cover-breathe-v1.png'
 import coverTracker from '@/assets/products/cover-tracker.png'
 import coverCalendar from '@/assets/products/cover-calendar.png'
 import coverTopical from '@/assets/products/cover-topical.png'
 
-// breathe-en / breathe-jp share the Breathe cover art (different edition).
+// breathe-en / breathe-jp share the Breathe cover art (different edition);
+// breathe-v1 is the new B6 edition with its own cover.
 const IMAGES = [
   coverBreathe,
   coverBreathe,
   coverBreathe,
+  coverBreatheV1,
   coverTracker,
   coverCalendar,
   coverTopical,
@@ -22,16 +25,26 @@ const BACKGROUNDS = [
   'surface',
   'cream',
   'surface',
+  'cream',
 ] as const
 const SLUGS = [
   'breathe',
   'breathe-en',
   'breathe-jp',
+  'breathe-v1',
   'tracker',
   'calendar',
   'topical',
 ]
-const BADGES: (string | undefined)[] = ['Faith', 'EN', 'JP']
+const BADGES: (string | undefined)[] = [
+  'Faith',
+  'EN',
+  'JP',
+  'Faith',
+  'Faith',
+  undefined,
+  'Faith',
+]
 
 export function ProductsPage() {
   const { t } = useLocale()

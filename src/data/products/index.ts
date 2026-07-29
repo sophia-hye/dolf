@@ -3,6 +3,7 @@ import type { Locale } from '@/i18n/types'
 import { breathe } from '@/data/products/breathe'
 import { breatheEn } from '@/data/products/breathe-en'
 import { breatheJp } from '@/data/products/breathe-jp'
+import { breatheV1 } from '@/data/products/breathe-v1'
 import { tracker } from '@/data/products/tracker'
 import { calendar } from '@/data/products/calendar'
 import { poster } from '@/data/products/poster'
@@ -13,6 +14,7 @@ const localizedProducts: Record<Locale, ShopProduct>[] = [
   breathe,
   breatheEn,
   breatheJp,
+  breatheV1,
   tracker,
   calendar,
   poster,

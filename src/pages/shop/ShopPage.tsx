@@ -157,6 +157,14 @@ const Name = styled.h3`
   font-weight: 600;
   line-height: 1.3;
   color: ${({ theme }) => theme.colors.ink};
+  /* Clamp long names to 2 lines with an ellipsis; reserve a fixed 2-line
+     height so every card's name block matches and the buttons align. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.6em;
 `
 
 const Price = styled.p`
@@ -168,6 +176,8 @@ const Price = styled.p`
 
 const AddButton = styled.button`
   width: 100%;
+  /* Pin to the bottom so buttons line up even if a card is taller. */
+  margin-top: auto;
   padding: 14px;
   border: none;
   border-radius: 4px;

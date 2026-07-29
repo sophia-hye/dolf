@@ -2,6 +2,7 @@ import type { ShopProduct } from '@/data/shop-types'
 import type { Locale } from '@/i18n/types'
 import catalog from '@/assets/shop/calendar.png'
 import hero from '@/assets/shop/calendar/hero.png'
+import coverBack from '@/assets/shop/calendar/cover-back.png'
 import insideBack from '@/assets/shop/calendar/inside-back.png'
 import relatedTracker from '@/assets/shop/calendar/related-tracker.png'
 import relatedBreathe from '@/assets/shop/calendar/related-breathe.png'
@@ -13,7 +14,7 @@ export const calendar: Record<Locale, ShopProduct> = {
     catalogName: '2027 Calendar',
     catalogPrice: '$20',
     hero: {
-      gallery: [hero],
+      gallery: [hero, coverBack],
       title: '2027 Calendar',
       subtitle: 'Calendar & Poster — 점자와 숫자로 표현한 미니멀 캘린더',
       price: '$20',
@@ -108,7 +109,7 @@ export const calendar: Record<Locale, ShopProduct> = {
     catalogName: '2027 Calendar',
     catalogPrice: '$20',
     hero: {
-      gallery: [hero],
+      gallery: [hero, coverBack],
       title: '2027 Calendar',
       subtitle: 'Calendar & Poster — a minimalist calendar expressed in braille and numbers',
       price: '$20',
@@ -203,7 +204,7 @@ export const calendar: Record<Locale, ShopProduct> = {
     catalogName: '2027 Calendar',
     catalogPrice: '$20',
     hero: {
-      gallery: [hero],
+      gallery: [hero, coverBack],
       title: '2027 Calendar',
       subtitle: 'Calendar & Poster — 点字と数字で表現したミニマルなカレンダー',
       price: '$20',

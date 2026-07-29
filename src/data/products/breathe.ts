@@ -2,6 +2,7 @@ import type { ShopProduct } from '@/data/shop-types'
 import type { Locale } from '@/i18n/types'
 import catalog from '@/assets/shop/breathe.png'
 import hero from '@/assets/shop/breathe/hero.png'
+import coverBack from '@/assets/shop/breathe/cover-back.png'
 import insideMonthly from '@/assets/shop/breathe/inside-monthly.png'
 import insideWeekly from '@/assets/shop/breathe/inside-weekly.png'
 import insideDaily from '@/assets/shop/breathe/inside-daily.png'
@@ -22,7 +23,7 @@ export const breathe: Record<Locale, ShopProduct> = {
     badge: 'Faith',
     catalogPrice: '$38',
     hero: {
-      gallery: [hero],
+      gallery: [hero, coverBack],
       title: 'Breathe',
       subtitle: 'Planner & Diary — 신앙과 일상을 함께 기록하는 플래너',
       price: '$38',
@@ -166,7 +167,7 @@ export const breathe: Record<Locale, ShopProduct> = {
     badge: 'Faith',
     catalogPrice: '$38',
     hero: {
-      gallery: [hero],
+      gallery: [hero, coverBack],
       title: 'Breathe',
       subtitle: 'Planner & Diary — a planner for recording faith and daily life together',
       price: '$38',
@@ -313,7 +314,7 @@ export const breathe: Record<Locale, ShopProduct> = {
     badge: 'Faith',
     catalogPrice: '$38',
     hero: {
-      gallery: [hero],
+      gallery: [hero, coverBack],
       title: 'Breathe',
       subtitle: 'Planner & Diary — 信仰と日常をともに記録するプランナー',
       price: '$38',

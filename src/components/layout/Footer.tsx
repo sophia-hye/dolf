@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
 import { useLocale } from '@/i18n/context'
+import { businessInfo, legalLinks } from '@/data/business'
 
 export function Footer() {
   const { t } = useLocale()
@@ -36,6 +37,26 @@ export function Footer() {
         </TopRow>
 
         <Divider />
+
+        <LegalNav>
+          {legalLinks.map((l) => (
+            <LegalLink key={l.to} to={l.to}>
+              {l.label}
+            </LegalLink>
+          ))}
+        </LegalNav>
+
+        <BizInfo>
+          <BizRow>
+            {businessInfo.companyName} · 대표 {businessInfo.owner}
+          </BizRow>
+          <BizRow>사업자등록번호 {businessInfo.registrationNumber}</BizRow>
+          <BizRow>통신판매업신고 {businessInfo.mailOrderNumber}</BizRow>
+          <BizRow>{businessInfo.address}</BizRow>
+          <BizRow>
+            고객센터 {businessInfo.phone} · {businessInfo.email}
+          </BizRow>
+        </BizInfo>
 
         <Copyright>{t.footer.copyright}</Copyright>
       </Inner>
@@ -122,6 +143,40 @@ const Divider = styled.hr`
   border: none;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   margin: 32px 0 20px;
+`
+
+const LegalNav = styled.nav`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-bottom: 16px;
+`
+
+const LegalLink = styled(Link)`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.75);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.white};
+  }
+`
+
+const BizInfo = styled.address`
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 16px;
+  font-style: normal;
+`
+
+const BizRow = styled.span`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.5);
 `
 
 const Copyright = styled.p`
