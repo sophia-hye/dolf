@@ -262,3 +262,86 @@ export async function fetchDashboard(): Promise<DashboardData> {
 
   return { stats, monthly, productSales, recentOrders, recentMembers }
 }
+
+// ─── Customer insights ───────────────────────────────────────────────────────
+
+export interface InsightBar {
+  readonly label: string
+  readonly percent: number
+  readonly highlight?: boolean
+}
+
+export interface InsightsData {
+  readonly kpis: DashboardStat[]
+  readonly country: InsightBar[]
+  readonly grade: InsightBar[]
+  readonly insights: string[]
+}
+
+const COUNTRY_LABEL: Record<string, string> = {
+  KR: '🇰🇷 대한민국',
+  US: '🇺🇸 미국',
+  JP: '🇯🇵 일본',
+}
+
+const GRADE_ORDER = ['VIP', 'Gold', 'Silver', 'Basic']
+
+function pct(n: number, total: number): number {
+  return total > 0 ? Math.round((n / total) * 100) : 0
+}
+
+export async function fetchInsights(): Promise<InsightsData> {
+  const [profiles, orders] = await Promise.all([getProfiles(), getOrders()])
+  const paid = orders.filter((o) => o.status !== 'cancelled')
+  const total = profiles.length
+
+  // Buyers and repurchase rate.
+  const ordersByUser = new Map<string, number>()
+  for (const o of paid) ordersByUser.set(o.user_id, (ordersByUser.get(o.user_id) ?? 0) + 1)
+  const buyers = ordersByUser.size
+  const repeatBuyers = [...ordersByUser.values()].filter((n) => n >= 2).length
+  const repurchaseRate = buyers > 0 ? Math.round((repeatBuyers / buyers) * 100) : 0
+
+  // AOV (KRW).
+  const krwOrders = paid.filter((o) => o.currency === 'KRW')
+  const krwRevenue = krwOrders.reduce((s, o) => s + Number(o.total), 0)
+  const aov = krwOrders.length > 0 ? Math.round(krwRevenue / krwOrders.length) : 0
+
+  const kpis: DashboardStat[] = [
+    { label: '총 고객', value: String(total), delta: '가입 회원' },
+    { label: '구매 고객', value: String(buyers), delta: `전환 ${pct(buyers, total)}%` },
+    { label: '재구매율', value: `${repurchaseRate}%`, delta: '2회 이상 구매' },
+    { label: '평균 주문금액', value: formatMoney(aov, 'KRW'), delta: '국내(₩) 기준' },
+  ]
+
+  // Country distribution.
+  const countryCount = new Map<string, number>()
+  for (const p of profiles) {
+    const key = p.country && COUNTRY_LABEL[p.country] ? p.country : '기타'
+    countryCount.set(key, (countryCount.get(key) ?? 0) + 1)
+  }
+  const country: InsightBar[] = [...countryCount.entries()]
+    .map(([code, n]) => ({ label: COUNTRY_LABEL[code] ?? '기타', percent: pct(n, total), count: n }))
+    .sort((a, b) => b.percent - a.percent)
+    .map((b, i) => ({ label: b.label, percent: b.percent, highlight: i === 0 }))
+
+  // Grade distribution.
+  const gradeCount = new Map<string, number>()
+  for (const p of profiles) gradeCount.set(p.grade || 'Basic', (gradeCount.get(p.grade || 'Basic') ?? 0) + 1)
+  const grade: InsightBar[] = GRADE_ORDER.filter((g) => gradeCount.has(g)).map((g, i) => ({
+    label: g,
+    percent: pct(gradeCount.get(g) ?? 0, total),
+    highlight: i === 0,
+  }))
+
+  // Derived text insights.
+  const krShare = pct(countryCount.get('KR') ?? 0, total)
+  const insights: string[] = [
+    `전체 ${total}명 중 구매 고객 ${buyers}명(전환 ${pct(buyers, total)}%).`,
+    `국내 ${krShare}% · 해외 ${100 - krShare}% 비중입니다.`,
+    `재구매율 ${repurchaseRate}% (2회 이상 구매 고객 기준).`,
+    `평균 주문금액은 ${formatMoney(aov, 'KRW')}입니다(국내 주문 기준).`,
+  ]
+
+  return { kpis, country, grade, insights }
+}
