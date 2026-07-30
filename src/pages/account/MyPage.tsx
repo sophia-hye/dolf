@@ -6,13 +6,11 @@ import { Eyebrow } from '@/components/ui/Eyebrow'
 import { useLocale } from '@/i18n/context'
 import { useAuth } from '@/state/auth-context'
 import { useProductOverrides } from '@/state/products-context'
-import { mockWishlistSlugs } from '@/data/mock-account'
+import { useWishlist } from '@/state/wishlist-context'
 import { getProductBySlug } from '@/data/products'
 import { fetchMyOrders, formatMoney, type OrderRow } from '@/lib/orders'
 import { effectivePriceString, effectiveName } from '@/lib/product-pricing'
 import { isValidPhone } from '@/lib/validation'
-
-const WISHLIST_KEY = 'dolf.wishlist'
 
 // Compact order title from its line items, e.g. "Breathe +2" for multiple.
 function orderTitle(order: OrderRow): string {
@@ -22,20 +20,11 @@ function orderTitle(order: OrderRow): string {
   return extra > 0 ? `${first.name} +${extra}` : first.name
 }
 
-function loadWishlist(): string[] {
-  try {
-    const raw = typeof window !== 'undefined' ? localStorage.getItem(WISHLIST_KEY) : null
-    if (raw) return JSON.parse(raw) as string[]
-  } catch {
-    /* ignore */
-  }
-  return mockWishlistSlugs
-}
-
 export function MyPage() {
   const { t, locale } = useLocale()
   const { user, signOut, updateProfile } = useAuth()
   const { overrides } = useProductOverrides()
+  const { slugs: wishSlugs, remove: removeWish } = useWishlist()
   const navigate = useNavigate()
   const c = t.account.myPage
 
@@ -49,16 +38,6 @@ export function MyPage() {
       active = false
     }
   }, [])
-
-  // Wishlist is persisted locally (no backend); seeded from the demo list.
-  const [wishSlugs, setWishSlugs] = useState<string[]>(loadWishlist)
-  useEffect(() => {
-    try {
-      localStorage.setItem(WISHLIST_KEY, JSON.stringify(wishSlugs))
-    } catch {
-      /* ignore */
-    }
-  }, [wishSlugs])
 
   // Profile edit (name / phone / address only).
   const [editing, setEditing] = useState(false)
@@ -85,9 +64,6 @@ export function MyPage() {
   const wishlist = wishSlugs
     .map((slug) => getProductBySlug(slug, locale))
     .filter((p): p is NonNullable<typeof p> => Boolean(p))
-
-  const removeWish = (slug: string) =>
-    setWishSlugs((prev) => prev.filter((s) => s !== slug))
 
   const startEdit = () => {
     setName(user.name)

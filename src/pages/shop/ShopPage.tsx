@@ -5,6 +5,7 @@ import { Eyebrow } from '@/components/ui/Eyebrow'
 import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
 import { useProductOverrides } from '@/state/products-context'
+import { useWishlist } from '@/state/wishlist-context'
 import { getProducts } from '@/data/products'
 import {
   effectivePriceString,
@@ -18,6 +19,7 @@ export function ShopPage() {
   const { t, locale } = useLocale()
   const { addItem } = useCart()
   const { overrides } = useProductOverrides()
+  const { has, toggle } = useWishlist()
   const products = getProducts(locale).filter((p) => isPublished(p.slug, overrides))
 
   return (
@@ -39,6 +41,19 @@ export function ShopPage() {
                   {effectiveBadge(product.slug, locale, overrides) && (
                     <Badge>{effectiveBadge(product.slug, locale, overrides)}</Badge>
                   )}
+                  <WishButton
+                    type="button"
+                    aria-label={t.account.myPage.statsWishlist}
+                    aria-pressed={has(product.slug)}
+                    $on={has(product.slug)}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      toggle(product.slug)
+                    }}
+                  >
+                    {has(product.slug) ? '♥' : '♡'}
+                  </WishButton>
                   <ProductImage
                     src={product.catalogImage}
                     alt={effectiveName(product.slug, locale, overrides)}
@@ -162,6 +177,31 @@ const ProductImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: contain;
+`
+
+const WishButton = styled.button<{ $on: boolean }>`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.colors.white};
+  font-size: 17px;
+  line-height: 1;
+  color: ${({ theme, $on }) => ($on ? theme.colors.brandRed : theme.colors.textSecondary)};
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.brandRed};
+    border-color: ${({ theme }) => theme.colors.brandRed};
+  }
 `
 
 const Name = styled.h3`

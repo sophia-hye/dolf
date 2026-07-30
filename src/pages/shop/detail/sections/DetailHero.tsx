@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Container } from '@/components/ui/Container'
 import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
+import { useWishlist } from '@/state/wishlist-context'
 import { pushEvent } from '@/lib/gtm'
 import type { ShopProduct } from '@/data/shop-types'
 
@@ -13,6 +14,7 @@ const SLIDE_MS = 3200
 export function DetailHero({ product }: { product: ShopProduct }) {
   const { t } = useLocale()
   const { addItem } = useCart()
+  const { has, toggle } = useWishlist()
   const navigate = useNavigate()
   const { hero } = product
   const gallery = hero.gallery
@@ -86,6 +88,15 @@ export function DetailHero({ product }: { product: ShopProduct }) {
             <AddToCart type="button" onClick={add}>
               {t.shop.addToCart}
             </AddToCart>
+            <WishBtn
+              type="button"
+              aria-label="wishlist"
+              aria-pressed={has(product.slug)}
+              $on={has(product.slug)}
+              onClick={() => toggle(product.slug)}
+            >
+              {has(product.slug) ? '♥' : '♡'}
+            </WishBtn>
           </Buttons>
         </Info>
       </Inner>
@@ -267,5 +278,28 @@ const AddToCart = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.colors.ink};
     color: ${({ theme }) => theme.colors.white};
+  }
+`
+
+const WishBtn = styled.button<{ $on: boolean }>`
+  flex: 0 0 auto;
+  width: 54px;
+  padding: 16px 0;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 4px;
+  background: none;
+  font-size: 20px;
+  line-height: 1;
+  color: ${({ theme, $on }) => ($on ? theme.colors.brandRed : theme.colors.textSecondary)};
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.brandRed};
+    color: ${({ theme }) => theme.colors.brandRed};
+  }
+
+  ${({ theme }) => theme.media.mobile} {
+    width: 100%;
   }
 `
