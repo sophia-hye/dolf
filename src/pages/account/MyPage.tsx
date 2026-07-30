@@ -9,7 +9,7 @@ import { useProductOverrides } from '@/state/products-context'
 import { mockWishlistSlugs } from '@/data/mock-account'
 import { getProductBySlug } from '@/data/products'
 import { fetchMyOrders, formatMoney, type OrderRow } from '@/lib/orders'
-import { effectivePriceString } from '@/lib/product-pricing'
+import { effectivePriceString, effectiveName } from '@/lib/product-pricing'
 import { isValidPhone } from '@/lib/validation'
 
 const WISHLIST_KEY = 'dolf.wishlist'
@@ -196,7 +196,7 @@ export function MyPage() {
                   <WishImage>
                     <img src={p.catalogImage} alt={p.catalogName} />
                   </WishImage>
-                  <WishName>{p.catalogName}</WishName>
+                  <WishName>{effectiveName(p.slug, locale, overrides)}</WishName>
                   <WishPrice>{effectivePriceString(p.slug, locale, overrides)}</WishPrice>
                 </WishLink>
               </WishCard>

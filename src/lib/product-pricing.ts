@@ -41,3 +41,42 @@ export function effectivePriceString(
 export function isPublished(slug: string, overrides: Overrides): boolean {
   return overrides[slug]?.published ?? true
 }
+
+function localeName(o: ProductOverride | undefined, locale: Locale): string | null {
+  if (!o) return null
+  return locale === 'ko' ? o.name_ko : locale === 'en' ? o.name_en : o.name_ja
+}
+
+function localeDesc(o: ProductOverride | undefined, locale: Locale): string | null {
+  if (!o) return null
+  return locale === 'ko' ? o.desc_ko : locale === 'en' ? o.desc_en : o.desc_ja
+}
+
+// Display name (admin override else the code catalog name).
+export function effectiveName(slug: string, locale: Locale, overrides: Overrides): string {
+  return localeName(overrides[slug], locale) ?? getProductBySlug(slug, locale)?.catalogName ?? ''
+}
+
+// Detail-page description (admin override else the catalog hero description).
+export function effectiveDescription(
+  slug: string,
+  locale: Locale,
+  overrides: Overrides,
+): string {
+  return (
+    localeDesc(overrides[slug], locale) ??
+    getProductBySlug(slug, locale)?.hero.description ??
+    ''
+  )
+}
+
+// Cover badge (admin override else the catalog badge). Empty string hides it.
+export function effectiveBadge(
+  slug: string,
+  locale: Locale,
+  overrides: Overrides,
+): string | undefined {
+  const o = overrides[slug]
+  if (o && o.badge !== null) return o.badge || undefined
+  return getProductBySlug(slug, locale)?.badge
+}

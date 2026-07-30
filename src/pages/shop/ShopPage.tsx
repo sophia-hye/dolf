@@ -6,7 +6,12 @@ import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
 import { useProductOverrides } from '@/state/products-context'
 import { getProducts } from '@/data/products'
-import { effectivePriceString, isPublished } from '@/lib/product-pricing'
+import {
+  effectivePriceString,
+  effectiveName,
+  effectiveBadge,
+  isPublished,
+} from '@/lib/product-pricing'
 import { pushEvent } from '@/lib/gtm'
 
 export function ShopPage() {
@@ -31,10 +36,15 @@ export function ShopPage() {
             <Card key={product.slug}>
               <CardLink to={`/shop/${product.slug}`}>
                 <ImageCard>
-                  {product.badge && <Badge>{product.badge}</Badge>}
-                  <ProductImage src={product.catalogImage} alt={product.catalogName} />
+                  {effectiveBadge(product.slug, locale, overrides) && (
+                    <Badge>{effectiveBadge(product.slug, locale, overrides)}</Badge>
+                  )}
+                  <ProductImage
+                    src={product.catalogImage}
+                    alt={effectiveName(product.slug, locale, overrides)}
+                  />
                 </ImageCard>
-                <Name>{product.catalogName}</Name>
+                <Name>{effectiveName(product.slug, locale, overrides)}</Name>
                 <Price>{effectivePriceString(product.slug, locale, overrides)}</Price>
               </CardLink>
               <AddButton

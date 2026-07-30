@@ -14,7 +14,7 @@ import {
   shippingFeeFor,
   CURRENCY_BY_LOCALE,
 } from '@/lib/orders'
-import { effectivePriceAmount } from '@/lib/product-pricing'
+import { effectivePriceAmount, effectiveName } from '@/lib/product-pricing'
 import { toShippingConfig } from '@/lib/settings'
 import { pushEvent } from '@/lib/gtm'
 
@@ -80,7 +80,7 @@ export function CheckoutPage() {
       phone: phone.trim(),
       items: lines.map((l) => ({
         productSlug: l.slug,
-        name: l.product.catalogName,
+        name: effectiveName(l.slug, locale, overrides),
         unitPrice: effectivePriceAmount(l.slug, locale, overrides),
         currency,
         quantity: l.quantity,
@@ -168,10 +168,10 @@ export function CheckoutPage() {
             <aside>
               <SummaryCard>
                 <SummaryItems>
-                  {lines.map(({ slug, quantity, product }) => (
+                  {lines.map(({ slug, quantity }) => (
                     <SummaryItem key={slug}>
                       <span>
-                        {product.catalogName} × {quantity}
+                        {effectiveName(slug, locale, overrides)} × {quantity}
                       </span>
                       <span>
                         {formatMoney(
