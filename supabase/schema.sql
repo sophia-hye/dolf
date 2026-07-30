@@ -154,6 +154,13 @@ create policy "order_items: insert via own order" on public.order_items
 -- demand (upsert) when an admin first edits a product.
 create table if not exists public.products (
   slug                text primary key,
+  name_ko             text, -- null = use the code catalog name
+  name_en             text,
+  name_ja             text,
+  desc_ko             text, -- short description override (null = catalog)
+  desc_en             text,
+  desc_ja             text,
+  badge               text, -- cover badge label (null = catalog)
   price_krw           numeric(12, 2),
   price_usd           numeric(12, 2),
   price_jpy           numeric(12, 2),

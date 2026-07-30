@@ -2,7 +2,12 @@ import { useParams, Navigate } from 'react-router-dom'
 import { getProductBySlug } from '@/data/products'
 import { useLocale } from '@/i18n/context'
 import { useProductOverrides } from '@/state/products-context'
-import { effectivePriceString, isPublished } from '@/lib/product-pricing'
+import {
+  effectivePriceString,
+  effectiveName,
+  effectiveDescription,
+  isPublished,
+} from '@/lib/product-pricing'
 import { DetailHero } from '@/pages/shop/detail/sections/DetailHero'
 import { StorySection } from '@/pages/shop/detail/sections/StorySection'
 import { InsidePagesSection } from '@/pages/shop/detail/sections/InsidePagesSection'
@@ -28,10 +33,15 @@ export function ShopDetailPage() {
     return <Navigate to="/shop" replace />
   }
 
-  // Reflect the admin-set price for the current currency.
+  // Reflect the admin-set name/description/price for the current currency.
   const heroProduct = {
     ...product,
-    hero: { ...product.hero, price: effectivePriceString(product.slug, locale, overrides) },
+    hero: {
+      ...product.hero,
+      title: effectiveName(product.slug, locale, overrides),
+      description: effectiveDescription(product.slug, locale, overrides),
+      price: effectivePriceString(product.slug, locale, overrides),
+    },
   }
 
   return (

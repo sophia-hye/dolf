@@ -46,6 +46,8 @@ const Overlay = styled.div`
 const Card = styled.div`
   width: 100%;
   max-width: 420px;
+  max-height: 88vh;
+  overflow-y: auto;
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 10px;
   padding: 24px;

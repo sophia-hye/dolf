@@ -4,6 +4,13 @@ import { supabase } from '@/lib/supabase'
 // price. Rows are created on demand when an admin first edits a product.
 export interface ProductOverride {
   readonly slug: string
+  readonly name_ko: string | null
+  readonly name_en: string | null
+  readonly name_ja: string | null
+  readonly desc_ko: string | null
+  readonly desc_en: string | null
+  readonly desc_ja: string | null
+  readonly badge: string | null
   readonly price_krw: number | null
   readonly price_usd: number | null
   readonly price_jpy: number | null
@@ -13,6 +20,13 @@ export interface ProductOverride {
 }
 
 export interface ProductPatch {
+  readonly name_ko?: string | null
+  readonly name_en?: string | null
+  readonly name_ja?: string | null
+  readonly desc_ko?: string | null
+  readonly desc_en?: string | null
+  readonly desc_ja?: string | null
+  readonly badge?: string | null
   readonly price_krw?: number | null
   readonly price_usd?: number | null
   readonly price_jpy?: number | null
@@ -25,19 +39,32 @@ function num(v: number | string | null): number | null {
   return v === null || v === undefined ? null : Number(v)
 }
 
+function str(v: unknown): string | null {
+  return v === null || v === undefined || v === '' ? null : String(v)
+}
+
 // Map of slug -> override. Resilient: returns empty on error (e.g. before the
 // products table is created), so the admin page still renders catalog defaults.
 export async function fetchProductOverrides(): Promise<Record<string, ProductOverride>> {
   if (!supabase) return {}
   const { data, error } = await supabase
     .from('products')
-    .select('slug, price_krw, price_usd, price_jpy, stock, low_stock_threshold, published')
+    .select(
+      'slug, name_ko, name_en, name_ja, desc_ko, desc_en, desc_ja, badge, price_krw, price_usd, price_jpy, stock, low_stock_threshold, published',
+    )
   if (error || !data) return {}
   const out: Record<string, ProductOverride> = {}
   for (const r of data as Array<Record<string, number | string | null>>) {
     const slug = String(r.slug)
     out[slug] = {
       slug,
+      name_ko: str(r.name_ko),
+      name_en: str(r.name_en),
+      name_ja: str(r.name_ja),
+      desc_ko: str(r.desc_ko),
+      desc_en: str(r.desc_en),
+      desc_ja: str(r.desc_ja),
+      badge: str(r.badge),
       price_krw: num(r.price_krw),
       price_usd: num(r.price_usd),
       price_jpy: num(r.price_jpy),

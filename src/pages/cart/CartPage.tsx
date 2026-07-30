@@ -6,7 +6,7 @@ import { useCart } from '@/state/cart-context'
 import { useProductOverrides } from '@/state/products-context'
 import { getProductBySlug } from '@/data/products'
 import { formatMoney, shippingFeeFor, CURRENCY_BY_LOCALE } from '@/lib/orders'
-import { effectivePriceAmount } from '@/lib/product-pricing'
+import { effectivePriceAmount, effectiveName } from '@/lib/product-pricing'
 import { toShippingConfig } from '@/lib/settings'
 
 export function CartPage() {
@@ -53,7 +53,9 @@ export function CartPage() {
                     <img src={product.catalogImage} alt={product.catalogName} />
                   </Thumb>
                   <Info>
-                    <Name to={`/shop/${slug}`}>{product.catalogName}</Name>
+                    <Name to={`/shop/${slug}`}>
+                      {effectiveName(slug, locale, overrides)}
+                    </Name>
                     <UnitPrice>
                       {formatMoney(effectivePriceAmount(slug, locale, overrides), currency)}
                     </UnitPrice>

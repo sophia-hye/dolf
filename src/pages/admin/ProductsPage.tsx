@@ -21,6 +21,11 @@ import {
   upsertProduct,
   type ProductOverride,
 } from '@/lib/products-admin'
+import {
+  effectiveName,
+  effectiveDescription,
+  effectiveBadge,
+} from '@/lib/product-pricing'
 
 // SKU rule: brand prefix + zero-padded catalog index (fixed 3 digits).
 function skuFor(index: number): string {
@@ -49,6 +54,13 @@ export function ProductsPage() {
   const [overrides, setOverrides] = useState<Record<string, ProductOverride>>({})
   const [sales, setSales] = useState<Record<string, number>>({})
   const [editSlug, setEditSlug] = useState<string | null>(null)
+  const [nameKo, setNameKo] = useState('')
+  const [nameEn, setNameEn] = useState('')
+  const [nameJa, setNameJa] = useState('')
+  const [descKo, setDescKo] = useState('')
+  const [descEn, setDescEn] = useState('')
+  const [descJa, setDescJa] = useState('')
+  const [badge, setBadge] = useState('')
   const [krw, setKrw] = useState('')
   const [usd, setUsd] = useState('')
   const [jpy, setJpy] = useState('')
@@ -74,7 +86,7 @@ export function ProductsPage() {
         return {
           slug: p.slug,
           sku: skuFor(i),
-          name: p.catalogName,
+          name: effectiveName(p.slug, 'ko', overrides),
           priceKrw: o?.price_krw ?? catalogPrice(p.slug, 'ko'),
           priceUsd: o?.price_usd ?? catalogPrice(p.slug, 'en'),
           priceJpy: o?.price_jpy ?? catalogPrice(p.slug, 'ja'),
@@ -99,6 +111,13 @@ export function ProductsPage() {
 
   const openEdit = (row: Row) => {
     setEditSlug(row.slug)
+    setNameKo(effectiveName(row.slug, 'ko', overrides))
+    setNameEn(effectiveName(row.slug, 'en', overrides))
+    setNameJa(effectiveName(row.slug, 'ja', overrides))
+    setDescKo(effectiveDescription(row.slug, 'ko', overrides))
+    setDescEn(effectiveDescription(row.slug, 'en', overrides))
+    setDescJa(effectiveDescription(row.slug, 'ja', overrides))
+    setBadge(effectiveBadge(row.slug, 'ko', overrides) ?? '')
     setKrw(String(row.priceKrw))
     setUsd(String(row.priceUsd))
     setJpy(String(row.priceJpy))
@@ -111,6 +130,13 @@ export function ProductsPage() {
     if (!editSlug) return
     setSaving(true)
     const { error: err } = await upsertProduct(editSlug, {
+      name_ko: nameKo.trim() || null,
+      name_en: nameEn.trim() || null,
+      name_ja: nameJa.trim() || null,
+      desc_ko: descKo.trim() || null,
+      desc_en: descEn.trim() || null,
+      desc_ja: descJa.trim() || null,
+      badge: badge.trim() || null,
       price_krw: Number(krw) || 0,
       price_usd: Number(usd) || 0,
       price_jpy: Number(jpy) || 0,
@@ -202,14 +228,49 @@ export function ProductsPage() {
           </Table>
         </TableWrap>
         <Note>
-          판매수는 주문 데이터에서 실시간 집계됩니다. 가격·재고·공개는 저장 시
-          products 테이블에 반영됩니다. (스토어 노출 반영은 추후 단계)
+          판매수는 주문 데이터에서 실시간 집계됩니다. 상품명·설명·배지·가격·재고·공개는
+          저장 시 products 테이블에 저장되어 스토어에 바로 반영됩니다. (비우면 코드
+          기본값 사용)
         </Note>
       </Panel>
 
       {editSlug && (
         <Modal title={`상품 수정 · ${editingName}`} onClose={() => setEditSlug(null)}>
           {error && <ModalError>{error}</ModalError>}
+          <Group>
+            <GroupLabel>상품명</GroupLabel>
+            <Field>
+              <Label htmlFor="n-ko">한국어</Label>
+              <Input id="n-ko" value={nameKo} onChange={(e) => setNameKo(e.target.value)} />
+            </Field>
+            <Field>
+              <Label htmlFor="n-en">English</Label>
+              <Input id="n-en" value={nameEn} onChange={(e) => setNameEn(e.target.value)} />
+            </Field>
+            <Field>
+              <Label htmlFor="n-ja">日本語</Label>
+              <Input id="n-ja" value={nameJa} onChange={(e) => setNameJa(e.target.value)} />
+            </Field>
+          </Group>
+          <Field>
+            <Label htmlFor="p-badge">배지 (커버 라벨 · 비우면 없음)</Label>
+            <Input id="p-badge" value={badge} onChange={(e) => setBadge(e.target.value)} placeholder="예: Faith" />
+          </Field>
+          <Group>
+            <GroupLabel>짧은 설명 (상세 페이지)</GroupLabel>
+            <Field>
+              <Label htmlFor="d-ko">한국어</Label>
+              <Textarea id="d-ko" rows={2} value={descKo} onChange={(e) => setDescKo(e.target.value)} />
+            </Field>
+            <Field>
+              <Label htmlFor="d-en">English</Label>
+              <Textarea id="d-en" rows={2} value={descEn} onChange={(e) => setDescEn(e.target.value)} />
+            </Field>
+            <Field>
+              <Label htmlFor="d-ja">日本語</Label>
+              <Textarea id="d-ja" rows={2} value={descJa} onChange={(e) => setDescJa(e.target.value)} />
+            </Field>
+          </Group>
           <Group>
             <GroupLabel>가격</GroupLabel>
             <Field>
@@ -390,6 +451,20 @@ const Input = styled.input`
   font-family: ${({ theme }) => theme.fonts.kr};
   font-size: 15px;
   color: ${({ theme }) => theme.colors.ink};
+`
+
+const Textarea = styled.textarea`
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 4px;
+  background-color: ${({ theme }) => theme.colors.white};
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: 14px;
+  line-height: 1.5;
+  color: ${({ theme }) => theme.colors.ink};
+  resize: vertical;
 `
 
 const ModalActions = styled.div`
