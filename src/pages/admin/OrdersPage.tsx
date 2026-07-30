@@ -6,6 +6,7 @@ import {
   PageTitle,
   PageDesc,
   Panel,
+  GhostButton,
   Table,
   TableWrap,
   Th,
@@ -20,6 +21,7 @@ import {
   type OrderRow,
   type OrderStatus,
 } from '@/lib/orders'
+import { downloadCsv } from '@/lib/csv'
 
 const TABS = ['전체', ...ALL_STATUSES] as const
 
@@ -56,6 +58,41 @@ export function OrdersPage() {
 
   const overseasCount = orders.filter((o) => o.currency !== 'KRW').length
 
+  // Export the currently filtered orders (one row per order) for bulk waybill
+  // submission or a 3PL handoff.
+  const handleExport = () => {
+    const header = [
+      '주문번호',
+      '주문일',
+      '상태',
+      '받는분',
+      '연락처',
+      '주소',
+      '상품',
+      '수량합계',
+      '통화',
+      '소계',
+      '배송비',
+      '합계',
+    ]
+    const csvRows = rows.map((o) => [
+      o.id,
+      o.created_at.slice(0, 10),
+      ORDER_STATUS_LABEL_KO[o.status],
+      o.recipient ?? '',
+      o.phone ?? '',
+      o.address ?? '',
+      o.order_items.map((it) => `${it.name} x${it.quantity}`).join('; '),
+      o.order_items.reduce((n, it) => n + it.quantity, 0),
+      o.currency,
+      o.subtotal,
+      o.shipping_fee,
+      o.total,
+    ])
+    const date = new Date().toISOString().slice(0, 10)
+    downloadCsv(`dolf-orders-${date}.csv`, header, csvRows)
+  }
+
   return (
     <>
       <PageHeader>
@@ -63,6 +100,9 @@ export function OrdersPage() {
           <PageTitle>Orders</PageTitle>
           <PageDesc>전체 {orders.length}건의 주문을 관리합니다.</PageDesc>
         </div>
+        <GhostButton type="button" onClick={handleExport} disabled={rows.length === 0}>
+          CSV 내보내기
+        </GhostButton>
       </PageHeader>
 
       <Toolbar>
