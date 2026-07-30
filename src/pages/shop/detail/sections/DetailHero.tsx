@@ -5,6 +5,8 @@ import { Container } from '@/components/ui/Container'
 import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
 import { useWishlist } from '@/state/wishlist-context'
+import { useProductOverrides } from '@/state/products-context'
+import { isSoldOut } from '@/lib/product-pricing'
 import { pushEvent } from '@/lib/gtm'
 import type { ShopProduct } from '@/data/shop-types'
 
@@ -15,7 +17,9 @@ export function DetailHero({ product }: { product: ShopProduct }) {
   const { t } = useLocale()
   const { addItem } = useCart()
   const { has, toggle } = useWishlist()
+  const { overrides } = useProductOverrides()
   const navigate = useNavigate()
+  const sold = isSoldOut(product.slug, overrides)
   const { hero } = product
   const gallery = hero.gallery
 
@@ -82,10 +86,10 @@ export function DetailHero({ product }: { product: ShopProduct }) {
             ))}
           </Specs>
           <Buttons>
-            <BuyNow type="button" onClick={buyNow}>
-              {t.shop.buyNow}
+            <BuyNow type="button" onClick={buyNow} disabled={sold}>
+              {sold ? t.shop.soldOut : t.shop.buyNow}
             </BuyNow>
-            <AddToCart type="button" onClick={add}>
+            <AddToCart type="button" onClick={add} disabled={sold}>
               {t.shop.addToCart}
             </AddToCart>
             <WishBtn
@@ -259,6 +263,12 @@ const BuyNow = styled.button`
   &:hover {
     opacity: 0.88;
   }
+
+  &:disabled {
+    background-color: ${({ theme }) => theme.colors.border};
+    color: ${({ theme }) => theme.colors.textSecondary};
+    cursor: default;
+  }
 `
 
 const AddToCart = styled.button`
@@ -278,6 +288,13 @@ const AddToCart = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.colors.ink};
     color: ${({ theme }) => theme.colors.white};
+  }
+
+  &:disabled {
+    border-color: ${({ theme }) => theme.colors.border};
+    color: ${({ theme }) => theme.colors.textSecondary};
+    background: none;
+    cursor: default;
   }
 `
 

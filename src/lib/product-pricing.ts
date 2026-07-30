@@ -42,6 +42,13 @@ export function isPublished(slug: string, overrides: Overrides): boolean {
   return overrides[slug]?.published ?? true
 }
 
+// Sold out only when a product has a managed row and its stock is 0 or less.
+// Products without a row are treated as unmanaged (not sold out).
+export function isSoldOut(slug: string, overrides: Overrides): boolean {
+  const o = overrides[slug]
+  return o !== undefined && o.stock <= 0
+}
+
 function localeName(o: ProductOverride | undefined, locale: Locale): string | null {
   if (!o) return null
   return locale === 'ko' ? o.name_ko : locale === 'en' ? o.name_en : o.name_ja

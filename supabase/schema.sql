@@ -238,3 +238,26 @@ create policy "cart_items: own" on public.cart_items
 drop policy if exists "wishlist_items: own" on public.wishlist_items;
 create policy "wishlist_items: own" on public.wishlist_items
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());
+
+-- ─── stock decrement on order ────────────────────────────────────────────────
+-- When order items are inserted, decrement the product's stock (floored at 0).
+-- SECURITY DEFINER so it runs regardless of the buyer's (non-admin) RLS. Only
+-- products that have a row are tracked; unmanaged products are left alone.
+create or replace function public.decrement_stock()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  update public.products
+    set stock = greatest(stock - new.quantity, 0), updated_at = now()
+    where slug = new.product_slug;
+  return new;
+end;
+$$;
+
+drop trigger if exists order_items_decrement_stock on public.order_items;
+create trigger order_items_decrement_stock
+  after insert on public.order_items
+  for each row execute function public.decrement_stock();

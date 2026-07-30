@@ -12,6 +12,7 @@ import {
   effectiveName,
   effectiveBadge,
   isPublished,
+  isSoldOut,
 } from '@/lib/product-pricing'
 import { pushEvent } from '@/lib/gtm'
 
@@ -34,48 +35,54 @@ export function ShopPage() {
 
       <GridSection>
         <Grid>
-          {products.map((product) => (
-            <Card key={product.slug}>
-              <CardLink to={`/shop/${product.slug}`}>
-                <ImageCard>
-                  {effectiveBadge(product.slug, locale, overrides) && (
-                    <Badge>{effectiveBadge(product.slug, locale, overrides)}</Badge>
-                  )}
-                  <WishButton
-                    type="button"
-                    aria-label={t.account.myPage.statsWishlist}
-                    aria-pressed={has(product.slug)}
-                    $on={has(product.slug)}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      e.stopPropagation()
-                      toggle(product.slug)
-                    }}
-                  >
-                    {has(product.slug) ? '♥' : '♡'}
-                  </WishButton>
-                  <ProductImage
-                    src={product.catalogImage}
-                    alt={effectiveName(product.slug, locale, overrides)}
-                  />
-                </ImageCard>
-                <Name>{effectiveName(product.slug, locale, overrides)}</Name>
-                <Price>{effectivePriceString(product.slug, locale, overrides)}</Price>
-              </CardLink>
-              <AddButton
-                type="button"
-                onClick={() => {
-                  addItem(product.slug)
-                  pushEvent('add_to_cart', {
-                    item_id: product.slug,
-                    item_name: product.catalogName,
-                  })
-                }}
-              >
-                {t.shop.addToCart}
-              </AddButton>
-            </Card>
-          ))}
+          {products.map((product) => {
+            const sold = isSoldOut(product.slug, overrides)
+            return (
+              <Card key={product.slug}>
+                <CardLink to={`/shop/${product.slug}`}>
+                  <ImageCard>
+                    {effectiveBadge(product.slug, locale, overrides) && (
+                      <Badge>{effectiveBadge(product.slug, locale, overrides)}</Badge>
+                    )}
+                    <WishButton
+                      type="button"
+                      aria-label={t.account.myPage.statsWishlist}
+                      aria-pressed={has(product.slug)}
+                      $on={has(product.slug)}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        toggle(product.slug)
+                      }}
+                    >
+                      {has(product.slug) ? '♥' : '♡'}
+                    </WishButton>
+                    <ProductImage
+                      src={product.catalogImage}
+                      alt={effectiveName(product.slug, locale, overrides)}
+                      $dim={sold}
+                    />
+                    {sold && <SoldOutTag>{t.shop.soldOut}</SoldOutTag>}
+                  </ImageCard>
+                  <Name>{effectiveName(product.slug, locale, overrides)}</Name>
+                  <Price>{effectivePriceString(product.slug, locale, overrides)}</Price>
+                </CardLink>
+                <AddButton
+                  type="button"
+                  disabled={sold}
+                  onClick={() => {
+                    addItem(product.slug)
+                    pushEvent('add_to_cart', {
+                      item_id: product.slug,
+                      item_name: product.catalogName,
+                    })
+                  }}
+                >
+                  {sold ? t.shop.soldOut : t.shop.addToCart}
+                </AddButton>
+              </Card>
+            )
+          })}
         </Grid>
       </GridSection>
     </>
@@ -173,10 +180,28 @@ const Badge = styled.span`
   letter-spacing: 0.6px;
 `
 
-const ProductImage = styled.img`
+const ProductImage = styled.img<{ $dim?: boolean }>`
   width: 100%;
   height: 100%;
   object-fit: contain;
+  opacity: ${({ $dim }) => ($dim ? 0.45 : 1)};
+  filter: ${({ $dim }) => ($dim ? 'grayscale(0.4)' : 'none')};
+`
+
+const SoldOutTag = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background-color: ${({ theme }) => theme.colors.ink};
+  color: ${({ theme }) => theme.colors.white};
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 `
 
 const WishButton = styled.button<{ $on: boolean }>`
@@ -245,5 +270,11 @@ const AddButton = styled.button`
 
   &:hover {
     opacity: 0.88;
+  }
+
+  &:disabled {
+    background-color: ${({ theme }) => theme.colors.border};
+    color: ${({ theme }) => theme.colors.textSecondary};
+    cursor: default;
   }
 `
