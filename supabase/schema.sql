@@ -16,6 +16,7 @@
 create table if not exists public.profiles (
   id         uuid primary key references auth.users (id) on delete cascade,
   name       text,
+  email      text,
   country    text,
   phone      text,
   address    text,
@@ -77,10 +78,11 @@ security definer
 set search_path = public
 as $$
 begin
-  insert into public.profiles (id, name, country, phone)
+  insert into public.profiles (id, name, email, country, phone)
   values (
     new.id,
     coalesce(new.raw_user_meta_data ->> 'name', ''),
+    new.email,
     coalesce(new.raw_user_meta_data ->> 'country', ''),
     coalesce(new.raw_user_meta_data ->> 'phone', '')
   );
