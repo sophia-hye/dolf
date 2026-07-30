@@ -34,9 +34,11 @@ function formatJoined(iso?: string | null): string | undefined {
 async function buildUser(su: SupabaseUser): Promise<User> {
   let profile: ProfileRow | null = null
   if (supabase) {
+    // select('*') so a missing/extra column can't fail the whole query and
+    // silently drop the user's role (e.g. before a migration is applied).
     const { data } = await supabase
       .from('profiles')
-      .select('name, role, phone, address, grade, created_at')
+      .select('*')
       .eq('id', su.id)
       .maybeSingle<ProfileRow>()
     profile = data

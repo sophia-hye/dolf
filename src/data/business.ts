@@ -3,7 +3,7 @@
 // (사업자등록) and mail-order sales report (통신판매업 신고) are issued.
 export const businessInfo = {
   companyName: 'DoLF (돌프)',
-  owner: '[대표자명]',
+  owner: '김지혜',
   registrationNumber: '[사업자등록번호 000-00-00000]',
   mailOrderNumber: '[통신판매업 신고번호 0000-지역-0000]',
   address: '[사업장 주소]',

@@ -211,3 +211,30 @@ create policy "store_settings: public read" on public.store_settings
 drop policy if exists "store_settings: admin write" on public.store_settings;
 create policy "store_settings: admin write" on public.store_settings
   for all using (public.is_admin()) with check (public.is_admin());
+
+-- ─── cart_items + wishlist_items (per-user, cross-device) ────────────────────
+create table if not exists public.cart_items (
+  user_id      uuid not null references auth.users (id) on delete cascade,
+  product_slug text not null,
+  quantity     integer not null default 1 check (quantity > 0),
+  updated_at   timestamptz not null default now(),
+  primary key (user_id, product_slug)
+);
+
+create table if not exists public.wishlist_items (
+  user_id      uuid not null references auth.users (id) on delete cascade,
+  product_slug text not null,
+  created_at   timestamptz not null default now(),
+  primary key (user_id, product_slug)
+);
+
+alter table public.cart_items     enable row level security;
+alter table public.wishlist_items enable row level security;
+
+drop policy if exists "cart_items: own" on public.cart_items;
+create policy "cart_items: own" on public.cart_items
+  for all using (user_id = auth.uid()) with check (user_id = auth.uid());
+
+drop policy if exists "wishlist_items: own" on public.wishlist_items;
+create policy "wishlist_items: own" on public.wishlist_items
+  for all using (user_id = auth.uid()) with check (user_id = auth.uid());

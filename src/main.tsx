@@ -9,6 +9,7 @@ import { LocaleProvider } from '@/i18n/LocaleContext'
 import { CartProvider } from '@/state/CartProvider'
 import { AuthProvider } from '@/state/AuthProvider'
 import { ProductsProvider } from '@/state/ProductsProvider'
+import { WishlistProvider } from '@/state/WishlistProvider'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -19,7 +20,9 @@ createRoot(document.getElementById('root')!).render(
           <AuthProvider>
             <ProductsProvider>
               <CartProvider>
-                <App />
+                <WishlistProvider>
+                  <App />
+                </WishlistProvider>
               </CartProvider>
             </ProductsProvider>
           </AuthProvider>
