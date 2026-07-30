@@ -14,8 +14,10 @@ interface SeoProps {
   readonly description: string
   readonly path?: string
   readonly image?: string
-  readonly type?: 'website' | 'article'
+  readonly type?: 'website' | 'article' | 'product'
   readonly noindex?: boolean
+  // Optional JSON-LD structured data (e.g. a Product schema).
+  readonly jsonLd?: object
 }
 
 export function Seo({
@@ -25,6 +27,7 @@ export function Seo({
   image = '/og-image.png',
   type = 'website',
   noindex = false,
+  jsonLd,
 }: SeoProps) {
   const { locale } = useLocale()
   const url = SITE_URL + path
@@ -56,6 +59,9 @@ export function Seo({
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={img} />
+      {jsonLd && (
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      )}
     </Helmet>
   )
 }
