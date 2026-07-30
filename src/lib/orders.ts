@@ -92,6 +92,8 @@ export interface OrderRow {
   readonly recipient: string | null
   readonly address: string | null
   readonly phone: string | null
+  readonly carrier: string | null
+  readonly tracking_no: string | null
   readonly created_at: string
   readonly order_items: OrderItemRow[]
 }
@@ -160,7 +162,7 @@ export const ORDER_STATUS_LABEL_KO: Record<OrderStatus, string> = {
 }
 
 const ORDER_SELECT =
-  'id, status, currency, subtotal, shipping_fee, total, recipient, address, phone, created_at, order_items ( product_slug, name, unit_price, currency, quantity )'
+  'id, status, currency, subtotal, shipping_fee, total, recipient, address, phone, carrier, tracking_no, created_at, order_items ( product_slug, name, unit_price, currency, quantity )'
 
 interface RawOrderRow
   extends Omit<OrderRow, 'subtotal' | 'shipping_fee' | 'total' | 'order_items'> {
@@ -237,5 +239,21 @@ export async function updateOrderStatus(
     .from('orders')
     .update({ status })
     .eq('id', id)
+  return { error: error ? error.message : null }
+}
+
+// Admin-only shipping info (courier + tracking number). Optionally advances the
+// status to 'shipped' when a tracking number is entered.
+export async function updateOrderShipping(
+  id: string,
+  input: { carrier: string | null; trackingNo: string | null; markShipped?: boolean },
+): Promise<{ error: string | null }> {
+  if (!supabase) return { error: 'Supabase is not configured.' }
+  const patch: Record<string, string> = {
+    carrier: input.carrier ?? '',
+    tracking_no: input.trackingNo ?? '',
+  }
+  if (input.markShipped) patch.status = 'shipped'
+  const { error } = await supabase.from('orders').update(patch).eq('id', id)
   return { error: error ? error.message : null }
 }

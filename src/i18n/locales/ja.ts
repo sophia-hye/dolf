@@ -334,6 +334,7 @@ export const ja: Dictionary = {
       save: '保存',
       cancel: 'キャンセル',
       ordersNote: '直近3か月の注文のみ表示しています。',
+      tracking: '追跡番号',
       removeWish: 'ウィッシュリストから削除',
       emptyWishlist: 'ウィッシュリストは空です。',
     },

@@ -39,6 +39,8 @@ create table if not exists public.orders (
   recipient    text,
   address      text,
   phone        text,
+  carrier      text, -- shipping courier (e.g. CJ대한통운)
+  tracking_no  text, -- waybill / tracking number
   payment_ref  text, -- Toss Payments paymentKey, filled after approval
   created_at   timestamptz not null default now()
 );

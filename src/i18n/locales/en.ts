@@ -333,6 +333,7 @@ export const en: Dictionary = {
       save: 'Save',
       cancel: 'Cancel',
       ordersNote: 'Showing orders from the last 3 months.',
+      tracking: 'Tracking',
       removeWish: 'Remove from wishlist',
       emptyWishlist: 'Your wishlist is empty.',
     },
