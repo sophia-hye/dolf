@@ -7,11 +7,12 @@ import { useProductOverrides } from '@/state/products-context'
 import { getProductBySlug } from '@/data/products'
 import { formatMoney, shippingFeeFor, CURRENCY_BY_LOCALE } from '@/lib/orders'
 import { effectivePriceAmount } from '@/lib/product-pricing'
+import { toShippingConfig } from '@/lib/settings'
 
 export function CartPage() {
   const { t, locale } = useLocale()
   const { items, setQuantity, removeItem, clear } = useCart()
-  const { overrides } = useProductOverrides()
+  const { overrides, settings } = useProductOverrides()
   const navigate = useNavigate()
   const c = t.shop.cartPage
 
@@ -28,7 +29,9 @@ export function CartPage() {
     (sum, l) => sum + effectivePriceAmount(l.slug, locale, overrides) * l.quantity,
     0,
   )
-  const shipping = lines.length ? shippingFeeFor(currency, subtotal) : 0
+  const shipping = lines.length
+    ? shippingFeeFor(currency, subtotal, toShippingConfig(settings))
+    : 0
   const total = subtotal + shipping
 
   return (
