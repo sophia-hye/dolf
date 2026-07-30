@@ -149,6 +149,9 @@ export interface Dictionary {
       readonly emailPlaceholder: string
       readonly messagePlaceholder: string
       readonly submit: string
+      readonly sending: string
+      readonly sent: string
+      readonly error: string
       readonly b2bText: string
       readonly b2bCta: string
     }

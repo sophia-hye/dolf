@@ -4,16 +4,30 @@ import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { useLocale } from '@/i18n/context'
+import { sendContactMessage } from '@/lib/contact'
+
+type Status = 'idle' | 'sending' | 'sent' | 'error'
 
 export function ContactFormSection() {
-  const { t } = useLocale()
+  const { t, locale } = useLocale()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
+  const [status, setStatus] = useState<Status>('idle')
 
-  // UI-only for now: no backend wired up yet.
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (status === 'sending') return
+    setStatus('sending')
+    const { error } = await sendContactMessage({ name, email, message, locale })
+    if (error) {
+      setStatus('error')
+      return
+    }
+    setStatus('sent')
+    setName('')
+    setEmail('')
+    setMessage('')
   }
 
   return (
@@ -28,22 +42,29 @@ export function ContactFormSection() {
         <Form onSubmit={handleSubmit}>
           <Input
             type="text"
+            required
             placeholder={t.contact.form.namePlaceholder}
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
           <Input
             type="email"
+            required
             placeholder={t.contact.form.emailPlaceholder}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <Textarea
+            required
             placeholder={t.contact.form.messagePlaceholder}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
-          <Submit type="submit">{t.contact.form.submit}</Submit>
+          <Submit type="submit" disabled={status === 'sending'}>
+            {status === 'sending' ? t.contact.form.sending : t.contact.form.submit}
+          </Submit>
+          {status === 'sent' && <Feedback $ok>{t.contact.form.sent}</Feedback>}
+          {status === 'error' && <Feedback>{t.contact.form.error}</Feedback>}
         </Form>
 
         <B2B>
@@ -150,6 +171,19 @@ const Submit = styled.button`
   &:hover {
     opacity: 0.88;
   }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+`
+
+const Feedback = styled.p<{ $ok?: boolean }>`
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+  color: ${({ theme, $ok }) => ($ok ? theme.colors.ink : theme.colors.brandRed)};
 `
 
 const B2B = styled.div`
