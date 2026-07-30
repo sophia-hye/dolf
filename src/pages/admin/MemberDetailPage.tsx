@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import {
@@ -5,49 +6,40 @@ import {
   PageTitle,
   PageDesc,
   Panel,
-  PrimaryButton,
   GhostButton,
   StatusBadge,
 } from '@/pages/admin/components/ui'
-import { getMemberById, type MemberGrade } from '@/data/admin-mock'
-
-// 회원별 개별 주문 내역은 공용 mock에 없으므로 이 파일에서만 사용하는 로컬 mock으로 정의.
-interface MemberOrderRow {
-  readonly id: string
-  readonly product: string
-  readonly amount: string
-  readonly status: string
-}
-
-const memberOrders: MemberOrderRow[] = [
-  { id: 'DLF-2041', product: 'Breathe — Planner & Diary', amount: '$38', status: 'Paid' },
-  { id: 'DLF-2018', product: '2027 Calendar', amount: '$20', status: 'Shipped' },
-  { id: 'DLF-1990', product: 'Bible Reading Tracker', amount: '$30', status: 'Shipped' },
-]
-
-const GRADE_DESC: Record<MemberGrade, string> = {
-  VIP: 'VIP (상위 3%)',
-  Gold: 'Gold (상위 15%)',
-  Silver: 'Silver',
-  Basic: 'Basic',
-}
+import { ORDER_STATUS_LABEL_KO } from '@/lib/orders'
+import { fetchMemberDetail, type MemberDetail } from '@/lib/admin-data'
 
 export function MemberDetailPage() {
   const { id = '' } = useParams()
   const navigate = useNavigate()
-  const member = getMemberById(id)
+  const [member, setMember] = useState<MemberDetail | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  if (!member) {
-    return <Navigate to="/admin/members" replace />
-  }
+  useEffect(() => {
+    let active = true
+    void fetchMemberDetail(id).then((m) => {
+      if (!active) return
+      setMember(m)
+      setLoading(false)
+    })
+    return () => {
+      active = false
+    }
+  }, [id])
+
+  if (loading) return null
+  if (!member) return <Navigate to="/admin/members" replace />
 
   const details = [
     { label: '가입일', value: member.joinedAt },
-    { label: '최근 접속', value: '2026-06-23' },
-    { label: '총 주문', value: `${member.orders}건` },
+    { label: '국가', value: member.country },
+    { label: '총 주문', value: `${member.orderCount}건` },
     { label: '총 구매액', value: member.totalSpent },
-    { label: '연락처', value: '010-1234-5678' },
-    { label: '등급', value: GRADE_DESC[member.grade] },
+    { label: '등급', value: member.grade },
+    { label: '상태', value: member.status },
   ]
 
   return (
@@ -55,7 +47,7 @@ export function MemberDetailPage() {
       <PageHeader>
         <div>
           <PageTitle>회원 상세</PageTitle>
-          <PageDesc>{member.id} 회원의 정보와 주문 내역입니다.</PageDesc>
+          <PageDesc>{member.email} 회원의 정보와 주문 내역입니다.</PageDesc>
         </div>
         <GhostButton type="button" onClick={() => navigate('/admin/members')}>
           ← 목록으로
@@ -85,25 +77,26 @@ export function MemberDetailPage() {
         </DetailGrid>
 
         <SectionLabel>최근 주문</SectionLabel>
-        <OrderList>
-          {memberOrders.map((o) => (
-            <OrderRow key={o.id}>
-              <OrderInfo>
-                <OrderId>#{o.id}</OrderId>
-                <OrderProduct>{o.product}</OrderProduct>
-              </OrderInfo>
-              <OrderMeta>
-                <OrderAmount>{o.amount}</OrderAmount>
-                <StatusBadge $status={o.status}>{o.status}</StatusBadge>
-              </OrderMeta>
-            </OrderRow>
-          ))}
-        </OrderList>
-
-        <Actions>
-          <PrimaryButton type="button">메시지 보내기</PrimaryButton>
-          <GhostButton type="button">계정 정지</GhostButton>
-        </Actions>
+        {member.orders.length === 0 ? (
+          <EmptyOrders>주문 내역이 없습니다.</EmptyOrders>
+        ) : (
+          <OrderList>
+            {member.orders.map((o) => (
+              <OrderRow key={o.id}>
+                <OrderInfo>
+                  <OrderId>#{o.id.slice(0, 8)}</OrderId>
+                  <OrderProduct>{o.product}</OrderProduct>
+                </OrderInfo>
+                <OrderMeta>
+                  <OrderAmount>{o.amount}</OrderAmount>
+                  <StatusBadge $status={o.status}>
+                    {ORDER_STATUS_LABEL_KO[o.status]}
+                  </StatusBadge>
+                </OrderMeta>
+              </OrderRow>
+            ))}
+          </OrderList>
+        )}
       </Panel>
     </>
   )
@@ -212,6 +205,13 @@ const SectionLabel = styled.h2`
   color: ${({ theme }) => theme.colors.textSecondary};
 `
 
+const EmptyOrders = styled.p`
+  margin-top: 14px;
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  color: ${({ theme }) => theme.colors.textSecondary};
+`
+
 const OrderList = styled.div`
   margin-top: 14px;
   border: 1px solid ${({ theme }) => theme.colors.border};
@@ -259,15 +259,4 @@ const OrderAmount = styled.span`
   font-size: 12px;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.ink};
-`
-
-const Actions = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-top: 22px;
-
-  & > * {
-    flex: 1;
-    text-align: center;
-  }
 `
