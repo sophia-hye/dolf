@@ -35,9 +35,20 @@ export const FREE_SHIPPING_THRESHOLD: Record<string, number> = {
   KRW: 70000,
 }
 
-// Shipping fee for a given subtotal: 0 when the currency has a free-shipping
-// threshold and the subtotal reaches it, otherwise the flat fee.
-export function shippingFeeFor(currency: string, subtotal: number): number {
+// Shipping fee for a given subtotal. When a store-settings config is passed, it
+// takes precedence (free shipping applies to KRW only, above the threshold);
+// otherwise falls back to the built-in defaults.
+export function shippingFeeFor(
+  currency: string,
+  subtotal: number,
+  cfg?: { krw: number; usd: number; jpy: number; freeKrwThreshold: number },
+): number {
+  if (cfg) {
+    if (currency === 'KRW') return subtotal >= cfg.freeKrwThreshold ? 0 : cfg.krw
+    if (currency === 'USD') return cfg.usd
+    if (currency === 'JPY') return cfg.jpy
+    return 0
+  }
   const threshold = FREE_SHIPPING_THRESHOLD[currency]
   if (threshold !== undefined && subtotal >= threshold) return 0
   return SHIPPING_FEE[currency] ?? 0

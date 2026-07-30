@@ -173,3 +173,34 @@ create policy "products: public read" on public.products
 drop policy if exists "products: admin write" on public.products;
 create policy "products: admin write" on public.products
   for all using (public.is_admin()) with check (public.is_admin());
+
+-- ─── store_settings (single-row store config) ────────────────────────────────
+-- One editable row (id = 1) holding shipping policy + store info + admin
+-- notification prefs. Read by the storefront (shipping), written by admins.
+create table if not exists public.store_settings (
+  id                       smallint primary key default 1 check (id = 1),
+  store_name               text not null default 'DoLF',
+  store_email              text not null default 'hello@dolfstory.com',
+  instagram                text not null default '@dolf._official',
+  biz_number               text not null default '',
+  shipping_fee_krw         integer not null default 3500,
+  shipping_fee_usd         numeric(12, 2) not null default 3.5,
+  shipping_fee_jpy         integer not null default 500,
+  free_ship_threshold_krw  integer not null default 70000, -- domestic (KRW) only
+  notify_new_order         boolean not null default true,
+  notify_new_member        boolean not null default true,
+  notify_low_stock         boolean not null default false,
+  updated_at               timestamptz not null default now()
+);
+
+insert into public.store_settings (id) values (1) on conflict (id) do nothing;
+
+alter table public.store_settings enable row level security;
+
+drop policy if exists "store_settings: public read" on public.store_settings;
+create policy "store_settings: public read" on public.store_settings
+  for select using (true);
+
+drop policy if exists "store_settings: admin write" on public.store_settings;
+create policy "store_settings: admin write" on public.store_settings
+  for all using (public.is_admin()) with check (public.is_admin());

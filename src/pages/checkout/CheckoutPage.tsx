@@ -15,13 +15,14 @@ import {
   CURRENCY_BY_LOCALE,
 } from '@/lib/orders'
 import { effectivePriceAmount } from '@/lib/product-pricing'
+import { toShippingConfig } from '@/lib/settings'
 import { pushEvent } from '@/lib/gtm'
 
 export function CheckoutPage() {
   const { t, locale } = useLocale()
   const { items, clear } = useCart()
   const { user } = useAuth()
-  const { overrides } = useProductOverrides()
+  const { overrides, settings } = useProductOverrides()
   const navigate = useNavigate()
   const c = t.account.checkout
 
@@ -49,7 +50,9 @@ export function CheckoutPage() {
     (sum, l) => sum + effectivePriceAmount(l.slug, locale, overrides) * l.quantity,
     0,
   )
-  const shipping = lines.length ? shippingFeeFor(currency, subtotal) : 0
+  const shipping = lines.length
+    ? shippingFeeFor(currency, subtotal, toShippingConfig(settings))
+    : 0
   const total = subtotal + shipping
 
   // Report begin_checkout once when the checkout is entered with items.

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {
   PageHeader,
@@ -7,72 +7,62 @@ import {
   Panel,
   PrimaryButton,
 } from '@/pages/admin/components/ui'
+import {
+  fetchSettings,
+  updateSettings,
+  DEFAULT_SETTINGS,
+  type StoreSettings,
+} from '@/lib/settings'
 
-type TextField = {
-  id: string
-  label: string
-  value: string
-}
-
-const STORE_FIELDS: TextField[] = [
-  { id: 'storeName', label: '스토어 이름', value: 'DoLF' },
-  { id: 'storeEmail', label: '대표 이메일', value: 'hello@dolf.official' },
-  { id: 'instagram', label: '인스타그램', value: '@dolf._official' },
-  { id: 'bizNumber', label: '사업자등록번호', value: '123-45-67890' },
+const STORE_FIELDS: { key: keyof StoreSettings; label: string }[] = [
+  { key: 'store_name', label: '스토어 이름' },
+  { key: 'store_email', label: '대표 이메일' },
+  { key: 'instagram', label: '인스타그램' },
+  { key: 'biz_number', label: '사업자등록번호' },
 ]
 
-const SHIPPING_FIELDS: TextField[] = [
-  { id: 'currency', label: '기본 통화', value: 'USD ($)' },
-  { id: 'shippingFee', label: '기본 배송비', value: '₩ 3,000' },
-  { id: 'freeShipping', label: '무료배송 기준', value: '₩ 50,000 이상' },
-  { id: 'dispatch', label: '기본 출고일', value: '결제 후 2–3일' },
+const SHIPPING_FIELDS: { key: keyof StoreSettings; label: string; step?: string }[] = [
+  { key: 'shipping_fee_krw', label: '기본 배송비 (원화 ₩)' },
+  { key: 'free_ship_threshold_krw', label: '무료배송 기준 (국내 ₩ 이상)' },
+  { key: 'shipping_fee_usd', label: '해외 배송비 (달러 $)', step: '0.01' },
+  { key: 'shipping_fee_jpy', label: '해외 배송비 (엔화 ¥)' },
 ]
 
-type ToggleSetting = {
-  id: string
-  label: string
-  desc: string
-  on: boolean
-}
-
-const NOTIFICATION_SETTINGS: ToggleSetting[] = [
-  {
-    id: 'newOrder',
-    label: '신규 주문 알림',
-    desc: '새 주문이 들어오면 이메일로 알립니다.',
-    on: true,
-  },
-  {
-    id: 'newMember',
-    label: '신규 회원 가입 알림',
-    desc: '새 회원이 가입하면 알립니다.',
-    on: true,
-  },
-  {
-    id: 'lowStock',
-    label: '재고 부족 알림',
-    desc: '상품 재고가 60개 미만이면 알립니다.',
-    on: false,
-  },
+const NOTIFICATIONS: { key: keyof StoreSettings; label: string; desc: string }[] = [
+  { key: 'notify_new_order', label: '신규 주문 알림', desc: '새 주문이 들어오면 이메일로 알립니다.' },
+  { key: 'notify_new_member', label: '신규 회원 가입 알림', desc: '새 회원이 가입하면 알립니다.' },
+  { key: 'notify_low_stock', label: '재고 부족 알림', desc: '상품 재고가 기준 미만이면 알립니다.' },
 ]
 
 export function SettingsPage() {
-  const [store, setStore] = useState(() =>
-    Object.fromEntries(STORE_FIELDS.map((f) => [f.id, f.value])),
-  )
-  const [shipping, setShipping] = useState(() =>
-    Object.fromEntries(SHIPPING_FIELDS.map((f) => [f.id, f.value])),
-  )
-  const [notifications, setNotifications] = useState(() =>
-    Object.fromEntries(NOTIFICATION_SETTINGS.map((s) => [s.id, s.on])),
-  )
+  const [settings, setSettings] = useState<StoreSettings>(DEFAULT_SETTINGS)
+  const [saving, setSaving] = useState(false)
+  const [message, setMessage] = useState('')
+  const [isError, setIsError] = useState(false)
 
-  const updateStore = (id: string, value: string) =>
-    setStore((prev) => ({ ...prev, [id]: value }))
-  const updateShipping = (id: string, value: string) =>
-    setShipping((prev) => ({ ...prev, [id]: value }))
-  const toggleNotification = (id: string) =>
-    setNotifications((prev) => ({ ...prev, [id]: !prev[id] }))
+  useEffect(() => {
+    let active = true
+    void fetchSettings().then((s) => {
+      if (active) setSettings(s)
+    })
+    return () => {
+      active = false
+    }
+  }, [])
+
+  function set<K extends keyof StoreSettings>(key: K, value: StoreSettings[K]) {
+    setSettings((prev) => ({ ...prev, [key]: value }))
+    setMessage('')
+  }
+
+  const handleSave = async () => {
+    setSaving(true)
+    setMessage('')
+    const { error } = await updateSettings(settings)
+    setSaving(false)
+    setIsError(!!error)
+    setMessage(error ? error : '저장되었습니다.')
+  }
 
   return (
     <>
@@ -90,12 +80,12 @@ export function SettingsPage() {
         </SectionHead>
         <FieldGrid>
           {STORE_FIELDS.map((f) => (
-            <Field key={f.id}>
-              <FieldLabel htmlFor={f.id}>{f.label}</FieldLabel>
+            <Field key={f.key}>
+              <FieldLabel htmlFor={f.key}>{f.label}</FieldLabel>
               <Input
-                id={f.id}
-                value={store[f.id]}
-                onChange={(e) => updateStore(f.id, e.target.value)}
+                id={f.key}
+                value={String(settings[f.key])}
+                onChange={(e) => set(f.key, e.target.value as StoreSettings[typeof f.key])}
               />
             </Field>
           ))}
@@ -105,20 +95,26 @@ export function SettingsPage() {
       <Section>
         <SectionHead>
           <SectionTitle>결제 · 배송</SectionTitle>
-          <SectionDesc>통화와 배송 정책을 설정합니다.</SectionDesc>
+          <SectionDesc>배송비와 무료배송 정책을 설정합니다.</SectionDesc>
         </SectionHead>
         <FieldGrid>
           {SHIPPING_FIELDS.map((f) => (
-            <Field key={f.id}>
-              <FieldLabel htmlFor={f.id}>{f.label}</FieldLabel>
+            <Field key={f.key}>
+              <FieldLabel htmlFor={f.key}>{f.label}</FieldLabel>
               <Input
-                id={f.id}
-                value={shipping[f.id]}
-                onChange={(e) => updateShipping(f.id, e.target.value)}
+                id={f.key}
+                type="number"
+                min={0}
+                step={f.step}
+                value={String(settings[f.key])}
+                onChange={(e) =>
+                  set(f.key, (Number(e.target.value) || 0) as StoreSettings[typeof f.key])
+                }
               />
             </Field>
           ))}
         </FieldGrid>
+        <HintNote>무료배송은 국내(원화) 주문에만 적용됩니다. 해외 주문은 무료배송이 없습니다.</HintNote>
       </Section>
 
       <Section>
@@ -127,8 +123,8 @@ export function SettingsPage() {
           <SectionDesc>관리자 알림 수신을 설정합니다.</SectionDesc>
         </SectionHead>
         <ToggleList>
-          {NOTIFICATION_SETTINGS.map((s) => (
-            <ToggleRow key={s.id}>
+          {NOTIFICATIONS.map((s) => (
+            <ToggleRow key={s.key}>
               <div>
                 <ToggleLabel>{s.label}</ToggleLabel>
                 <ToggleDesc>{s.desc}</ToggleDesc>
@@ -136,20 +132,24 @@ export function SettingsPage() {
               <Toggle
                 type="button"
                 role="switch"
-                aria-checked={notifications[s.id]}
+                aria-checked={Boolean(settings[s.key])}
                 aria-label={s.label}
-                $on={notifications[s.id]}
-                onClick={() => toggleNotification(s.id)}
+                $on={Boolean(settings[s.key])}
+                onClick={() => set(s.key, !settings[s.key] as StoreSettings[typeof s.key])}
               >
-                <Knob $on={notifications[s.id]} />
+                <Knob $on={Boolean(settings[s.key])} />
               </Toggle>
             </ToggleRow>
           ))}
         </ToggleList>
+        <HintNote>알림 발송(이메일)은 아직 연동 전이라 저장만 됩니다.</HintNote>
       </Section>
 
       <Actions>
-        <PrimaryButton type="button">변경사항 저장</PrimaryButton>
+        {message && <SaveMsg $error={isError}>{message}</SaveMsg>}
+        <PrimaryButton type="button" disabled={saving} onClick={handleSave}>
+          {saving ? '저장 중...' : '변경사항 저장'}
+        </PrimaryButton>
       </Actions>
     </>
   )
@@ -215,6 +215,7 @@ const FieldLabel = styled.label`
 
 const Input = styled.input`
   width: 100%;
+  box-sizing: border-box;
   padding: 12px 14px;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 3px;
@@ -227,6 +228,12 @@ const Input = styled.input`
     outline: none;
     border-color: ${({ theme }) => theme.colors.ink};
   }
+`
+
+const HintNote = styled.p`
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.textSecondary};
 `
 
 const ToggleList = styled.div`
@@ -284,5 +291,13 @@ const Knob = styled.span<{ $on: boolean }>`
 
 const Actions = styled.div`
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+  gap: 16px;
+`
+
+const SaveMsg = styled.span<{ $error: boolean }>`
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  color: ${({ theme, $error }) => ($error ? theme.colors.brandRed : theme.colors.textSecondary)};
 `
