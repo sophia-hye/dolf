@@ -161,6 +161,12 @@ export function MyPage() {
                     </OrderId>
                     <OrderTitle>{orderTitle(order)}</OrderTitle>
                     <OrderStatus>{t.account.orderStatus[order.status]}</OrderStatus>
+                    {order.tracking_no && (
+                      <OrderId>
+                        {c.tracking}: {order.carrier ? `${order.carrier} ` : ''}
+                        {order.tracking_no}
+                      </OrderId>
+                    )}
                   </OrderMeta>
                   <OrderAmount>{formatMoney(order.total, order.currency)}</OrderAmount>
                 </OrderRow>

@@ -262,6 +262,7 @@ export interface Dictionary {
       readonly save: string
       readonly cancel: string
       readonly ordersNote: string
+      readonly tracking: string
       readonly removeWish: string
       readonly emptyWishlist: string
     }

@@ -16,6 +16,7 @@ import {
 import {
   fetchOrderById,
   updateOrderStatus,
+  updateOrderShipping,
   formatMoney,
   ORDER_STATUS_LABEL_KO,
   ALL_STATUSES,
@@ -23,17 +24,39 @@ import {
   type OrderStatus,
 } from '@/lib/orders'
 
+const CARRIERS = [
+  'CJ대한통운',
+  '우체국택배',
+  '한진택배',
+  '롯데택배',
+  '로젠택배',
+  'EMS (국제)',
+  'DHL',
+  'FedEx',
+]
+
 export function OrderDetailPage() {
   const { id = '' } = useParams()
   const [order, setOrder] = useState<OrderRow | null>(null)
   const [loading, setLoading] = useState(true)
   const [updating, setUpdating] = useState(false)
 
+  const [carrier, setCarrier] = useState('')
+  const [trackingNo, setTrackingNo] = useState('')
+  const [markShipped, setMarkShipped] = useState(false)
+  const [savingShip, setSavingShip] = useState(false)
+  const [shipError, setShipError] = useState('')
+
   useEffect(() => {
     let active = true
     void fetchOrderById(id).then((row) => {
       if (!active) return
       setOrder(row)
+      if (row) {
+        setCarrier(row.carrier ?? '')
+        setTrackingNo(row.tracking_no ?? '')
+        setMarkShipped(row.status === 'pending' || row.status === 'paid')
+      }
       setLoading(false)
     })
     return () => {
@@ -52,6 +75,29 @@ export function OrderDetailPage() {
     const { error } = await updateOrderStatus(order.id, next)
     setUpdating(false)
     if (!error) setOrder({ ...order, status: next })
+  }
+
+  const handleSaveShipping = async () => {
+    setSavingShip(true)
+    setShipError('')
+    const tracking = trackingNo.trim()
+    const advance = markShipped && !!tracking
+    const { error } = await updateOrderShipping(order.id, {
+      carrier: carrier || null,
+      trackingNo: tracking || null,
+      markShipped: advance,
+    })
+    setSavingShip(false)
+    if (error) {
+      setShipError(error)
+      return
+    }
+    setOrder({
+      ...order,
+      carrier: carrier || null,
+      tracking_no: tracking || null,
+      status: advance ? 'shipped' : order.status,
+    })
   }
 
   return (
@@ -107,6 +153,45 @@ export function OrderDetailPage() {
           <TotalField label="합계 (Total)" value={formatMoney(order.total, order.currency)} />
         </Panel>
       </Grid>
+
+      <Panel style={{ marginTop: 20 }}>
+        <PanelTitle>배송 정보</PanelTitle>
+        {shipError && <ShipError>{shipError}</ShipError>}
+        <ShipForm>
+          <ShipField>
+            <ShipLabel>택배사</ShipLabel>
+            <StatusSelect value={carrier} onChange={(e) => setCarrier(e.target.value)}>
+              <option value="">선택</option>
+              {CARRIERS.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </StatusSelect>
+          </ShipField>
+          <ShipField>
+            <ShipLabel>송장번호</ShipLabel>
+            <ShipInput
+              value={trackingNo}
+              onChange={(e) => setTrackingNo(e.target.value)}
+              placeholder="송장번호 입력"
+            />
+          </ShipField>
+        </ShipForm>
+        <ShipActions>
+          <CheckLabel>
+            <input
+              type="checkbox"
+              checked={markShipped}
+              onChange={(e) => setMarkShipped(e.target.checked)}
+            />
+            저장 시 상태를 &lsquo;배송중&rsquo;으로 변경
+          </CheckLabel>
+          <SaveShipButton type="button" disabled={savingShip} onClick={handleSaveShipping}>
+            {savingShip ? '저장 중...' : '배송 정보 저장'}
+          </SaveShipButton>
+        </ShipActions>
+      </Panel>
 
       <Panel style={{ marginTop: 20 }}>
         <PanelTitle>주문 상품</PanelTitle>
@@ -246,5 +331,86 @@ const FieldValue = styled.span`
 
 const TotalValue = styled(FieldValue)`
   font-weight: 700;
+  color: ${({ theme }) => theme.colors.brandRed};
+`
+
+const ShipForm = styled.div`
+  display: flex;
+  gap: 16px;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+  }
+`
+
+const ShipField = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+`
+
+const ShipLabel = styled.label`
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  color: ${({ theme }) => theme.colors.textSecondary};
+`
+
+const ShipInput = styled.input`
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 12px;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 4px;
+  background-color: ${({ theme }) => theme.colors.white};
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  color: ${({ theme }) => theme.colors.ink};
+`
+
+const ShipActions = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+    align-items: stretch;
+  }
+`
+
+const CheckLabel = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  cursor: pointer;
+`
+
+const SaveShipButton = styled.button`
+  padding: 10px 22px;
+  border: none;
+  border-radius: 4px;
+  background-color: ${({ theme }) => theme.colors.brandRed};
+  color: ${({ theme }) => theme.colors.white};
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  font-weight: 500;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+`
+
+const ShipError = styled.p`
+  margin-bottom: 12px;
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
   color: ${({ theme }) => theme.colors.brandRed};
 `

@@ -24,7 +24,6 @@ import { MembersPage } from '@/pages/admin/MembersPage'
 import { MemberDetailPage } from '@/pages/admin/MemberDetailPage'
 import { OrdersPage } from '@/pages/admin/OrdersPage'
 import { OrderDetailPage } from '@/pages/admin/OrderDetailPage'
-import { TrackingInputPage } from '@/pages/admin/TrackingInputPage'
 import { ProductsPage as AdminProductsPage } from '@/pages/admin/ProductsPage'
 import { SettingsPage } from '@/pages/admin/SettingsPage'
 import { CustomerInsightsPage } from '@/pages/admin/CustomerInsightsPage'
@@ -92,7 +91,6 @@ export function App() {
           <Route path="members/:id" element={<MemberDetailPage />} />
           <Route path="orders" element={<OrdersPage />} />
           <Route path="orders/:id" element={<OrderDetailPage />} />
-          <Route path="orders/:id/tracking" element={<TrackingInputPage />} />
           <Route path="products" element={<AdminProductsPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
