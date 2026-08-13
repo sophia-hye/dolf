@@ -101,10 +101,15 @@ export interface OrderRow {
   readonly shipping_fee: number
   readonly total: number
   readonly recipient: string | null
+  readonly email: string | null
   readonly address: string | null
   readonly phone: string | null
   readonly carrier: string | null
   readonly tracking_no: string | null
+  readonly payment_ref: string | null
+  readonly toss_order_id: string | null
+  readonly payment_method: string | null
+  readonly paid_at: string | null
   readonly created_at: string
   readonly order_items: OrderItemRow[]
 }
@@ -173,7 +178,7 @@ export const ORDER_STATUS_LABEL_KO: Record<OrderStatus, string> = {
 }
 
 const ORDER_SELECT =
-  'id, status, currency, subtotal, shipping_fee, total, recipient, address, phone, carrier, tracking_no, created_at, order_items ( product_slug, name, unit_price, currency, quantity )'
+  'id, status, currency, subtotal, shipping_fee, total, recipient, email, address, phone, carrier, tracking_no, payment_ref, toss_order_id, payment_method, paid_at, created_at, order_items ( product_slug, name, unit_price, currency, quantity )'
 
 interface RawOrderRow
   extends Omit<OrderRow, 'subtotal' | 'shipping_fee' | 'total' | 'order_items'> {

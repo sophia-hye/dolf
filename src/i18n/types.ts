@@ -275,17 +275,34 @@ export interface Dictionary {
       readonly title: string
       readonly recipientLabel: string
       readonly recipientPlaceholder: string
+      readonly emailLabel: string
+      readonly emailPlaceholder: string
       readonly phoneLabel: string
       readonly phonePlaceholder: string
       readonly addressLabel: string
       readonly addressPlaceholder: string
+      readonly postcodeLabel: string
+      readonly searchAddress: string
+      readonly addressBaseLabel: string
+      readonly addressDetailLabel: string
+      readonly addressDetailPlaceholder: string
+      readonly addressRequired: string
+      readonly guestBadge: string
+      readonly memberBadge: string
       readonly subtotal: string
       readonly shipping: string
       readonly total: string
       readonly placeOrder: string
       readonly placing: string
+      readonly redirecting: string
       readonly success: string
       readonly successNote: string
+      readonly paid: string
+      readonly paidNote: string
+      readonly confirmPending: string
+      readonly failTitle: string
+      readonly failNote: string
+      readonly retry: string
       readonly emptyCart: string
       readonly backToShop: string
       readonly viewOrders: string

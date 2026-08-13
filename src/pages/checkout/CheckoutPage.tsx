@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Eyebrow'
@@ -8,30 +8,37 @@ import { useCart } from '@/state/cart-context'
 import { useAuth } from '@/state/auth-context'
 import { useProductOverrides } from '@/state/products-context'
 import { getProductBySlug } from '@/data/products'
-import {
-  createOrder,
-  formatMoney,
-  shippingFeeFor,
-  CURRENCY_BY_LOCALE,
-} from '@/lib/orders'
+import { formatMoney, shippingFeeFor, CURRENCY_BY_LOCALE } from '@/lib/orders'
 import { effectivePriceAmount, effectiveName } from '@/lib/product-pricing'
 import { toShippingConfig } from '@/lib/settings'
 import { pushEvent } from '@/lib/gtm'
+import { requestCardPayment, makeOrderId } from '@/lib/toss'
+import { PENDING_ORDER_KEY, type PendingOrder } from '@/lib/pending-order'
+import { openPostcode } from '@/lib/postcode'
 
 export function CheckoutPage() {
   const { t, locale } = useLocale()
-  const { items, clear } = useCart()
+  const { items } = useCart()
   const { user } = useAuth()
   const { overrides, settings } = useProductOverrides()
-  const navigate = useNavigate()
   const c = t.account.checkout
 
   const [recipient, setRecipient] = useState(user?.name ?? '')
+  const [email, setEmail] = useState(user?.email ?? '')
   const [phone, setPhone] = useState(user?.phone ?? '')
-  const [address, setAddress] = useState(user?.address ?? '')
+  const [zonecode, setZonecode] = useState('')
+  const [baseAddress, setBaseAddress] = useState('')
+  const [detailAddress, setDetailAddress] = useState(user?.address ?? '')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
-  const [done, setDone] = useState(false)
+
+  const openAddressSearch = async () => {
+    const result = await openPostcode()
+    if (result) {
+      setZonecode(result.zonecode)
+      setBaseAddress(result.address)
+    }
+  }
 
   const currency = CURRENCY_BY_LOCALE[locale]
 
@@ -54,6 +61,7 @@ export function CheckoutPage() {
     ? shippingFeeFor(currency, subtotal, toShippingConfig(settings))
     : 0
   const total = subtotal + shipping
+  const itemCount = lines.reduce((n, l) => n + l.quantity, 0)
 
   // Report begin_checkout once when the checkout is entered with items.
   useEffect(() => {
@@ -61,7 +69,7 @@ export function CheckoutPage() {
     pushEvent('begin_checkout', {
       value: total,
       currency,
-      item_count: lines.reduce((n, l) => n + l.quantity, 0),
+      item_count: itemCount,
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -70,14 +78,32 @@ export function CheckoutPage() {
     e.preventDefault()
     setError('')
     setBusy(true)
-    const { id, error: err } = await createOrder({
+
+    if (!zonecode || !baseAddress) {
+      setBusy(false)
+      setError(c.addressRequired)
+      return
+    }
+    const fullAddress = `(${zonecode}) ${baseAddress} ${detailAddress}`.trim()
+
+    const orderId = makeOrderId()
+    const orderName =
+      lines.length === 1
+        ? effectiveName(lines[0].slug, locale, overrides)
+        : `${effectiveName(lines[0].slug, locale, overrides)} 외 ${lines.length - 1}건`
+
+    // Stash the order so /checkout/success can persist it after Toss redirects.
+    const pending: PendingOrder = {
+      orderId,
       currency,
       subtotal,
       shippingFee: shipping,
       total,
       recipient: recipient.trim(),
-      address: address.trim(),
+      email: email.trim(),
+      address: fullAddress,
       phone: phone.trim(),
+      isGuest: !user,
       items: lines.map((l) => ({
         productSlug: l.slug,
         name: effectiveName(l.slug, locale, overrides),
@@ -85,20 +111,31 @@ export function CheckoutPage() {
         currency,
         quantity: l.quantity,
       })),
-    })
-    setBusy(false)
-    if (err) {
-      setError(err)
-      return
     }
-    pushEvent('purchase', {
-      transaction_id: id ?? undefined,
-      value: total,
-      currency,
-      item_count: lines.reduce((n, l) => n + l.quantity, 0),
-    })
-    clear()
-    setDone(true)
+    sessionStorage.setItem(PENDING_ORDER_KEY, JSON.stringify(pending))
+
+    const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+    const origin = window.location.origin
+
+    try {
+      await requestCardPayment({
+        orderId,
+        orderName,
+        amount: total,
+        currency,
+        customerName: recipient.trim(),
+        customerEmail: email.trim(),
+        successUrl: `${origin}${base}/checkout/success`,
+        failUrl: `${origin}${base}/checkout/fail`,
+      })
+      // On success Toss redirects the browser; nothing else runs here.
+    } catch (err) {
+      // User closed the window or the SDK reported an error.
+      setBusy(false)
+      const message =
+        (err as { message?: string })?.message || c.failNote
+      setError(message)
+    }
   }
 
   return (
@@ -109,16 +146,7 @@ export function CheckoutPage() {
           <Title>{c.title}</Title>
         </Head>
 
-        {done ? (
-          <Panel>
-            <SuccessTitle>{c.success}</SuccessTitle>
-            <SuccessNote>{c.successNote}</SuccessNote>
-            <SuccessActions>
-              <PrimaryLink to="/mypage">{c.viewOrders}</PrimaryLink>
-              <TextLink to="/shop">{c.backToShop}</TextLink>
-            </SuccessActions>
-          </Panel>
-        ) : lines.length === 0 ? (
+        {lines.length === 0 ? (
           <Panel>
             <SuccessNote>{c.emptyCart}</SuccessNote>
             <PrimaryLink to="/shop">{c.backToShop}</PrimaryLink>
@@ -126,6 +154,7 @@ export function CheckoutPage() {
         ) : (
           <Grid>
             <form onSubmit={handleSubmit}>
+              <Badge $guest={!user}>{user ? c.memberBadge : c.guestBadge}</Badge>
               {error && <ErrorText>{error}</ErrorText>}
               <Field>
                 <Label htmlFor="recipient">{c.recipientLabel}</Label>
@@ -135,6 +164,17 @@ export function CheckoutPage() {
                   placeholder={c.recipientPlaceholder}
                   value={recipient}
                   onChange={(e) => setRecipient(e.target.value)}
+                  required
+                />
+              </Field>
+              <Field>
+                <Label htmlFor="email">{c.emailLabel}</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder={c.emailPlaceholder}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </Field>
@@ -150,18 +190,46 @@ export function CheckoutPage() {
                 />
               </Field>
               <Field>
-                <Label htmlFor="address">{c.addressLabel}</Label>
-                <Textarea
-                  id="address"
+                <Label htmlFor="postcode">{c.postcodeLabel}</Label>
+                <PostcodeRow>
+                  <Input
+                    id="postcode"
+                    type="text"
+                    style={{ flex: 1, minWidth: 0 }}
+                    placeholder={c.postcodeLabel}
+                    value={zonecode}
+                    readOnly
+                    onClick={openAddressSearch}
+                  />
+                  <SearchButton type="button" onClick={openAddressSearch}>
+                    {c.searchAddress}
+                  </SearchButton>
+                </PostcodeRow>
+              </Field>
+              <Field>
+                <Label htmlFor="baseAddress">{c.addressBaseLabel}</Label>
+                <Input
+                  id="baseAddress"
+                  type="text"
                   placeholder={c.addressPlaceholder}
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  rows={3}
+                  value={baseAddress}
+                  readOnly
+                  onClick={openAddressSearch}
+                />
+              </Field>
+              <Field>
+                <Label htmlFor="detail">{c.addressDetailLabel}</Label>
+                <Input
+                  id="detail"
+                  type="text"
+                  placeholder={c.addressDetailPlaceholder}
+                  value={detailAddress}
+                  onChange={(e) => setDetailAddress(e.target.value)}
                   required
                 />
               </Field>
               <SubmitButton type="submit" disabled={busy}>
-                {busy ? c.placing : c.placeOrder}
+                {busy ? c.redirecting : c.placeOrder}
               </SubmitButton>
             </form>
 
@@ -245,6 +313,18 @@ const Grid = styled.div`
   }
 `
 
+const Badge = styled.div<{ $guest: boolean }>`
+  margin-bottom: 18px;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  color: ${({ theme }) => theme.colors.ink};
+  background-color: ${({ theme, $guest }) =>
+    $guest ? theme.colors.surface : 'rgba(168, 18, 18, 0.06)'};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+`
+
 const Field = styled.div`
   display: flex;
   flex-direction: column;
@@ -273,19 +353,27 @@ const Input = styled.input`
   }
 `
 
-const Textarea = styled.textarea`
-  width: 100%;
-  background-color: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: 4px;
-  padding: 13px 15px;
-  font-family: ${({ theme }) => theme.fonts.kr};
-  font-size: 15px;
-  color: ${({ theme }) => theme.colors.ink};
-  resize: vertical;
+const PostcodeRow = styled.div`
+  display: flex;
+  gap: 8px;
+`
 
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.textSecondary};
+const SearchButton = styled.button`
+  flex: 0 0 auto;
+  padding: 0 18px;
+  border: 1px solid ${({ theme }) => theme.colors.ink};
+  border-radius: 4px;
+  background-color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.ink};
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.surface};
   }
 `
 
@@ -375,24 +463,11 @@ const Panel = styled.div`
   padding: 40px 0;
 `
 
-const SuccessTitle = styled.h2`
-  font-family: ${({ theme }) => theme.fonts.serif};
-  font-size: ${({ theme }) => theme.fontSizes.h2};
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.ink};
-`
-
 const SuccessNote = styled.p`
   font-family: ${({ theme }) => theme.fonts.kr};
   font-size: ${({ theme }) => theme.fontSizes.body};
   line-height: 1.6;
   color: ${({ theme }) => theme.colors.textSecondary};
-`
-
-const SuccessActions = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
 `
 
 const PrimaryLink = styled(Link)`
@@ -403,11 +478,4 @@ const PrimaryLink = styled(Link)`
   font-family: ${({ theme }) => theme.fonts.sans};
   font-size: ${({ theme }) => theme.fontSizes.nav};
   font-weight: 500;
-`
-
-const TextLink = styled(Link)`
-  font-family: ${({ theme }) => theme.fonts.sans};
-  font-size: ${({ theme }) => theme.fontSizes.nav};
-  color: ${({ theme }) => theme.colors.ink};
-  text-decoration: underline;
 `

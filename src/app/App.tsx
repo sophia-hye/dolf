@@ -10,6 +10,8 @@ import { ShopPage } from '@/pages/shop/ShopPage'
 import { ShopDetailPage } from '@/pages/shop/detail/ShopDetailPage'
 import { CartPage } from '@/pages/cart/CartPage'
 import { CheckoutPage } from '@/pages/checkout/CheckoutPage'
+import { CheckoutSuccessPage } from '@/pages/checkout/CheckoutSuccessPage'
+import { CheckoutFailPage } from '@/pages/checkout/CheckoutFailPage'
 import { SignInPage } from '@/pages/auth/SignInPage'
 import { SignUpPage } from '@/pages/auth/SignUpPage'
 import { ForgotPasswordPage } from '@/pages/auth/ForgotPasswordPage'
@@ -51,14 +53,10 @@ export function App() {
           <Route path="shop" element={<ShopPage />} />
           <Route path="shop/:slug" element={<ShopDetailPage />} />
           <Route path="cart" element={<CartPage />} />
-          <Route
-            path="checkout"
-            element={
-              <ProtectedRoute role="user">
-                <CheckoutPage />
-              </ProtectedRoute>
-            }
-          />
+          {/* Guest checkout allowed — no auth gate. */}
+          <Route path="checkout" element={<CheckoutPage />} />
+          <Route path="checkout/success" element={<CheckoutSuccessPage />} />
+          <Route path="checkout/fail" element={<CheckoutFailPage />} />
           <Route path="signin" element={<SignInPage />} />
           <Route path="signup" element={<SignUpPage />} />
           <Route path="forgot-password" element={<ForgotPasswordPage />} />
