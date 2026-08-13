@@ -58,6 +58,19 @@ create table if not exists public.order_items (
 );
 create index if not exists order_items_order_id_idx on public.order_items (order_id);
 
+-- ─── guest checkout + payment fields (idempotent; safe to re-run) ────────────
+-- Guest orders have no auth user, so user_id must be nullable. Guest + member
+-- orders are written by the `confirm-payment` Edge Function using the service
+-- role (which bypasses RLS), only after the payment is verified with Toss.
+alter table public.orders alter column user_id drop not null;
+alter table public.orders add column if not exists email          text;
+alter table public.orders add column if not exists toss_order_id  text;
+alter table public.orders add column if not exists payment_method text;
+alter table public.orders add column if not exists paid_at        timestamptz;
+-- One order row per Toss order id (makes payment confirmation idempotent).
+create unique index if not exists orders_toss_order_id_key
+  on public.orders (toss_order_id) where toss_order_id is not null;
+
 -- ─── helper: is the caller an admin? ────────────────────────────────────────
 -- SECURITY DEFINER so it can read profiles without tripping profiles' own RLS.
 create or replace function public.is_admin()
