@@ -112,11 +112,13 @@ export function CheckoutSuccessPage() {
               )}
               <Actions>
                 {user ? (
-                  <PrimaryLink to="/mypage">{c.viewOrders}</PrimaryLink>
+                  <>
+                    <PrimaryLink to="/mypage">{c.viewOrders}</PrimaryLink>
+                    <TextLink to="/shop">{c.backToShop}</TextLink>
+                  </>
                 ) : (
                   <PrimaryLink to="/shop">{c.backToShop}</PrimaryLink>
                 )}
-                <TextLink to="/shop">{c.backToShop}</TextLink>
               </Actions>
             </>
           )}
@@ -147,8 +149,9 @@ const Panel = styled.div`
 
 const PaidTitle = styled.h1`
   font-family: ${({ theme }) => theme.fonts.serif};
-  font-size: ${({ theme }) => theme.fontSizes.h1};
+  font-size: clamp(28px, 5vw, 48px);
   font-weight: 500;
+  white-space: nowrap;
   color: ${({ theme }) => theme.colors.ink};
 `
 
