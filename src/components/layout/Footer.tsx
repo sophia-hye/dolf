@@ -51,7 +51,8 @@ export function Footer() {
             {businessInfo.companyName} · 대표 {businessInfo.owner}
           </BizRow>
           <BizRow>사업자등록번호 {businessInfo.registrationNumber}</BizRow>
-          <BizRow>통신판매업신고 {businessInfo.mailOrderNumber}</BizRow>
+          {/* 통신판매업 신고번호 발급 전까지 노출하지 않음. 신고 완료 후 아래 줄 복원:
+              <BizRow>통신판매업신고 {businessInfo.mailOrderNumber}</BizRow> */}
           <BizRow>{businessInfo.address}</BizRow>
           <BizRow>
             고객센터 {businessInfo.phone} · {businessInfo.email}
