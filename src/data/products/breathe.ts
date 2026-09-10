@@ -21,12 +21,12 @@ export const breathe: Record<Locale, ShopProduct> = {
     catalogImage: catalog,
     catalogName: 'Breathe — Planner & Diary',
     badge: 'Faith',
-    catalogPrice: '₩52,000',
+    catalogPrice: '₩34,000',
     hero: {
       gallery: [hero, coverBack],
       title: 'Breathe',
       subtitle: 'Planner & Diary — 신앙과 일상을 함께 기록하는 플래너',
-      price: '₩52,000',
+      price: '₩34,000',
       description:
         '하루를 계획하는 동시에 감사·묵상·성찰을 기록할 수 있도록 설계된 루틴 플래너입니다. 완벽한 계획보다 하루를 의미 있게 살아가는 데 집중하도록 돕습니다.',
       specLines: ['B6 · 128 × 182mm', '128 페이지', 'Lay-flat 제본'],
@@ -133,7 +133,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       title: 'Good to know',
       shipping: {
         title: 'Shipping & Returns',
-        body: '주문 후 2–3일 이내 출고되며 국내 택배로 배송됩니다. 단순 변심에 의한 교환·반품은 상품 수령 후 7일 이내 가능합니다.',
+        body: '주문 후 2–3일 이내 출고되며 국내 택배로 배송됩니다. 5만원 이상 구매 시 국내 무료배송입니다. 단순 변심에 의한 교환·반품은 상품 수령 후 7일 이내 가능합니다.',
       },
       faq: [
         {
@@ -165,12 +165,12 @@ export const breathe: Record<Locale, ShopProduct> = {
     catalogImage: catalog,
     catalogName: 'Breathe — Planner & Diary',
     badge: 'Faith',
-    catalogPrice: '$38',
+    catalogPrice: '$25',
     hero: {
       gallery: [hero, coverBack],
       title: 'Breathe',
       subtitle: 'Planner & Diary — a planner for recording faith and daily life together',
-      price: '$38',
+      price: '$25',
       description:
         'A routine planner designed to let you plan your day while recording gratitude, devotion, and reflection. It helps you focus on living each day meaningfully rather than planning it perfectly.',
       specLines: ['B6 · 128 × 182mm', '128 pages', 'Lay-flat binding'],
@@ -312,12 +312,12 @@ export const breathe: Record<Locale, ShopProduct> = {
     catalogImage: catalog,
     catalogName: 'Breathe — Planner & Diary',
     badge: 'Faith',
-    catalogPrice: '¥5,900',
+    catalogPrice: '¥3,900',
     hero: {
       gallery: [hero, coverBack],
       title: 'Breathe',
       subtitle: 'Planner & Diary — 信仰と日常をともに記録するプランナー',
-      price: '¥5,900',
+      price: '¥3,900',
       description:
         '一日を計画すると同時に、感謝・黙想・省察を記録できるよう設計されたルーティンプランナーです。完璧な計画よりも、一日を意味あるものとして生きることに集中できるよう手助けします。',
       specLines: ['B6 · 128 × 182mm', '128ページ', 'Lay-flat 製本'],
