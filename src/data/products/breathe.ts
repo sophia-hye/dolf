@@ -22,6 +22,11 @@ export const breathe: Record<Locale, ShopProduct> = {
     catalogName: 'Breathe — Planner & Diary',
     badge: 'Faith',
     catalogPrice: '₩34,000',
+    variants: [
+      { id: 'single', label: '1권', packSize: 1, price: 34000 },
+      { id: 'set3', label: '3권 세트', packSize: 3, price: 90000 },
+      { id: 'set6', label: '6권 세트', packSize: 6, price: 168000 },
+    ],
     hero: {
       gallery: [hero, coverBack],
       title: 'Breathe',
@@ -166,6 +171,11 @@ export const breathe: Record<Locale, ShopProduct> = {
     catalogName: 'Breathe — Planner & Diary',
     badge: 'Faith',
     catalogPrice: '$25',
+    variants: [
+      { id: 'single', label: '1 book', packSize: 1, price: 25 },
+      { id: 'set3', label: '3-pack', packSize: 3, price: 66 },
+      { id: 'set6', label: '6-pack', packSize: 6, price: 120 },
+    ],
     hero: {
       gallery: [hero, coverBack],
       title: 'Breathe',
@@ -313,6 +323,11 @@ export const breathe: Record<Locale, ShopProduct> = {
     catalogName: 'Breathe — Planner & Diary',
     badge: 'Faith',
     catalogPrice: '¥3,900',
+    variants: [
+      { id: 'single', label: '1冊', packSize: 1, price: 3900 },
+      { id: 'set3', label: '3冊セット', packSize: 3, price: 10200 },
+      { id: 'set6', label: '6冊セット', packSize: 6, price: 18600 },
+    ],
     hero: {
       gallery: [hero, coverBack],
       title: 'Breathe',

@@ -26,7 +26,11 @@ export function getProducts(locale: Locale): ShopProduct[] {
 }
 
 export function getProductBySlug(slug: string, locale: Locale): ShopProduct | undefined {
-  return localizedProducts.map((p) => p[locale]).find((p) => p.slug === slug)
+  // Cart keys may carry a variant suffix ("breathe::set3"); resolve to the base
+  // slug. Real slugs never contain "::".
+  const sep = slug.indexOf('::')
+  const base = sep === -1 ? slug : slug.slice(0, sep)
+  return localizedProducts.map((p) => p[locale]).find((p) => p.slug === base)
 }
 
 // Stable slug list (locale-independent) for building marketing links.

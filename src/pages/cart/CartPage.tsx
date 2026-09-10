@@ -7,6 +7,7 @@ import { useProductOverrides } from '@/state/products-context'
 import { getProductBySlug } from '@/data/products'
 import { formatMoney, shippingFeeFor, CURRENCY_BY_LOCALE } from '@/lib/orders'
 import { effectivePriceAmount, effectiveName } from '@/lib/product-pricing'
+import { parseCartKey } from '@/lib/product-variants'
 import { toShippingConfig } from '@/lib/settings'
 
 export function CartPage() {
@@ -47,13 +48,15 @@ export function CartPage() {
         ) : (
           <>
             <List>
-              {lines.map(({ slug, quantity, product }) => (
+              {lines.map(({ slug, quantity, product }) => {
+                const baseSlug = parseCartKey(slug).slug
+                return (
                 <Row key={slug}>
-                  <Thumb to={`/shop/${slug}`}>
+                  <Thumb to={`/shop/${baseSlug}`}>
                     <img src={product.catalogImage} alt={product.catalogName} />
                   </Thumb>
                   <Info>
-                    <Name to={`/shop/${slug}`}>
+                    <Name to={`/shop/${baseSlug}`}>
                       {effectiveName(slug, locale, overrides)}
                     </Name>
                     <UnitPrice>
@@ -81,7 +84,8 @@ export function CartPage() {
                     </StepButton>
                   </Stepper>
                 </Row>
-              ))}
+                )
+              })}
             </List>
 
             <Summary>
