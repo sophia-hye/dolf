@@ -236,6 +236,7 @@ export const en: Dictionary = {
     cart: 'Cart',
     added: 'Added to your cart',
     soldOut: 'Sold out',
+    comingSoon: 'Coming soon',
     cartPage: {
       title: 'Cart',
       empty: 'Your cart is empty.',

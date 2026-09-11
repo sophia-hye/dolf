@@ -12,12 +12,12 @@ export const calendar: Record<Locale, ShopProduct> = {
     slug: 'calendar',
     catalogImage: catalog,
     catalogName: '2027 Calendar',
-    catalogPrice: '₩8,000',
+    catalogPrice: '₩5,000',
     hero: {
       gallery: [hero, coverBack],
       title: '2027 Calendar',
       subtitle: 'Calendar — 점자와 숫자로 표현한 미니멀 캘린더',
-      price: '₩8,000',
+      price: '₩5,000',
       description:
         '점자(braille) 모티프로 각 월을 표현한 미니멀 캘린더입니다. B6 양면 낱장으로, 일상의 공간을 따뜻하게 채웁니다.',
       specLines: ['B6 양면 · 128 × 182mm', '낱장 · 제본 없음', '2027 공휴일 표기'],
@@ -106,12 +106,12 @@ export const calendar: Record<Locale, ShopProduct> = {
     slug: 'calendar',
     catalogImage: catalog,
     catalogName: '2027 Calendar',
-    catalogPrice: '$6',
+    catalogPrice: '$4',
     hero: {
       gallery: [hero, coverBack],
       title: '2027 Calendar',
       subtitle: 'Calendar — a minimalist calendar expressed in braille and numbers',
-      price: '$6',
+      price: '$4',
       description:
         'A minimalist calendar that expresses each month with a braille motif. A B6 double-sided single sheet that warmly fills your everyday spaces.',
       specLines: ['B6 double-sided · 128 × 182mm', 'Single sheet · no binding', '2027 holidays marked'],
@@ -200,12 +200,12 @@ export const calendar: Record<Locale, ShopProduct> = {
     slug: 'calendar',
     catalogImage: catalog,
     catalogName: '2027 Calendar',
-    catalogPrice: '¥900',
+    catalogPrice: '¥600',
     hero: {
       gallery: [hero, coverBack],
       title: '2027 Calendar',
       subtitle: 'Calendar — 点字と数字で表現したミニマルなカレンダー',
-      price: '¥900',
+      price: '¥600',
       description:
         '点字（braille）モチーフで各月を表現したミニマルなカレンダーです。B6両面の1枚もので、日常の空間を温かく彩ります。',
       specLines: ['B6両面 · 128 × 182mm', '1枚もの・製本なし', '2027年の祝日を記載'],

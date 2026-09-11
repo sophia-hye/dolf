@@ -235,6 +235,7 @@ export const ko: Dictionary = {
     cart: 'Cart',
     added: '장바구니에 담겼습니다',
     soldOut: '품절',
+    comingSoon: 'Coming soon',
     cartPage: {
       title: '장바구니',
       empty: '장바구니가 비어 있습니다.',

@@ -98,14 +98,30 @@ export interface RelatedData {
   readonly cards: readonly RelatedCard[]
 }
 
+// A purchasable option (e.g. single book vs multi-pack). `packSize` is the
+// number of physical units the option ships — used so stock decrements by the
+// real count and the per-unit price = price / packSize. `price` is the option's
+// total in the product locale's currency.
+export interface ProductVariant {
+  readonly id: string
+  readonly label: string
+  readonly packSize: number
+  readonly price: number
+}
+
 export interface ShopProduct {
   readonly slug: string
   // Catalog (Shop grid) fields
   readonly catalogImage: string
   readonly catalogName: string
   readonly catalogPrice: string
+  // Optional purchase options. When present, the first entry is the default
+  // (single) and its price is the catalog/base price.
+  readonly variants?: readonly ProductVariant[]
   // Short language/edition badge shown over the cover (e.g. KO / EN / JP).
   readonly badge?: string
+  // When true, the storefront shows "Coming soon" instead of add-to-cart/buy.
+  readonly comingSoon?: boolean
   // Detail page sections
   readonly hero: ShopHeroData
   readonly story?: StoryData

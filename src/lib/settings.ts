@@ -24,7 +24,7 @@ export const DEFAULT_SETTINGS: StoreSettings = {
   shipping_fee_krw: 3500,
   shipping_fee_usd: 3.5,
   shipping_fee_jpy: 500,
-  free_ship_threshold_krw: 70000,
+  free_ship_threshold_krw: 50000,
   notify_new_order: true,
   notify_new_member: true,
   notify_low_stock: false,

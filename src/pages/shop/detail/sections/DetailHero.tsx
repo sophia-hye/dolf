@@ -7,6 +7,8 @@ import { useCart } from '@/state/cart-context'
 import { useWishlist } from '@/state/wishlist-context'
 import { useProductOverrides } from '@/state/products-context'
 import { isSoldOut } from '@/lib/product-pricing'
+import { makeCartKey } from '@/lib/product-variants'
+import { formatMoney, CURRENCY_BY_LOCALE } from '@/lib/orders'
 import { pushEvent } from '@/lib/gtm'
 import type { ShopProduct } from '@/data/shop-types'
 
@@ -14,7 +16,7 @@ import type { ShopProduct } from '@/data/shop-types'
 const SLIDE_MS = 3200
 
 export function DetailHero({ product }: { product: ShopProduct }) {
-  const { t } = useLocale()
+  const { t, locale } = useLocale()
   const { addItem } = useCart()
   const { has, toggle } = useWishlist()
   const { overrides } = useProductOverrides()
@@ -22,6 +24,15 @@ export function DetailHero({ product }: { product: ShopProduct }) {
   const sold = isSoldOut(product.slug, overrides)
   const { hero } = product
   const gallery = hero.gallery
+
+  // Purchase options (single / sets). Defaults to the first (single) variant.
+  const variants = product.variants
+  const currency = CURRENCY_BY_LOCALE[locale]
+  const [variantId, setVariantId] = useState(variants?.[0]?.id ?? '')
+  const selected = variants?.find((v) => v.id === variantId) ?? variants?.[0]
+  const priceText = selected ? formatMoney(selected.price, currency) : hero.price
+  const optionsLabel =
+    locale === 'ko' ? '구성 선택' : locale === 'ja' ? '構成を選択' : 'Choose an option'
 
   // Auto cross-fade between cover images (e.g. front ↔ back). Single-image
   // products stay static.
@@ -36,9 +47,10 @@ export function DetailHero({ product }: { product: ShopProduct }) {
   }, [gallery.length])
 
   const add = () => {
-    addItem(product.slug)
+    const key = makeCartKey(product.slug, variantId, variants?.[0]?.id)
+    addItem(key)
     pushEvent('add_to_cart', {
-      item_id: product.slug,
+      item_id: key,
       item_name: product.catalogName,
     })
   }
@@ -77,7 +89,24 @@ export function DetailHero({ product }: { product: ShopProduct }) {
         <Info>
           <Title>{hero.title}</Title>
           <Subtitle>{hero.subtitle}</Subtitle>
-          <Price>{hero.price}</Price>
+          <Price>{priceText}</Price>
+          {variants && variants.length > 1 && (
+            <Options role="radiogroup" aria-label={optionsLabel}>
+              {variants.map((v) => (
+                <Option
+                  key={v.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={v.id === variantId}
+                  $active={v.id === variantId}
+                  onClick={() => setVariantId(v.id)}
+                >
+                  <OptionName>{v.label}</OptionName>
+                  <OptionPrice>{formatMoney(v.price, currency)}</OptionPrice>
+                </Option>
+              ))}
+            </Options>
+          )}
           <Divider />
           <Description>{hero.description}</Description>
           <Specs>
@@ -86,12 +115,20 @@ export function DetailHero({ product }: { product: ShopProduct }) {
             ))}
           </Specs>
           <Buttons>
-            <BuyNow type="button" onClick={buyNow} disabled={sold}>
-              {sold ? t.shop.soldOut : t.shop.buyNow}
-            </BuyNow>
-            <AddToCart type="button" onClick={add} disabled={sold}>
-              {t.shop.addToCart}
-            </AddToCart>
+            {product.comingSoon ? (
+              <BuyNow type="button" disabled>
+                {t.shop.comingSoon}
+              </BuyNow>
+            ) : (
+              <>
+                <BuyNow type="button" onClick={buyNow} disabled={sold}>
+                  {sold ? t.shop.soldOut : t.shop.buyNow}
+                </BuyNow>
+                <AddToCart type="button" onClick={add} disabled={sold}>
+                  {t.shop.addToCart}
+                </AddToCart>
+              </>
+            )}
             <WishBtn
               type="button"
               aria-label="wishlist"
@@ -207,6 +244,46 @@ const Price = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.h2};
   font-weight: 500;
   color: ${({ theme }) => theme.colors.ink};
+`
+
+const Options = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+`
+
+const Option = styled.button<{ $active: boolean }>`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 12px 16px;
+  min-width: 108px;
+  border: 1.5px solid
+    ${({ theme, $active }) => ($active ? theme.colors.ink : theme.colors.border)};
+  border-radius: 6px;
+  background-color: ${({ theme, $active }) =>
+    $active ? theme.colors.surface : theme.colors.white};
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.ink};
+  }
+`
+
+const OptionName = styled.span`
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.nav};
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.ink};
+`
+
+const OptionPrice = styled.span`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  color: ${({ theme }) => theme.colors.textSecondary};
 `
 
 const Divider = styled.hr`

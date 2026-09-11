@@ -10,6 +10,7 @@ import { useProductOverrides } from '@/state/products-context'
 import { getProductBySlug } from '@/data/products'
 import { formatMoney, shippingFeeFor, CURRENCY_BY_LOCALE } from '@/lib/orders'
 import { effectivePriceAmount, effectiveName } from '@/lib/product-pricing'
+import { parseCartKey, resolveVariant } from '@/lib/product-variants'
 import { toShippingConfig } from '@/lib/settings'
 import { pushEvent } from '@/lib/gtm'
 import { requestCardPayment, makeOrderId } from '@/lib/toss'
@@ -104,13 +105,29 @@ export function CheckoutPage() {
       address: fullAddress,
       phone: phone.trim(),
       isGuest: !user,
-      items: lines.map((l) => ({
-        productSlug: l.slug,
-        name: effectiveName(l.slug, locale, overrides),
-        unitPrice: effectivePriceAmount(l.slug, locale, overrides),
-        currency,
-        quantity: l.quantity,
-      })),
+      // Persist sets as their physical unit count so the stock trigger
+      // decrements the real number of books and the per-unit price is recorded
+      // (e.g. a 3-pack -> base slug, qty 3, unit = total / 3).
+      items: lines.map((l) => {
+        const base = parseCartKey(l.slug).slug
+        const variant = resolveVariant(l.slug, locale)
+        if (variant && variant.packSize > 1) {
+          return {
+            productSlug: base,
+            name: effectiveName(base, locale, overrides),
+            unitPrice: Math.round(variant.price / variant.packSize),
+            currency,
+            quantity: variant.packSize * l.quantity,
+          }
+        }
+        return {
+          productSlug: base,
+          name: effectiveName(l.slug, locale, overrides),
+          unitPrice: effectivePriceAmount(l.slug, locale, overrides),
+          currency,
+          quantity: l.quantity,
+        }
+      }),
     }
     sessionStorage.setItem(PENDING_ORDER_KEY, JSON.stringify(pending))
 
