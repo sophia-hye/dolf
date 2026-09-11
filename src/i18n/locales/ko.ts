@@ -269,7 +269,9 @@ export const ko: Dictionary = {
         '관리자 계정으로 로그인하면 관리자 콘솔로, 일반 회원은 마이페이지로 자동 이동합니다. 별도 선택은 필요 없습니다.',
       noAccount: '계정이 없으신가요?',
       signUpLink: '회원가입',
-      notFound: '등록되지 않은 이메일입니다. 시드 계정 또는 가입한 이메일을 사용해 주세요.',
+      notFound: '로그인에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+      invalidCredentials: '이메일 또는 비밀번호가 올바르지 않습니다.',
+      emailNotConfirmed: '이메일 인증이 완료되지 않았습니다. 가입 시 받은 인증 메일의 링크를 확인해 주세요.',
     },
     signUp: {
       eyebrow: 'GET STARTED',

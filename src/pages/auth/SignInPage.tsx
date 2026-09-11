@@ -33,7 +33,14 @@ export function SignInPage() {
     const { error: err, user } = await signIn(email, password)
     setBusy(false)
     if (err || !user) {
-      setError(c.notFound)
+      const m = (err ?? '').toLowerCase()
+      setError(
+        m.includes('not confirmed') || m.includes('not verified')
+          ? c.emailNotConfirmed
+          : m.includes('invalid') || m.includes('credential') || m.includes('password')
+            ? c.invalidCredentials
+            : c.notFound,
+      )
       return
     }
     navigate(user.role === 'admin' ? '/admin' : '/mypage', { replace: true })
