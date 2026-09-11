@@ -138,7 +138,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       title: 'Good to know',
       shipping: {
         title: 'Shipping & Returns',
-        body: '주문 후 2–3일 이내 출고되며 국내 택배로 배송됩니다. 5만원 이상 구매 시 국내 무료배송입니다. 단순 변심에 의한 교환·반품은 상품 수령 후 7일 이내 가능합니다.',
+        body: '주문 후 2–3일 이내 출고되며 국내 택배로 배송됩니다. 7만원 이상 구매 시 국내 무료배송입니다. 단순 변심에 의한 교환·반품은 상품 수령 후 7일 이내 가능합니다.',
       },
       faq: [
         {
