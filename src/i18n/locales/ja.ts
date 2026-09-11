@@ -238,6 +238,7 @@ export const ja: Dictionary = {
     cart: 'Cart',
     added: 'カートに追加しました',
     soldOut: '売り切れ',
+    comingSoon: 'Coming soon',
     cartPage: {
       title: 'カート',
       empty: 'カートは空です。',

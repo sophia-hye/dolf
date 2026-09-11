@@ -15,6 +15,7 @@ import relatedCalendar from '@/assets/shop/tracker/related-calendar.png'
 export const tracker: Record<Locale, ShopProduct> = {
   ko: {
     slug: 'tracker',
+    comingSoon: true,
     catalogImage: catalog,
     catalogName: 'Bible Reading Tracker',
     badge: 'Faith',
@@ -151,6 +152,7 @@ export const tracker: Record<Locale, ShopProduct> = {
   },
   en: {
     slug: 'tracker',
+    comingSoon: true,
     catalogImage: catalog,
     catalogName: 'Bible Reading Tracker',
     badge: 'Faith',
@@ -287,6 +289,7 @@ export const tracker: Record<Locale, ShopProduct> = {
   },
   ja: {
     slug: 'tracker',
+    comingSoon: true,
     catalogImage: catalog,
     catalogName: 'Bible Reading Tracker',
     badge: 'Faith',

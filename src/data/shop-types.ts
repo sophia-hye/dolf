@@ -120,6 +120,8 @@ export interface ShopProduct {
   readonly variants?: readonly ProductVariant[]
   // Short language/edition badge shown over the cover (e.g. KO / EN / JP).
   readonly badge?: string
+  // When true, the storefront shows "Coming soon" instead of add-to-cart/buy.
+  readonly comingSoon?: boolean
   // Detail page sections
   readonly hero: ShopHeroData
   readonly story?: StoryData

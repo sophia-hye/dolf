@@ -115,12 +115,20 @@ export function DetailHero({ product }: { product: ShopProduct }) {
             ))}
           </Specs>
           <Buttons>
-            <BuyNow type="button" onClick={buyNow} disabled={sold}>
-              {sold ? t.shop.soldOut : t.shop.buyNow}
-            </BuyNow>
-            <AddToCart type="button" onClick={add} disabled={sold}>
-              {t.shop.addToCart}
-            </AddToCart>
+            {product.comingSoon ? (
+              <BuyNow type="button" disabled>
+                {t.shop.comingSoon}
+              </BuyNow>
+            ) : (
+              <>
+                <BuyNow type="button" onClick={buyNow} disabled={sold}>
+                  {sold ? t.shop.soldOut : t.shop.buyNow}
+                </BuyNow>
+                <AddToCart type="button" onClick={add} disabled={sold}>
+                  {t.shop.addToCart}
+                </AddToCart>
+              </>
+            )}
             <WishBtn
               type="button"
               aria-label="wishlist"

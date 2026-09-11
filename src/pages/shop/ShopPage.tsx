@@ -69,8 +69,9 @@ export function ShopPage() {
                 </CardLink>
                 <AddButton
                   type="button"
-                  disabled={sold}
+                  disabled={sold || product.comingSoon}
                   onClick={() => {
+                    if (product.comingSoon) return
                     addItem(product.slug)
                     pushEvent('add_to_cart', {
                       item_id: product.slug,
@@ -78,7 +79,11 @@ export function ShopPage() {
                     })
                   }}
                 >
-                  {sold ? t.shop.soldOut : t.shop.addToCart}
+                  {product.comingSoon
+                    ? t.shop.comingSoon
+                    : sold
+                      ? t.shop.soldOut
+                      : t.shop.addToCart}
                 </AddButton>
               </Card>
             )
