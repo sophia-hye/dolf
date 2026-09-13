@@ -35,6 +35,67 @@ interface Item {
   quantity: number
 }
 
+async function hmacSha256Hex(secret: string, data: string): Promise<string> {
+  const key = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  )
+  const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(data))
+  return Array.from(new Uint8Array(sig))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('')
+}
+
+// Best-effort owner SMS on a new paid order via Solapi. Never throws — the
+// order is already saved, so a notification failure must not fail the request.
+// No-op until SOLAPI_API_KEY / SOLAPI_API_SECRET / SMS_SENDER are configured.
+//   supabase secrets set SOLAPI_API_KEY=...  SOLAPI_API_SECRET=...
+//   supabase secrets set SMS_SENDER=01012345678   (registered 발신번호)
+//   supabase secrets set SMS_TO=01062918111       (owner recipient; defaults to SMS_SENDER)
+async function sendOwnerSms(
+  admin: ReturnType<typeof createClient>,
+  order: Record<string, unknown>,
+  items: Item[],
+): Promise<void> {
+  const apiKey = Deno.env.get('SOLAPI_API_KEY')
+  const apiSecret = Deno.env.get('SOLAPI_API_SECRET')
+  const from = Deno.env.get('SMS_SENDER')
+  const to = Deno.env.get('SMS_TO') || from
+  if (!apiKey || !apiSecret || !from || !to) return // not configured yet
+
+  // Respect the admin's "new order" notification toggle.
+  const { data: st } = await admin
+    .from('store_settings')
+    .select('notify_new_order')
+    .eq('id', 1)
+    .maybeSingle()
+  if (st && st.notify_new_order === false) return
+
+  const count = items.reduce((n, it) => n + Number(it.quantity || 0), 0)
+  const first = items[0]?.name ?? '상품'
+  const more = items.length > 1 ? ` 외 ${items.length - 1}건` : ''
+  const total = Number(order?.total ?? 0).toLocaleString('ko-KR')
+  const text = `[DoLF] 새 주문\n${String(order?.recipient ?? '')} / ${total}원\n${first}${more} (${count}개)`
+
+  const date = new Date().toISOString()
+  const salt = crypto.randomUUID().replace(/-/g, '')
+  const signature = await hmacSha256Hex(apiSecret, date + salt)
+  const res = await fetch('https://api.solapi.com/messages/v4/send', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `HMAC-SHA256 apiKey=${apiKey}, date=${date}, salt=${salt}, signature=${signature}`,
+    },
+    body: JSON.stringify({ message: { to, from, text } }),
+  })
+  if (!res.ok) {
+    console.error('owner sms failed', res.status, await res.text())
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS })
   if (req.method !== 'POST') {
@@ -137,6 +198,10 @@ Deno.serve(async (req) => {
         return json({ id: inserted.id, warning: 'items_insert_failed', detail: iErr.message })
       }
     }
+
+    // Notify the owner by SMS (best-effort; ignore failures so a working,
+    // already-saved order is never reported as failed).
+    await sendOwnerSms(admin, order, items).catch((e) => console.error('sms error', e))
 
     return json({ id: inserted.id, method: toss?.method ?? null })
   } catch (e) {
