@@ -1,3 +1,4 @@
+import { FunctionsHttpError } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
 import type { OrderItemInput } from '@/lib/orders'
 
@@ -31,7 +32,24 @@ export async function confirmPayment(
   const { data, error } = await supabase.functions.invoke('confirm-payment', {
     body: input,
   })
-  if (error) return { id: null, error: error.message }
+  if (error) {
+    // supabase-js hides the function's response body behind a generic message.
+    // Read it so the real cause (payment_confirm_failed, amount_mismatch, …)
+    // surfaces instead of "Edge Function returned a non-2xx status code".
+    let detail = error.message
+    if (error instanceof FunctionsHttpError) {
+      try {
+        const body = await error.context.json()
+        if (body?.error) {
+          const code = body?.detail?.code ? `: ${body.detail.code}` : ''
+          detail = `${body.error}${code}`
+        }
+      } catch {
+        /* body not JSON — keep the generic message */
+      }
+    }
+    return { id: null, error: detail }
+  }
   if (data?.error) return { id: null, error: String(data.error) }
   return { id: (data?.id as string) ?? null, error: null }
 }
