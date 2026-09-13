@@ -31,3 +31,6 @@ dist-ssr
 .claude/
 docs/.bkit-memory.json
 docs/.pdca-status.json
+
+# Supabase CLI local state
+supabase/.temp/
