@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useParams, Navigate } from 'react-router-dom'
 import { getProductBySlug } from '@/data/products'
 import { useLocale } from '@/i18n/context'
@@ -8,6 +9,7 @@ import {
   effectiveDescription,
   isPublished,
 } from '@/lib/product-pricing'
+import { editionsFor } from '@/lib/product-editions'
 import { DetailHero } from '@/pages/shop/detail/sections/DetailHero'
 import { StorySection } from '@/pages/shop/detail/sections/StorySection'
 import { InsidePagesSection } from '@/pages/shop/detail/sections/InsidePagesSection'
@@ -22,14 +24,23 @@ export function ShopDetailPage() {
   const { slug } = useParams<{ slug: string }>()
   const { locale } = useLocale()
   const { overrides, loading } = useProductOverrides()
-  const product = slug ? getProductBySlug(slug, locale) : undefined
+
+  // Editions of the same item share one page: the URL slug is the initial
+  // edition, and a selector swaps which edition's content + cart slug is used.
+  const editions = slug ? editionsFor(slug, locale) : undefined
+  const [editionSlug, setEditionSlug] = useState(slug ?? '')
+  useEffect(() => {
+    setEditionSlug(slug ?? '')
+  }, [slug])
+
+  const product = editionSlug ? getProductBySlug(editionSlug, locale) : undefined
 
   if (!product) {
     return <Navigate to="/shop" replace />
   }
 
   // Hide unpublished products from the storefront (wait for overrides to load).
-  if (!loading && slug && !isPublished(slug, overrides)) {
+  if (!loading && !isPublished(product.slug, overrides)) {
     return <Navigate to="/shop" replace />
   }
 
@@ -46,7 +57,12 @@ export function ShopDetailPage() {
 
   return (
     <>
-      <DetailHero product={heroProduct} />
+      <DetailHero
+        product={heroProduct}
+        editions={editions}
+        editionSlug={editionSlug}
+        onSelectEdition={setEditionSlug}
+      />
       {product.story && <StorySection data={product.story} />}
       {product.insidePages && <InsidePagesSection data={product.insidePages} />}
       {product.features && <FeaturesSection data={product.features} />}

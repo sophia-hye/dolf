@@ -28,6 +28,7 @@ function build(locale: Locale): ShopProduct {
     slug: 'breathe-jp',
     catalogName: 'Breathe — 日本語',
     badge: 'JP',
+    hideFromGrid: true,
     story: generalStory[locale],
     features: generalFeatures[locale],
     // Replace the reused (devotional) Layout row with the general layout.

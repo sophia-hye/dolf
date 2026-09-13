@@ -21,7 +21,9 @@ export function ShopPage() {
   const { addItem } = useCart()
   const { overrides } = useProductOverrides()
   const { has, toggle } = useWishlist()
-  const products = getProducts(locale).filter((p) => isPublished(p.slug, overrides))
+  const products = getProducts(locale).filter(
+    (p) => isPublished(p.slug, overrides) && !p.hideFromGrid,
+  )
 
   return (
     <>

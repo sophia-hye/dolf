@@ -122,6 +122,9 @@ export interface ShopProduct {
   readonly badge?: string
   // When true, the storefront shows "Coming soon" instead of add-to-cart/buy.
   readonly comingSoon?: boolean
+  // When true, the product is hidden from the Shop grid but still routable
+  // (e.g. a secondary edition selected via an option on the primary's page).
+  readonly hideFromGrid?: boolean
   // Detail page sections
   readonly hero: ShopHeroData
   readonly story?: StoryData

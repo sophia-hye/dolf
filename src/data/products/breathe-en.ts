@@ -29,6 +29,7 @@ function build(locale: Locale): ShopProduct {
     slug: 'breathe-en',
     catalogName: 'Breathe — English',
     badge: 'EN',
+    hideFromGrid: true,
     story: generalStory[locale],
     features: generalFeatures[locale],
     // Replace the reused (devotional) Layout row with the general layout.
