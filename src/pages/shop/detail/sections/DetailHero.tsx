@@ -11,11 +11,24 @@ import { makeCartKey } from '@/lib/product-variants'
 import { formatMoney, CURRENCY_BY_LOCALE } from '@/lib/orders'
 import { pushEvent } from '@/lib/gtm'
 import type { ShopProduct } from '@/data/shop-types'
+import type { EditionOption } from '@/lib/product-editions'
+
+interface DetailHeroProps {
+  readonly product: ShopProduct
+  readonly editions?: EditionOption[]
+  readonly editionSlug?: string
+  readonly onSelectEdition?: (slug: string) => void
+}
 
 // How long each cover stays fully visible before cross-fading to the next.
 const SLIDE_MS = 3200
 
-export function DetailHero({ product }: { product: ShopProduct }) {
+export function DetailHero({
+  product,
+  editions,
+  editionSlug,
+  onSelectEdition,
+}: DetailHeroProps) {
   const { t, locale } = useLocale()
   const { addItem } = useCart()
   const { has, toggle } = useWishlist()
@@ -33,6 +46,8 @@ export function DetailHero({ product }: { product: ShopProduct }) {
   const priceText = selected ? formatMoney(selected.price, currency) : hero.price
   const optionsLabel =
     locale === 'ko' ? '구성 선택' : locale === 'ja' ? '構成を選択' : 'Choose an option'
+  const editionLabel =
+    locale === 'ko' ? '에디션' : locale === 'ja' ? 'エディション' : 'Edition'
 
   // Auto cross-fade between cover images (e.g. front ↔ back). Single-image
   // products stay static.
@@ -89,6 +104,22 @@ export function DetailHero({ product }: { product: ShopProduct }) {
         <Info>
           <Title>{hero.title}</Title>
           <Subtitle>{hero.subtitle}</Subtitle>
+          {editions && editions.length > 1 && (
+            <Options role="radiogroup" aria-label={editionLabel}>
+              {editions.map((ed) => (
+                <Chip
+                  key={ed.slug}
+                  type="button"
+                  role="radio"
+                  aria-checked={ed.slug === editionSlug}
+                  $active={ed.slug === editionSlug}
+                  onClick={() => onSelectEdition?.(ed.slug)}
+                >
+                  {ed.label}
+                </Chip>
+              ))}
+            </Options>
+          )}
           <Price>{priceText}</Price>
           {variants && variants.length > 1 && (
             <Options role="radiogroup" aria-label={optionsLabel}>
@@ -251,6 +282,25 @@ const Options = styled.div`
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 18px;
+`
+
+const Chip = styled.button<{ $active: boolean }>`
+  padding: 9px 16px;
+  border: 1.5px solid
+    ${({ theme, $active }) => ($active ? theme.colors.ink : theme.colors.border)};
+  border-radius: 999px;
+  background-color: ${({ theme, $active }) =>
+    $active ? theme.colors.ink : theme.colors.white};
+  color: ${({ theme, $active }) => ($active ? theme.colors.white : theme.colors.ink)};
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.nav};
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.ink};
+  }
 `
 
 const Option = styled.button<{ $active: boolean }>`
