@@ -201,6 +201,8 @@ export interface Dictionary {
       readonly noAccount: string
       readonly signUpLink: string
       readonly notFound: string
+      readonly invalidCredentials: string
+      readonly emailNotConfirmed: string
     }
     readonly signUp: {
       readonly eyebrow: string

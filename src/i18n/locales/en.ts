@@ -271,7 +271,9 @@ export const en: Dictionary = {
         'Sign in with an admin account to go to the admin console, or with a member account to go to My Page. No separate selection is needed.',
       noAccount: "Don't have an account?",
       signUpLink: 'Sign up',
-      notFound: 'This email is not registered. Please use a seed account or the email you signed up with.',
+      notFound: 'Sign-in failed. Please try again in a moment.',
+      invalidCredentials: 'Incorrect email or password.',
+      emailNotConfirmed: 'Your email is not verified yet. Please click the confirmation link we sent you.',
     },
     signUp: {
       eyebrow: 'GET STARTED',

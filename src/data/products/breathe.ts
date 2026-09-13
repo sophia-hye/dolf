@@ -21,17 +21,17 @@ export const breathe: Record<Locale, ShopProduct> = {
     catalogImage: catalog,
     catalogName: 'Breathe — Planner & Diary',
     badge: 'Faith',
-    catalogPrice: '₩34,000',
+    catalogPrice: '₩19,000',
     variants: [
-      { id: 'single', label: '1권', packSize: 1, price: 34000 },
-      { id: 'set3', label: '3권 세트', packSize: 3, price: 90000 },
-      { id: 'set6', label: '6권 세트', packSize: 6, price: 168000 },
+      { id: 'single', label: '1권', packSize: 1, price: 19000 },
+      { id: 'set3', label: '3권 세트', packSize: 3, price: 51000 },
+      { id: 'set6', label: '6권 세트', packSize: 6, price: 96000 },
     ],
     hero: {
       gallery: [hero, coverBack],
       title: 'Breathe',
       subtitle: 'Planner & Diary — 신앙과 일상을 함께 기록하는 플래너',
-      price: '₩34,000',
+      price: '₩19,000',
       description:
         '하루를 계획하는 동시에 감사·묵상·성찰을 기록할 수 있도록 설계된 루틴 플래너입니다. 완벽한 계획보다 하루를 의미 있게 살아가는 데 집중하도록 돕습니다.',
       specLines: ['B6 · 128 × 182mm', '128 페이지', 'Lay-flat 제본'],
@@ -138,7 +138,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       title: 'Good to know',
       shipping: {
         title: 'Shipping & Returns',
-        body: '주문 후 2–3일 이내 출고되며 국내 택배로 배송됩니다. 5만원 이상 구매 시 국내 무료배송입니다. 단순 변심에 의한 교환·반품은 상품 수령 후 7일 이내 가능합니다.',
+        body: '주문 후 2–3일 이내 출고되며 국내 택배로 배송됩니다. 7만원 이상 구매 시 국내 무료배송입니다. 단순 변심에 의한 교환·반품은 상품 수령 후 7일 이내 가능합니다.',
       },
       faq: [
         {
@@ -170,17 +170,17 @@ export const breathe: Record<Locale, ShopProduct> = {
     catalogImage: catalog,
     catalogName: 'Breathe — Planner & Diary',
     badge: 'Faith',
-    catalogPrice: '$25',
+    catalogPrice: '$14',
     variants: [
-      { id: 'single', label: '1 book', packSize: 1, price: 25 },
-      { id: 'set3', label: '3-pack', packSize: 3, price: 66 },
-      { id: 'set6', label: '6-pack', packSize: 6, price: 120 },
+      { id: 'single', label: '1 book', packSize: 1, price: 14 },
+      { id: 'set3', label: '3-pack', packSize: 3, price: 36 },
+      { id: 'set6', label: '6-pack', packSize: 6, price: 66 },
     ],
     hero: {
       gallery: [hero, coverBack],
       title: 'Breathe',
       subtitle: 'Planner & Diary — a planner for recording faith and daily life together',
-      price: '$25',
+      price: '$14',
       description:
         'A routine planner designed to let you plan your day while recording gratitude, devotion, and reflection. It helps you focus on living each day meaningfully rather than planning it perfectly.',
       specLines: ['B6 · 128 × 182mm', '128 pages', 'Lay-flat binding'],
@@ -322,17 +322,17 @@ export const breathe: Record<Locale, ShopProduct> = {
     catalogImage: catalog,
     catalogName: 'Breathe — Planner & Diary',
     badge: 'Faith',
-    catalogPrice: '¥3,900',
+    catalogPrice: '¥2,200',
     variants: [
-      { id: 'single', label: '1冊', packSize: 1, price: 3900 },
-      { id: 'set3', label: '3冊セット', packSize: 3, price: 10200 },
-      { id: 'set6', label: '6冊セット', packSize: 6, price: 18600 },
+      { id: 'single', label: '1冊', packSize: 1, price: 2200 },
+      { id: 'set3', label: '3冊セット', packSize: 3, price: 5700 },
+      { id: 'set6', label: '6冊セット', packSize: 6, price: 10800 },
     ],
     hero: {
       gallery: [hero, coverBack],
       title: 'Breathe',
       subtitle: 'Planner & Diary — 信仰と日常をともに記録するプランナー',
-      price: '¥3,900',
+      price: '¥2,200',
       description:
         '一日を計画すると同時に、感謝・黙想・省察を記録できるよう設計されたルーティンプランナーです。完璧な計画よりも、一日を意味あるものとして生きることに集中できるよう手助けします。',
       specLines: ['B6 · 128 × 182mm', '128ページ', 'Lay-flat 製本'],
