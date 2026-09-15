@@ -128,8 +128,6 @@ export interface ShopProduct {
   // Detail page sections
   readonly hero: ShopHeroData
   readonly story?: StoryData
-  // Editorial model/lifestyle gallery (reuses the InsidePages captioned grid).
-  readonly lookbook?: InsidePagesData
   readonly insidePages?: InsidePagesData
   readonly features?: FeaturesData
   readonly pagesExplained?: PagesExplainedData

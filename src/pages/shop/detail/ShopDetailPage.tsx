@@ -64,7 +64,6 @@ export function ShopDetailPage() {
         onSelectEdition={setEditionSlug}
       />
       {product.story && <StorySection data={product.story} />}
-      {product.lookbook && <InsidePagesSection data={product.lookbook} />}
       {product.insidePages && <InsidePagesSection data={product.insidePages} />}
       {product.features && <FeaturesSection data={product.features} />}
       {product.pagesExplained && <PagesExplainedSection data={product.pagesExplained} />}

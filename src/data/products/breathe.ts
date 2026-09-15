@@ -21,10 +21,6 @@ const heroFace = `${P}face_643B6376.jpg`
 const insideSpread = `${P}look3_5E17C7CC.jpg`
 const insideBreathe = `${P}look6_034A1BCD.jpg`
 const insideReading = `${P}look3_3AF5B24B.jpg`
-// Lookbook — model/outfit range.
-const lookLeather = `${P}look2_2A00FD2E.jpg`
-const lookBlack = `${P}look1_0B87AC6F.jpg`
-const lookDenim = `${P}look4_017CCFD3.jpg`
 
 export const breathe: Record<Locale, ShopProduct> = {
   ko: {
@@ -53,15 +49,6 @@ export const breathe: Record<Locale, ShopProduct> = {
       paragraphs: [
         'Breathe는 단순한 일정 관리 도구가 아닙니다. 하루를 계획하는 동시에 하나님을 기억하고, 삶을 돌아보며, 작은 감사와 묵상을 기록할 수 있도록 설계된 루틴 플래너입니다.',
         '완벽한 계획보다 하루를 의미 있게 살아가는 데 집중하도록 만들었습니다. 매일의 작은 기록이 쌓여 신앙과 일상이 자연스럽게 연결되는 경험을 선물합니다.',
-      ],
-    },
-    lookbook: {
-      eyebrow: 'LOOKBOOK',
-      title: '일상 속의 Breathe',
-      items: [
-        { caption: '블랙 셋업', image: lookBlack },
-        { caption: '레더 무드', image: lookLeather },
-        { caption: '데님 캐주얼', image: lookDenim },
       ],
     },
     insidePages: {
@@ -211,15 +198,6 @@ export const breathe: Record<Locale, ShopProduct> = {
       paragraphs: [
         'Breathe is more than a simple scheduling tool. It is a routine planner designed to help you plan your day while remembering God, looking back on your life, and recording small moments of gratitude and devotion.',
         'It was made to help you focus on living each day meaningfully rather than planning it perfectly. Small daily entries accumulate, giving you the experience of faith and everyday life connecting naturally.',
-      ],
-    },
-    lookbook: {
-      eyebrow: 'LOOKBOOK',
-      title: 'Breathe in daily life',
-      items: [
-        { caption: 'Black setup', image: lookBlack },
-        { caption: 'Leather mood', image: lookLeather },
-        { caption: 'Denim casual', image: lookDenim },
       ],
     },
     insidePages: {
@@ -372,15 +350,6 @@ export const breathe: Record<Locale, ShopProduct> = {
       paragraphs: [
         'Breatheは単なるスケジュール管理ツールではありません。一日を計画すると同時に、神を思い起こし、人生を振り返り、小さな感謝と黙想を記録できるよう設計されたルーティンプランナーです。',
         '完璧な計画よりも、一日を意味あるものとして生きることに集中できるよう作りました。毎日の小さな記録が積み重なり、信仰と日常が自然につながる体験を贈ります。',
-      ],
-    },
-    lookbook: {
-      eyebrow: 'LOOKBOOK',
-      title: '日常の中のBreathe',
-      items: [
-        { caption: 'ブラックセットアップ', image: lookBlack },
-        { caption: 'レザームード', image: lookLeather },
-        { caption: 'デニムカジュアル', image: lookDenim },
       ],
     },
     insidePages: {
