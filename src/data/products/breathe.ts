@@ -17,10 +17,10 @@ const P = '/images/breathe/'
 const heroGrey = `${P}look5_C26DF7F5.jpg`
 const heroSuit = `${P}look1_5F7F0BE3.jpg`
 const heroFace = `${P}face_643B6376.jpg`
-// A look inside — real open spreads.
-const insideSpread = `${P}look3_5E17C7CC.jpg`
-const insideBreathe = `${P}look6_034A1BCD.jpg`
-const insideReading = `${P}look3_3AF5B24B.jpg`
+// A look inside — real interior page (속지) close-ups.
+const soziMonthly = `${P}sozi_monthly.jpg`
+const soziWeekly = `${P}sozi_weekly.jpg`
+const soziDaily = `${P}sozi_daily.jpg`
 
 export const breathe: Record<Locale, ShopProduct> = {
   ko: {
@@ -55,9 +55,9 @@ export const breathe: Record<Locale, ShopProduct> = {
       eyebrow: 'INSIDE THE PAGES',
       title: 'A look inside',
       items: [
-        { caption: '펼친 내지', image: insideSpread },
-        { caption: 'breathe 스프레드', image: insideBreathe },
-        { caption: '리딩 타임', image: insideReading },
+        { caption: 'Monthly', image: soziMonthly },
+        { caption: 'Weekly', image: soziWeekly },
+        { caption: 'Daily', image: soziDaily },
       ],
     },
     features: {
@@ -204,9 +204,9 @@ export const breathe: Record<Locale, ShopProduct> = {
       eyebrow: 'INSIDE THE PAGES',
       title: 'A look inside',
       items: [
-        { caption: 'Inside spread', image: insideSpread },
-        { caption: 'breathe spread', image: insideBreathe },
-        { caption: 'Reading time', image: insideReading },
+        { caption: 'Monthly', image: soziMonthly },
+        { caption: 'Weekly', image: soziWeekly },
+        { caption: 'Daily', image: soziDaily },
       ],
     },
     features: {
@@ -356,9 +356,9 @@ export const breathe: Record<Locale, ShopProduct> = {
       eyebrow: 'INSIDE THE PAGES',
       title: 'A look inside',
       items: [
-        { caption: '見開き', image: insideSpread },
-        { caption: 'breathe 見開き', image: insideBreathe },
-        { caption: 'リーディング', image: insideReading },
+        { caption: 'Monthly', image: soziMonthly },
+        { caption: 'Weekly', image: soziWeekly },
+        { caption: 'Daily', image: soziDaily },
       ],
     },
     features: {
