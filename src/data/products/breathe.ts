@@ -1,11 +1,6 @@
 import type { ShopProduct } from '@/data/shop-types'
 import type { Locale } from '@/i18n/types'
 import catalog from '@/assets/shop/breathe.png'
-import hero from '@/assets/shop/breathe/hero.png'
-import coverBack from '@/assets/shop/breathe/cover-back.png'
-import insideMonthly from '@/assets/shop/breathe/inside-monthly.png'
-import insideWeekly from '@/assets/shop/breathe/inside-weekly.png'
-import insideDaily from '@/assets/shop/breathe/inside-daily.png'
 import page1 from '@/assets/shop/breathe/page1.png'
 import page2 from '@/assets/shop/breathe/page2.png'
 import page3 from '@/assets/shop/breathe/page3.png'
@@ -14,6 +9,22 @@ import page5 from '@/assets/shop/breathe/page5.png'
 import page6 from '@/assets/shop/breathe/page6.png'
 import relatedTracker from '@/assets/shop/breathe/related-tracker.png'
 import relatedCalendar from '@/assets/shop/breathe/related-calendar.png'
+
+// Photographed cuts (AI-upscaled to 4K, web-optimized) served from /public.
+// Shared across locales; captions/copy differ per locale.
+const P = '/images/breathe/'
+// Hero — portrait, product/cover forward.
+const heroGrey = `${P}look5_C26DF7F5.jpg`
+const heroSuit = `${P}look1_5F7F0BE3.jpg`
+const heroFace = `${P}face_643B6376.jpg`
+// A look inside — real open spreads.
+const insideSpread = `${P}look3_5E17C7CC.jpg`
+const insideBreathe = `${P}look6_034A1BCD.jpg`
+const insideReading = `${P}look3_3AF5B24B.jpg`
+// Lookbook — model/outfit range.
+const lookLeather = `${P}look2_2A00FD2E.jpg`
+const lookBlack = `${P}look1_0B87AC6F.jpg`
+const lookDenim = `${P}look4_017CCFD3.jpg`
 
 export const breathe: Record<Locale, ShopProduct> = {
   ko: {
@@ -28,7 +39,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       { id: 'set6', label: '6권 세트', packSize: 6, price: 96000 },
     ],
     hero: {
-      gallery: [hero, coverBack],
+      gallery: [heroGrey, heroSuit, heroFace],
       title: 'Breathe',
       subtitle: 'Planner & Diary — 신앙과 일상을 함께 기록하는 플래너',
       price: '₩19,000',
@@ -44,13 +55,22 @@ export const breathe: Record<Locale, ShopProduct> = {
         '완벽한 계획보다 하루를 의미 있게 살아가는 데 집중하도록 만들었습니다. 매일의 작은 기록이 쌓여 신앙과 일상이 자연스럽게 연결되는 경험을 선물합니다.',
       ],
     },
+    lookbook: {
+      eyebrow: 'LOOKBOOK',
+      title: '일상 속의 Breathe',
+      items: [
+        { caption: '블랙 셋업', image: lookBlack },
+        { caption: '레더 무드', image: lookLeather },
+        { caption: '데님 캐주얼', image: lookDenim },
+      ],
+    },
     insidePages: {
       eyebrow: 'INSIDE THE PAGES',
       title: 'A look inside',
       items: [
-        { caption: 'Monthly', image: insideMonthly },
-        { caption: 'Weekly', image: insideWeekly },
-        { caption: 'Daily', image: insideDaily },
+        { caption: '펼친 내지', image: insideSpread },
+        { caption: 'breathe 스프레드', image: insideBreathe },
+        { caption: '리딩 타임', image: insideReading },
       ],
     },
     features: {
@@ -177,7 +197,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       { id: 'set6', label: '6-pack', packSize: 6, price: 66 },
     ],
     hero: {
-      gallery: [hero, coverBack],
+      gallery: [heroGrey, heroSuit, heroFace],
       title: 'Breathe',
       subtitle: 'Planner & Diary — a planner for recording faith and daily life together',
       price: '$14',
@@ -193,13 +213,22 @@ export const breathe: Record<Locale, ShopProduct> = {
         'It was made to help you focus on living each day meaningfully rather than planning it perfectly. Small daily entries accumulate, giving you the experience of faith and everyday life connecting naturally.',
       ],
     },
+    lookbook: {
+      eyebrow: 'LOOKBOOK',
+      title: 'Breathe in daily life',
+      items: [
+        { caption: 'Black setup', image: lookBlack },
+        { caption: 'Leather mood', image: lookLeather },
+        { caption: 'Denim casual', image: lookDenim },
+      ],
+    },
     insidePages: {
       eyebrow: 'INSIDE THE PAGES',
       title: 'A look inside',
       items: [
-        { caption: 'Monthly', image: insideMonthly },
-        { caption: 'Weekly', image: insideWeekly },
-        { caption: 'Daily', image: insideDaily },
+        { caption: 'Inside spread', image: insideSpread },
+        { caption: 'breathe spread', image: insideBreathe },
+        { caption: 'Reading time', image: insideReading },
       ],
     },
     features: {
@@ -329,7 +358,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       { id: 'set6', label: '6冊セット', packSize: 6, price: 10800 },
     ],
     hero: {
-      gallery: [hero, coverBack],
+      gallery: [heroGrey, heroSuit, heroFace],
       title: 'Breathe',
       subtitle: 'Planner & Diary — 信仰と日常をともに記録するプランナー',
       price: '¥2,200',
@@ -345,13 +374,22 @@ export const breathe: Record<Locale, ShopProduct> = {
         '完璧な計画よりも、一日を意味あるものとして生きることに集中できるよう作りました。毎日の小さな記録が積み重なり、信仰と日常が自然につながる体験を贈ります。',
       ],
     },
+    lookbook: {
+      eyebrow: 'LOOKBOOK',
+      title: '日常の中のBreathe',
+      items: [
+        { caption: 'ブラックセットアップ', image: lookBlack },
+        { caption: 'レザームード', image: lookLeather },
+        { caption: 'デニムカジュアル', image: lookDenim },
+      ],
+    },
     insidePages: {
       eyebrow: 'INSIDE THE PAGES',
       title: 'A look inside',
       items: [
-        { caption: 'Monthly', image: insideMonthly },
-        { caption: 'Weekly', image: insideWeekly },
-        { caption: 'Daily', image: insideDaily },
+        { caption: '見開き', image: insideSpread },
+        { caption: 'breathe 見開き', image: insideBreathe },
+        { caption: 'リーディング', image: insideReading },
       ],
     },
     features: {

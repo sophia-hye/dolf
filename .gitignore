@@ -34,3 +34,7 @@ docs/.pdca-status.json
 
 # Supabase CLI local state
 supabase/.temp/
+
+# Low-res photo working set (masters kept elsewhere). Only commit optimized/upscaled finals.
+public/pictures/
+public/videos/
