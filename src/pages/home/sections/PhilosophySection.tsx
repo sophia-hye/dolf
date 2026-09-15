@@ -3,6 +3,7 @@ import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { useLocale } from '@/i18n/context'
+import { Reveal } from '@/components/visual/Reveal'
 import dotMotif from '@/assets/motifs/dot.svg'
 import lineMotif from '@/assets/motifs/line.svg'
 import formMotif from '@/assets/motifs/form.svg'
@@ -15,21 +16,25 @@ export function PhilosophySection() {
   return (
     <Section>
       <Inner>
-        <Head>
-          <Eyebrow>{t.philosophy.eyebrow}</Eyebrow>
-          <SectionTitle>{t.philosophy.title}</SectionTitle>
-          <Intro>{t.philosophy.intro}</Intro>
-        </Head>
+        <Reveal>
+          <Head>
+            <Eyebrow>{t.philosophy.eyebrow}</Eyebrow>
+            <SectionTitle>{t.philosophy.title}</SectionTitle>
+            <Intro>{t.philosophy.intro}</Intro>
+          </Head>
+        </Reveal>
 
-        <Columns>
-          {t.philosophy.items.map((item, i) => (
-            <Column key={item.title}>
-              <Motif src={MOTIFS[i]} alt="" aria-hidden />
-              <ColTitle>{item.title}</ColTitle>
-              <ColDesc>{item.description}</ColDesc>
-            </Column>
-          ))}
-        </Columns>
+        <Reveal delay={120}>
+          <Columns>
+            {t.philosophy.items.map((item, i) => (
+              <Column key={item.title}>
+                <Motif src={MOTIFS[i]} alt="" aria-hidden />
+                <ColTitle>{item.title}</ColTitle>
+                <ColDesc>{item.description}</ColDesc>
+              </Column>
+            ))}
+          </Columns>
+        </Reveal>
       </Inner>
     </Section>
   )
