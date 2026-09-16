@@ -129,6 +129,8 @@ export interface ShopProduct {
   readonly hero: ShopHeroData
   readonly story?: StoryData
   readonly insidePages?: InsidePagesData
+  // Lower "in use" gallery: model + interior close-ups (reuses InsidePages grid).
+  readonly lookbook?: InsidePagesData
   readonly features?: FeaturesData
   readonly pagesExplained?: PagesExplainedData
   readonly howToUse?: HowToUseData

@@ -68,6 +68,7 @@ export function ShopDetailPage() {
       {product.features && <FeaturesSection data={product.features} />}
       {product.pagesExplained && <PagesExplainedSection data={product.pagesExplained} />}
       {product.howToUse && <HowToUseSection data={product.howToUse} />}
+      {product.lookbook && <InsidePagesSection data={product.lookbook} />}
       {product.specs && <SpecsSection data={product.specs} />}
       {product.shippingFaq && <ShippingFaqSection data={product.shippingFaq} />}
       {product.related && <RelatedSection data={product.related} />}

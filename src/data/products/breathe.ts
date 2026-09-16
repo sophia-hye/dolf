@@ -13,13 +13,21 @@ import relatedCalendar from '@/assets/shop/breathe/related-calendar.png'
 // Photographed cuts (AI-upscaled to 4K, web-optimized) served from /public.
 // Shared across locales; captions/copy differ per locale.
 const P = '/images/breathe/'
-// Hero — portrait, product/cover forward.
-const heroGrey = `${P}look5_C26DF7F5.jpg`
-const heroSuit = `${P}look1_5F7F0BE3.jpg`
-const heroFace = `${P}face_643B6376.jpg`
-// A look inside — real interior page (속지) close-ups.
+// Hero — product-forward rotation (cover, engraving, plant still-life, set).
+const hCoverFront = `${P}hero_cover_front.jpg`
+const hCoverMacro = `${P}hero_cover_macro.jpg`
+const hTitle = `${P}hero_title.jpg`
+const hPlant1 = `${P}hero_plant1.jpg`
+const hPlant2 = `${P}hero_plant2.jpg`
+const hSet = `${P}hero_set.jpg`
+const hCoverDetail = `${P}hero_cover_detail.jpg`
+// A look inside — real interior pages (속지), full-page framing.
 const soziMonthly = `${P}sozi_monthly.jpg`
-const soziWeekly = `${P}sozi_weekly.jpg`
+const soziHowto = `${P}sozi_howto.jpg`
+const soziYearly = `${P}sozi_yearly.jpg`
+// In use — model + interior close-ups (lower on the page).
+const mGrey = `${P}look5_C26DF7F5.jpg`
+const mFace = `${P}face_643B6376.jpg`
 const soziDaily = `${P}sozi_daily.jpg`
 
 export const breathe: Record<Locale, ShopProduct> = {
@@ -35,7 +43,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       { id: 'set6', label: '6권 세트', packSize: 6, price: 96000 },
     ],
     hero: {
-      gallery: [heroGrey, heroSuit, heroFace],
+      gallery: [hCoverFront, hCoverMacro, hTitle, hPlant1, hSet, hPlant2, hCoverDetail],
       title: 'Breathe',
       subtitle: 'Planner & Diary — 신앙과 일상을 함께 기록하는 플래너',
       price: '₩19,000',
@@ -56,8 +64,17 @@ export const breathe: Record<Locale, ShopProduct> = {
       title: 'A look inside',
       items: [
         { caption: 'Monthly', image: soziMonthly },
-        { caption: 'Weekly', image: soziWeekly },
-        { caption: 'Daily', image: soziDaily },
+        { caption: 'How to use', image: soziHowto },
+        { caption: 'Yearly', image: soziYearly },
+      ],
+    },
+    lookbook: {
+      eyebrow: 'IN USE',
+      title: 'In everyday life',
+      items: [
+        { caption: '', image: mGrey },
+        { caption: '', image: soziDaily },
+        { caption: '', image: mFace },
       ],
     },
     features: {
@@ -184,7 +201,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       { id: 'set6', label: '6-pack', packSize: 6, price: 66 },
     ],
     hero: {
-      gallery: [heroGrey, heroSuit, heroFace],
+      gallery: [hCoverFront, hCoverMacro, hTitle, hPlant1, hSet, hPlant2, hCoverDetail],
       title: 'Breathe',
       subtitle: 'Planner & Diary — a planner for recording faith and daily life together',
       price: '$14',
@@ -205,8 +222,17 @@ export const breathe: Record<Locale, ShopProduct> = {
       title: 'A look inside',
       items: [
         { caption: 'Monthly', image: soziMonthly },
-        { caption: 'Weekly', image: soziWeekly },
-        { caption: 'Daily', image: soziDaily },
+        { caption: 'How to use', image: soziHowto },
+        { caption: 'Yearly', image: soziYearly },
+      ],
+    },
+    lookbook: {
+      eyebrow: 'IN USE',
+      title: 'In everyday life',
+      items: [
+        { caption: '', image: mGrey },
+        { caption: '', image: soziDaily },
+        { caption: '', image: mFace },
       ],
     },
     features: {
@@ -336,7 +362,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       { id: 'set6', label: '6冊セット', packSize: 6, price: 10800 },
     ],
     hero: {
-      gallery: [heroGrey, heroSuit, heroFace],
+      gallery: [hCoverFront, hCoverMacro, hTitle, hPlant1, hSet, hPlant2, hCoverDetail],
       title: 'Breathe',
       subtitle: 'Planner & Diary — 信仰と日常をともに記録するプランナー',
       price: '¥2,200',
@@ -357,8 +383,17 @@ export const breathe: Record<Locale, ShopProduct> = {
       title: 'A look inside',
       items: [
         { caption: 'Monthly', image: soziMonthly },
-        { caption: 'Weekly', image: soziWeekly },
-        { caption: 'Daily', image: soziDaily },
+        { caption: 'How to use', image: soziHowto },
+        { caption: 'Yearly', image: soziYearly },
+      ],
+    },
+    lookbook: {
+      eyebrow: 'IN USE',
+      title: 'In everyday life',
+      items: [
+        { caption: '', image: mGrey },
+        { caption: '', image: soziDaily },
+        { caption: '', image: mFace },
       ],
     },
     features: {
