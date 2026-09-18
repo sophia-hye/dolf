@@ -19,6 +19,7 @@ import { HowToUseSection } from '@/pages/shop/detail/sections/HowToUseSection'
 import { SpecsSection } from '@/pages/shop/detail/sections/SpecsSection'
 import { ShippingFaqSection } from '@/pages/shop/detail/sections/ShippingFaqSection'
 import { RelatedSection } from '@/pages/shop/detail/sections/RelatedSection'
+import { BreatheDetailPage } from '@/pages/shop/detail/BreatheDetailPage'
 
 export function ShopDetailPage() {
   const { slug } = useParams<{ slug: string }>()
@@ -42,6 +43,11 @@ export function ShopDetailPage() {
   // Hide unpublished products from the storefront (wait for overrides to load).
   if (!loading && !isPublished(product.slug, overrides)) {
     return <Navigate to="/shop" replace />
+  }
+
+  // Breathe uses a bespoke editorial PDP instead of the shared template.
+  if (product.slug === 'breathe') {
+    return <BreatheDetailPage />
   }
 
   // Reflect the admin-set name/description/price for the current currency.
