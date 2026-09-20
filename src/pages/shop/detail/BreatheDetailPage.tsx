@@ -11,11 +11,13 @@ import { formatMoney, CURRENCY_BY_LOCALE } from '@/lib/orders'
 import { pushEvent } from '@/lib/gtm'
 import spec from './breathe-pdp.json'
 
-// Faithful desktop reproduction of the user's Figma "PDP" moodboard.
+// Faithful reproduction of the user's Figma "PDP" moodboard.
 // The 7612px-wide absolute layout is rendered on a container-scaled canvas
 // (all coordinates/sizes in cqw so the whole composition scales to the
-// viewport width). The purchase card is a functional overlay. Mobile is
-// deferred — on narrow screens the canvas simply scales down.
+// viewport width). The purchase card is a functional overlay. On mobile this
+// is intentional: the same moodboard is shown scaled down to the phone width
+// (customers can pinch-zoom for detail) rather than reflowed into a separate
+// layout.
 
 const W = spec.W
 const H = spec.H
@@ -173,6 +175,12 @@ const Page = styled.div`
   display: flex;
   justify-content: center;
   padding: 24px clamp(12px, 3vw, 40px) 80px;
+
+  /* On phones the moodboard is shown as a scaled-down desktop composition,
+     so trim the gutters to give the canvas the full width for legibility. */
+  @media (max-width: 640px) {
+    padding: 12px 8px 48px;
+  }
 `
 const Canvas = styled.div`
   container-type: inline-size;
