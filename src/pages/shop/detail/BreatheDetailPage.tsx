@@ -109,7 +109,14 @@ export function BreatheDetailPage() {
               </div>
             )
           }
-          // text
+          // text — keep single-line labels on one line, but let multi-line
+          // copy wrap *within its box*. Fallback fonts run wider than Figma's
+          // Futura/mono, so `pre` (no wrap) would overflow a narrow box into
+          // the next column; `pre-line` keeps explicit breaks yet wraps inside
+          // the box, avoiding both vertical and horizontal overlap.
+          const hasNL = (n.c ?? '').includes('\n')
+          const isPara = hasNL || n.h > (n.s ?? 100) * 1.6
+          const whiteSpace = isPara ? 'pre-line' : 'nowrap'
           return (
             <div
               key={i}
@@ -122,7 +129,7 @@ export function BreatheDetailPage() {
                 letterSpacing: n.fam === 'mono' ? '0.06em' : 'normal',
                 textAlign: (n.a?.toLowerCase() as 'left' | 'right' | 'center') ?? 'left',
                 color: rgb(n.col),
-                whiteSpace: 'pre-line',
+                whiteSpace,
               }}
             >
               {n.c}
