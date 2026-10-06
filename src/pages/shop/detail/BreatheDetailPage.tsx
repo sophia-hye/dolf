@@ -9,6 +9,7 @@ import { isSoldOut } from '@/lib/product-pricing'
 import { makeCartKey } from '@/lib/product-variants'
 import { formatMoney, CURRENCY_BY_LOCALE } from '@/lib/orders'
 import { pushEvent } from '@/lib/gtm'
+import { BreatheIntro } from '@/components/visual/BreatheIntro'
 import spec from './breathe-pdp.json'
 
 // Faithful reproduction of the user's Figma "PDP" moodboard.
@@ -79,7 +80,9 @@ export function BreatheDetailPage() {
 
   return (
     <Page>
-      <Canvas style={{ aspectRatio: `${W} / ${H}` }}>
+      <Main>
+        <BreatheIntro />
+        <Canvas style={{ aspectRatio: `${W} / ${H}` }}>
         {nodes.map((n, i) => {
           const base: React.CSSProperties = {
             position: 'absolute',
@@ -165,7 +168,8 @@ export function BreatheDetailPage() {
           </Cta>
           <Free style={{ fontSize: u(46) }}>7만원 이상 구매 시 국내 무료배송</Free>
         </CardBox>
-      </Canvas>
+        </Canvas>
+      </Main>
     </Page>
   )
 }
@@ -181,6 +185,12 @@ const Page = styled.div`
   @media (max-width: 640px) {
     padding: 12px 8px 48px;
   }
+`
+const Main = styled.div`
+  width: 100%;
+  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
 `
 const Canvas = styled.div`
   container-type: inline-size;
