@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Link, useLocation } from 'react-router-dom'
-import { Container } from '@/components/ui/Container'
 import { useLocale } from '@/i18n/context'
 import { useCart } from '@/state/cart-context'
 import { useAuth } from '@/state/auth-context'
@@ -159,12 +158,15 @@ const Wrapper = styled.header`
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `
 
-const Inner = styled(Container)`
+// Full-bleed to align the logo with the hero's left edge (same side gutter).
+const Inner = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 24px;
-  padding-bottom: 24px;
+  padding-inline: clamp(18px, 4vw, 56px);
+  padding-top: 20px;
+  padding-bottom: 20px;
 `
 
 const Logo = styled(Link)`

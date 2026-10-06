@@ -1,10 +1,9 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
-import { Eyebrow } from '@/components/ui/Eyebrow'
-import { SectionTitle } from '@/components/ui/SectionTitle'
 import { useLocale } from '@/i18n/context'
-import { useReveal } from '@/hooks/useReveal'
+import { Reveal } from '@/components/visual/Reveal'
+import type { ProductItem } from '@/i18n/types'
 import breatheImg from '@/assets/products/breathe.png'
 import trackerImg from '@/assets/products/tracker.png'
 import calendarImg from '@/assets/products/calendar.png'
@@ -12,63 +11,59 @@ import calendarImg from '@/assets/products/calendar.png'
 const IMAGES = [breatheImg, trackerImg, calendarImg]
 // Card destinations. Unpublished products (tracker) point to the shop grid.
 const LINKS = ['/shop/breathe', '/shop', '/shop/calendar']
-
-interface CardItem {
-  readonly name: string
-  readonly description: string
-}
+const MARKS = ['Breathe', 'Tracker', '2027']
 
 function ProductCard({
   item,
   image,
+  mark,
   to,
-  index,
-  more,
 }: {
-  item: CardItem
-  image: string
+  item: ProductItem
+  image?: string
+  mark: string
   to: string
-  index: number
-  more: string
 }) {
-  const { ref, visible } = useReveal<HTMLAnchorElement>()
   return (
-    <Card ref={ref} to={to} $visible={visible} style={{ transitionDelay: `${index * 100}ms` }}>
-      <ImageWrap>
-        <ProductImage src={image} alt={item.name} />
-        <Peek>
-          {more}
-          <span aria-hidden>→</span>
-        </Peek>
-      </ImageWrap>
-      <CardTitle>{item.name}</CardTitle>
+    <Card to={to}>
+      <Thumb>
+        {image ? <ProductImage src={image} alt={item.name} /> : <Mark>{mark}</Mark>}
+      </Thumb>
+      <Meta>
+        <CardTitle>{item.name}</CardTitle>
+        <Go>View →</Go>
+      </Meta>
       <CardDesc>{item.description}</CardDesc>
     </Card>
   )
 }
 
 export function ProductsSection() {
-  const { t, locale } = useLocale()
-  const more = locale === 'ko' ? '자세히 보기' : locale === 'ja' ? '詳しく見る' : 'View details'
+  const { t } = useLocale()
 
   return (
-    <Section>
+    <Section id="products">
+      <Rule />
       <Inner>
-        <Head>
-          <Eyebrow>{t.products.eyebrow}</Eyebrow>
-          <SectionTitle>{t.products.title}</SectionTitle>
-        </Head>
+        <Reveal>
+          <Head>
+            <Title>{t.products.title}</Title>
+            <Lab>
+              {t.products.eyebrow} / <span>제품</span>
+            </Lab>
+          </Head>
+        </Reveal>
 
         <Grid>
           {t.products.items.map((item, i) => (
-            <ProductCard
-              key={item.name}
-              item={item}
-              image={IMAGES[i]}
-              to={LINKS[i] ?? '/shop'}
-              index={i}
-              more={more}
-            />
+            <Reveal key={item.name} delay={i * 80}>
+              <ProductCard
+                item={item}
+                image={IMAGES[i]}
+                mark={MARKS[i] ?? item.name}
+                to={LINKS[i] ?? '/shop'}
+              />
+            </Reveal>
           ))}
         </Grid>
       </Inner>
@@ -77,81 +72,70 @@ export function ProductsSection() {
 }
 
 const Section = styled.section`
-  background-color: ${({ theme }) => theme.colors.surface};
+  background-color: ${({ theme }) => theme.colors.cream};
+`
+
+const Rule = styled.hr`
+  height: 1px;
+  background: ${({ theme }) => theme.colors.line};
+  border: 0;
+  margin: 0;
 `
 
 const Inner = styled(Container)`
-  padding-top: 96px;
-  padding-bottom: 104px;
-
-  ${({ theme }) => theme.media.mobile} {
-    padding-top: 56px;
-    padding-bottom: 56px;
-  }
+  padding-top: clamp(72px, 11vw, 150px);
+  padding-bottom: clamp(72px, 11vw, 150px);
 `
 
 const Head = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 14px;
-  margin-bottom: 56px;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: clamp(36px, 5vw, 64px);
+`
 
-  ${({ theme }) => theme.media.mobile} {
-    margin-bottom: 36px;
-  }
+const Title = styled.h2`
+  font-family: ${({ theme }) => theme.fonts.serif};
+  font-weight: 400;
+  font-size: clamp(28px, 5vw, 52px);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: ${({ theme }) => theme.colors.ink};
+`
+
+const Lab = styled.span`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.textSecondary};
 `
 
 const Grid = styled.div`
-  display: flex;
-  gap: 28px;
-  max-width: 1100px;
-  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(16px, 2.2vw, 30px);
 
   ${({ theme }) => theme.media.mobile} {
-    flex-direction: column;
-    gap: 32px;
+    grid-template-columns: 1fr;
+    gap: 34px;
   }
 `
 
-const Card = styled(Link)<{ $visible: boolean }>`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+const Card = styled(Link)`
+  display: block;
   color: inherit;
-  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-  transform: ${({ $visible }) => ($visible ? 'none' : 'translateY(28px)')};
-  transition:
-    opacity 0.7s ease,
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-
-  @media (prefers-reduced-motion: reduce) {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
 `
 
-const ImageWrap = styled.div`
-  position: relative;
-  width: 100%;
-  aspect-ratio: 348 / 494;
-  border: 1.5px solid ${({ theme }) => theme.colors.border};
-  border-radius: 2px;
-  background-color: ${({ theme }) => theme.colors.white};
+const Thumb = styled.div`
+  aspect-ratio: 4 / 5;
+  border-radius: 3px;
   overflow: hidden;
-  margin-bottom: 20px;
-  transition:
-    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.35s ease,
-    border-color 0.35s ease;
-
-  ${Card}:hover & {
-    transform: translateY(-6px);
-    box-shadow: 0 18px 40px rgba(31, 31, 33, 0.12);
-    border-color: ${({ theme }) => theme.colors.ink};
-  }
+  position: relative;
+  background: linear-gradient(160deg, #edeae3, #e2dfd7);
 `
 
 const ProductImage = styled.img`
@@ -161,7 +145,7 @@ const ProductImage = styled.img`
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 
   ${Card}:hover & {
-    transform: scale(1.05);
+    transform: scale(1.04);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -172,39 +156,47 @@ const ProductImage = styled.img`
   }
 `
 
-const Peek = styled.span`
+const Mark = styled.span`
   position: absolute;
-  left: 14px;
-  bottom: 14px;
-  display: inline-flex;
+  inset: 0;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 9px 16px;
-  border-radius: 2px;
-  background-color: ${({ theme }) => theme.colors.brandRed};
-  color: ${({ theme }) => theme.colors.white};
-  font-family: ${({ theme }) => theme.fonts.kr};
-  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
-  font-weight: 500;
-  letter-spacing: 0.4px;
-  opacity: 0;
-  transform: translateY(8px);
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  justify-content: center;
+  font-family: ${({ theme }) => theme.fonts.serif};
+  font-size: clamp(28px, 4vw, 44px);
+  color: #c9c5bc;
+  letter-spacing: -0.01em;
+  transition: transform 0.5s;
 
   ${Card}:hover & {
-    opacity: 1;
-    transform: none;
+    transform: scale(1.06);
   }
+`
+
+const Meta = styled.div`
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 16px;
+  padding-bottom: 4px;
 `
 
 const CardTitle = styled.h3`
   font-family: ${({ theme }) => theme.fonts.serif};
-  font-size: ${({ theme }) => theme.fontSizes.h3};
-  font-weight: 600;
+  font-weight: 400;
+  font-size: 21px;
+  letter-spacing: -0.01em;
   color: ${({ theme }) => theme.colors.ink};
-  margin-bottom: 8px;
+`
+
+const Go = styled.span`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: ${({ theme }) => theme.colors.textSecondary};
   transition: color 0.2s ease;
 
   ${Card}:hover & {
@@ -214,7 +206,8 @@ const CardTitle = styled.h3`
 
 const CardDesc = styled.p`
   font-family: ${({ theme }) => theme.fonts.kr};
-  font-size: ${({ theme }) => theme.fontSizes.body};
-  line-height: 1.7;
+  font-size: 13.5px;
+  line-height: 1.6;
   color: ${({ theme }) => theme.colors.textSecondary};
+  margin: 4px 0 0;
 `

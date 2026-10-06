@@ -20,7 +20,9 @@ export function Footer() {
       <Inner>
         <TopRow>
           <Brand>
-            <BrandName>DoLF</BrandName>
+            <BrandName>
+              DoLF<Dot>.</Dot>
+            </BrandName>
             <Tagline>{t.footer.tagline}</Tagline>
           </Brand>
 
@@ -94,16 +96,25 @@ const Brand = styled.div`
 `
 
 const BrandName = styled.span`
-  font-family: ${({ theme }) => theme.fonts.sans};
-  font-size: 24px;
-  font-weight: 900;
-  letter-spacing: 0.5px;
+  font-family: ${({ theme }) => theme.fonts.serif};
+  font-size: clamp(40px, 7vw, 72px);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+`
+
+const Dot = styled.span`
+  color: ${({ theme }) => theme.colors.brandRed};
 `
 
 const Tagline = styled.span`
-  font-family: ${({ theme }) => theme.fonts.script};
-  font-size: 24px;
-  color: ${({ theme }) => theme.colors.brandRed};
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 8px;
 `
 
 const Right = styled.div`
