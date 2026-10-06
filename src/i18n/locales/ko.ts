@@ -62,6 +62,14 @@ export const ko: Dictionary = {
       },
     ],
   },
+  bloom: {
+    eyebrow: 'New · 감온 노트',
+    name: 'bloom',
+    tagline: '체온으로 피어나는 노트.',
+    body: '평상시엔 고요한 블랙. 손끝의 온기가 닿는 곳마다 튤립이 피어오르고, 식으면 다시 사라집니다. 당신의 체온이 유일한 잉크예요. 오른쪽 이미지를 천천히 문질러보세요.',
+    cta: 'bloom 자세히 보기',
+    alt: '검은 배경에서 피어나는 흰 튤립',
+  },
   footer: {
     tagline: 'dot of line and form',
     instagram: '@dolf._official',

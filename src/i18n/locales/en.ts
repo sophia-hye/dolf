@@ -63,6 +63,14 @@ export const en: Dictionary = {
       },
     ],
   },
+  bloom: {
+    eyebrow: 'New · Thermochromic',
+    name: 'bloom',
+    tagline: 'A notebook that blooms with your warmth.',
+    body: 'Quiet black at rest. Wherever the warmth of your fingertips lands, a tulip blooms — and fades again as it cools. Your body heat is the only ink. Rub the image slowly to see it.',
+    cta: 'Explore bloom',
+    alt: 'A white tulip blooming against a black background',
+  },
   footer: {
     tagline: 'dot of line and form',
     instagram: '@dolf._official',
