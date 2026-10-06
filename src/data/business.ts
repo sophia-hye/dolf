@@ -22,3 +22,6 @@ export const legalLinks = [
   { to: '/privacy', label: '개인정보처리방침' },
   { to: '/refund', label: '환불·교환/반품 안내' },
 ] as const
+
+// Official Instagram profile.
+export const instagramUrl = 'https://www.instagram.com/dolf._official/'

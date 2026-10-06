@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
 import { useLocale } from '@/i18n/context'
-import { businessInfo, legalLinks } from '@/data/business'
+import { businessInfo, legalLinks, instagramUrl } from '@/data/business'
 
 export function Footer() {
   const { t } = useLocale()
@@ -27,7 +27,13 @@ export function Footer() {
           </Brand>
 
           <Right>
-            <Instagram>Instagram {t.footer.instagram}</Instagram>
+            <Instagram
+              href={instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Instagram {t.footer.instagram}
+            </Instagram>
             <Nav>
               {navItems.map((item) => (
                 <NavLink key={item.to} to={item.to}>
@@ -128,10 +134,15 @@ const Right = styled.div`
   }
 `
 
-const Instagram = styled.span`
+const Instagram = styled.a`
   font-family: ${({ theme }) => theme.fonts.sans};
   font-size: ${({ theme }) => theme.fontSizes.nav};
   color: rgba(255, 255, 255, 0.7);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.white};
+  }
 `
 
 const Nav = styled.nav`
