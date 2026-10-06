@@ -80,7 +80,7 @@ export function DotLineForm({ onPhase }: { onPhase?: (phase: number) => void }) 
       }
       for (let i = 0; i < N; i++) {
         const red = i === 0
-        ctx.fillStyle = red ? 'rgba(210,58,44,.95)' : 'rgba(24,23,27,.5)'
+        ctx.fillStyle = red ? 'rgba(187,14,14,.95)' : 'rgba(24,23,27,.5)'
         ctx.beginPath()
         ctx.arc(pos[i][0], pos[i][1], red ? 3.4 : 2.2, 0, 7)
         ctx.fill()

@@ -71,7 +71,7 @@ const Lab = styled.span`
   font-weight: 600;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #e6897f;
+  color: ${({ theme }) => theme.colors.brandRed};
 `
 
 const Name = styled.h2`

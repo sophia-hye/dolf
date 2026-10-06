@@ -338,7 +338,7 @@ const Badge = styled.div<{ $guest: boolean }>`
   font-size: ${({ theme }) => theme.fontSizes.eyebrow};
   color: ${({ theme }) => theme.colors.ink};
   background-color: ${({ theme, $guest }) =>
-    $guest ? theme.colors.surface : 'rgba(168, 18, 18, 0.06)'};
+    $guest ? theme.colors.surface : 'rgba(187, 14, 14, 0.06)'};
   border: 1px solid ${({ theme }) => theme.colors.border};
 `
 

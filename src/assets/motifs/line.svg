@@ -3,6 +3,6 @@
 <rect id="Rectangle" x="12" y="27" width="64" height="2" fill="var(--fill-0, #1F1F21)"/>
 <circle id="Ellipse" cx="17" cy="28" r="5" fill="var(--fill-0, #1F1F21)"/>
 <circle id="Ellipse_2" cx="44" cy="28" r="5" fill="var(--fill-0, #1F1F21)"/>
-<circle id="Ellipse_3" cx="71" cy="28" r="5" fill="var(--fill-0, #A81212)"/>
+<circle id="Ellipse_3" cx="71" cy="28" r="5" fill="var(--fill-0, #BB0E0E)"/>
 </g>
 </svg>
