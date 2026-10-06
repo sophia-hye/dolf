@@ -20,6 +20,7 @@ import { SpecsSection } from '@/pages/shop/detail/sections/SpecsSection'
 import { ShippingFaqSection } from '@/pages/shop/detail/sections/ShippingFaqSection'
 import { RelatedSection } from '@/pages/shop/detail/sections/RelatedSection'
 import { BloomExperience } from '@/pages/shop/detail/sections/BloomExperience'
+import { StickyPurchaseBar } from '@/components/shop/StickyPurchaseBar'
 import { BreatheDetailPage } from '@/pages/shop/detail/BreatheDetailPage'
 
 export function ShopDetailPage() {
@@ -80,6 +81,7 @@ export function ShopDetailPage() {
       {product.specs && <SpecsSection data={product.specs} />}
       {product.shippingFaq && <ShippingFaqSection data={product.shippingFaq} />}
       {product.related && <RelatedSection data={product.related} />}
+      <StickyPurchaseBar product={product} />
     </>
   )
 }
