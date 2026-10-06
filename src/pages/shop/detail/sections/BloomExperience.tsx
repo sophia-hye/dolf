@@ -1,20 +1,21 @@
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
 import { useLocale } from '@/i18n/context'
 import { Reveal } from '@/components/visual/Reveal'
 import { ThermoImageReveal } from '@/components/visual/ThermoImageReveal'
 import tulip from '@/assets/bloom/tulip.jpg'
 
-// Localized rub-hint for the thermo reveal (interaction microcopy, not part of
-// the i18n dictionary).
+// The bloom "thermo experience" — rub the black cover to let your body heat
+// bloom the hidden tulip, then watch it cool back. Opens the bloom PDP (moved
+// here from the homepage) so the thermochromic feel lives on the product page.
+
 const HINT: Record<string, string> = {
   ko: 'move · 문질러보세요',
   en: 'move · rub to reveal',
   ja: 'move · こすってみて',
 }
 
-export function BloomSection() {
+export function BloomExperience() {
   const { t, locale } = useLocale()
 
   return (
@@ -27,10 +28,6 @@ export function BloomSection() {
               <Name>{t.bloom.name}</Name>
               <Tag>{t.bloom.tagline}</Tag>
               <Body>{t.bloom.body}</Body>
-              <Cta to="/shop/bloom">
-                {t.bloom.cta}
-                <span aria-hidden>→</span>
-              </Cta>
             </Copy>
           </Reveal>
 
@@ -101,26 +98,4 @@ const Body = styled.p`
   margin: 20px 0 0;
   font-size: 15px;
   line-height: 1.8;
-`
-
-const Cta = styled(Link)`
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 30px;
-  font-family: ${({ theme }) => theme.fonts.sans};
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.darkFg};
-  padding-bottom: 7px;
-  border-bottom: 1.5px solid ${({ theme }) => theme.colors.darkFg};
-  transition: all 0.25s ease;
-
-  &:hover {
-    gap: 16px;
-    color: #e6897f;
-    border-color: #e6897f;
-  }
 `
