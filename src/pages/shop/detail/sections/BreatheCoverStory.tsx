@@ -17,10 +17,23 @@ const TAG: Record<string, string> = {
   en: 'Three breaths for a breathless day.',
   ja: '息せく一日に、三つの息。',
 }
-const BODY: Record<string, string> = {
-  ko: '커버는 숨·생명·영에 관한 말씀으로 빽빽하게 채워집니다. 세 번의 숨에 글자들이 조금씩 밀려나고, 그 여백으로 breathe가 드러나요. 분주한 하루에도 숨 쉴 여백이 생기기를.',
-  en: 'The cover is packed with scripture on breath, life and the Spirit. Over three breaths the letters are pushed aside, and in the space that opens, breathe appears — a little room to breathe in a crowded day.',
-  ja: '表紙は、息・いのち・霊についての言葉でびっしりと満たされています。三つの息で文字が少しずつ押しのけられ、その余白に breathe が現れます。慌ただしい一日にも、息をする余白を。',
+// One sentence per line.
+const BODY: Record<string, readonly string[]> = {
+  ko: [
+    '커버는 숨·생명·영에 관한 말씀으로 빽빽하게 채워집니다.',
+    '세 번의 숨에 글자들이 조금씩 밀려나고, 그 여백으로 breathe가 드러나요.',
+    '분주한 하루에도 숨 쉴 여백이 생기기를.',
+  ],
+  en: [
+    'The cover is packed with scripture on breath, life and the Spirit.',
+    'Over three breaths the letters are pushed aside, and in the space that opens, breathe appears.',
+    'A little room to breathe in a crowded day.',
+  ],
+  ja: [
+    '表紙は、息・いのち・霊についての言葉でびっしりと満たされています。',
+    '三つの息で文字が少しずつ押しのけられ、その余白に breathe が現れます。',
+    '慌ただしい一日にも、息をする余白を。',
+  ],
 }
 
 export function BreatheCoverStory() {
@@ -35,7 +48,11 @@ export function BreatheCoverStory() {
             <Lab>{EYEBROW[lang]}</Lab>
             <Name>Breathe</Name>
             <Tag>{TAG[lang]}</Tag>
-            <Body>{BODY[lang]}</Body>
+            <Body>
+              {BODY[lang].map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </Body>
           </Copy>
         </Reveal>
 
@@ -95,12 +112,19 @@ const Tag = styled.p`
 `
 
 const Body = styled.p`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   font-family: ${({ theme }) => theme.fonts.kr};
   color: ${({ theme }) => theme.colors.textSecondary};
-  max-width: 42ch;
+  max-width: 46ch;
   margin: 20px 0 0;
   font-size: 15px;
-  line-height: 1.8;
+  line-height: 1.7;
   word-break: normal;
   overflow-wrap: break-word;
+
+  & > span {
+    display: block;
+  }
 `
