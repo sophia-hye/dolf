@@ -6,7 +6,7 @@ export const theme = {
     surface: '#ecebe4', // gray section background
     ink: '#18171b', // primary text / footer background
     textSecondary: '#7c7a73', // muted/body text
-    brandRed: '#d23a2c', // accent / CTA / eyebrows
+    brandRed: '#bb0e0e', // accent / CTA / eyebrows
     border: '#e4e1da', // card borders / dividers
     white: '#ffffff',
     // Added for the refined editorial / dark-band sections:
