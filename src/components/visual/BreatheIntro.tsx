@@ -66,7 +66,7 @@ type Glyph = {
   a: number // wave order 0..1 (when it starts pushing)
 }
 
-export function BreatheIntro() {
+export function BreatheIntro({ framed = false }: { framed?: boolean } = {}) {
   const { locale } = useLocale()
   const lang = locale in CAPTION ? locale : 'en'
 
@@ -420,7 +420,7 @@ export function BreatheIntro() {
   }, [])
 
   return (
-    <Root ref={rootRef} role="img" aria-label={LABEL[lang]}>
+    <Root ref={rootRef} role="img" aria-label={LABEL[lang]} $framed={framed}>
       <Canvas ref={canvasRef} />
       <Caption aria-hidden>
         <Ticks>
@@ -439,14 +439,17 @@ export function BreatheIntro() {
   )
 }
 
-const Root = styled.div`
+const Root = styled.div<{ $framed?: boolean }>`
   position: relative;
   width: 100%;
-  height: clamp(360px, 52vw, 600px);
+  height: ${({ $framed }) =>
+    $framed ? 'clamp(320px, 44vw, 480px)' : 'clamp(360px, 52vw, 600px)'};
   background: ${({ theme }) => theme.colors.white};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.line};
-  margin-bottom: clamp(20px, 3vw, 40px);
   overflow: hidden;
+  ${({ $framed, theme }) =>
+    $framed
+      ? `margin-bottom: 0;`
+      : `border-bottom: 1px solid ${theme.colors.line}; margin-bottom: clamp(20px, 3vw, 40px);`}
 `
 
 const Canvas = styled.canvas`

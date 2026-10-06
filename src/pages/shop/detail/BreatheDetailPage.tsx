@@ -9,7 +9,7 @@ import { isSoldOut } from '@/lib/product-pricing'
 import { makeCartKey } from '@/lib/product-variants'
 import { formatMoney, CURRENCY_BY_LOCALE } from '@/lib/orders'
 import { pushEvent } from '@/lib/gtm'
-import { BreatheIntro } from '@/components/visual/BreatheIntro'
+import { BreatheCoverStory } from '@/pages/shop/detail/sections/BreatheCoverStory'
 import { RelatedProducts } from '@/components/shop/RelatedProducts'
 import spec from './breathe-pdp.json'
 
@@ -107,7 +107,7 @@ export function BreatheDetailPage() {
     <>
     <Page>
       <Main>
-        <BreatheIntro />
+        <BreatheCoverStory />
         <Canvas style={{ aspectRatio: `${W} / ${H}` }}>
         {nodes.map((n, i) => {
           const base: React.CSSProperties = {
