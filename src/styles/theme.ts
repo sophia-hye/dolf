@@ -2,21 +2,34 @@
 
 export const theme = {
   colors: {
-    cream: '#fcfbf9', // page background
-    surface: '#f3f1ed', // gray section background
-    ink: '#1f1f21', // primary text / footer background
-    textSecondary: '#6e6e72', // muted/body text
-    brandRed: '#a81212', // accent / CTA / eyebrows
-    border: '#e2dfd9', // card borders / dividers
+    cream: '#f3f1ec', // paper / page background
+    surface: '#ecebe4', // gray section background
+    ink: '#18171b', // primary text / footer background
+    textSecondary: '#7c7a73', // muted/body text
+    brandRed: '#d23a2c', // accent / CTA / eyebrows
+    border: '#e4e1da', // card borders / dividers
     white: '#ffffff',
+    // Added for the refined editorial / dark-band sections:
+    soft: '#36343a', // softened ink for labels/subheads
+    line: 'rgba(24,23,27,0.12)', // hairline rule
+    line2: 'rgba(24,23,27,0.22)', // stronger hairline
+    dark: '#0c0c0d', // dark band background (bloom)
+    darkFg: '#efece4', // foreground on dark band
+    darkMuted: '#928f87', // muted text on dark band
   },
   // "Umeboshi Zatsu Memo" sits first but only renders Japanese glyphs
   // (limited by unicode-range in GlobalStyle); KO/EN fall through to the rest.
   fonts: {
-    serif: '"Umeboshi Zatsu Memo", "Cormorant", Georgia, serif',
-    script: '"Reenie Beanie", cursive',
-    sans: '"Umeboshi Zatsu Memo", "Inter", "Noto Sans KR", system-ui, sans-serif',
-    kr: '"Umeboshi Zatsu Memo", "Noto Sans KR", "Inter", system-ui, sans-serif',
+    serif: '"Umeboshi Zatsu Memo", "Fraunces", "Noto Serif KR", Georgia, serif',
+    // `script` is retired from the UI; kept for type-compat, aliased to serif.
+    script: '"Umeboshi Zatsu Memo", "Fraunces", "Noto Serif KR", Georgia, serif',
+    sans: '"Umeboshi Zatsu Memo", "Archivo", "IBM Plex Sans KR", system-ui, sans-serif',
+    kr: '"Umeboshi Zatsu Memo", "IBM Plex Sans KR", "Archivo", system-ui, sans-serif',
+    // Handwriting accent — used for the hero subhead and the Story passage so
+    // the faith narrative reads in a warm, written hand. Nanum Pen Script is a
+    // thin pen hand for KO/EN; Yomogi supplies the Japanese kana/kanji so JP
+    // locales also render by hand (Nanum Pen has no kana, so it falls through).
+    hand: '"Nanum Pen Script", "Yomogi", "Noto Sans KR", cursive',
   },
   // Fluid type: scales down on small screens, capped at the desktop size.
   fontSizes: {
