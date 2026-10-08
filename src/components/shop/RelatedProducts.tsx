@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useLocale } from '@/i18n/context'
 import { useProductOverrides } from '@/state/products-context'
 import { getProducts } from '@/data/products'
+import { editionsFor } from '@/lib/product-editions'
 import {
   effectiveName,
   effectivePriceString,
@@ -39,11 +40,20 @@ export function RelatedProducts({ currentSlug }: { currentSlug: string }) {
         {products.map((p) => {
           const sold = isSoldOut(p.slug, overrides)
           const name = effectiveName(p.slug, locale, overrides)
-          const badge = effectiveBadge(p.slug, locale, overrides)
+          const editions = editionsFor(p.slug, locale)
+          const badges = (editions ? editions.map((e) => e.slug) : [p.slug])
+            .map((s) => effectiveBadge(s, locale, overrides))
+            .filter((b): b is string => !!b)
           return (
             <CardLink key={p.slug} to={`/shop/${p.slug}`}>
               <ImageCard>
-                {badge && <Badge>{badge}</Badge>}
+                {badges.length > 0 && (
+                  <Badges>
+                    {badges.map((b) => (
+                      <Badge key={b}>{b}</Badge>
+                    ))}
+                  </Badges>
+                )}
                 <Img src={p.catalogImage} alt={name} loading="lazy" $dim={sold} />
                 {sold && <SoldOut>{t.shop.soldOut}</SoldOut>}
               </ImageCard>
@@ -103,11 +113,17 @@ const ImageCard = styled.div`
     border-color: ${({ theme }) => theme.colors.ink};
   }
 `
-const Badge = styled.span`
+const Badges = styled.div`
   position: absolute;
   top: 10px;
   left: 10px;
   z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+`
+
+const Badge = styled.span`
   padding: 4px 10px;
   border-radius: 999px;
   background-color: ${({ theme }) => theme.colors.ink};

@@ -7,6 +7,7 @@ import { useCart } from '@/state/cart-context'
 import { useProductOverrides } from '@/state/products-context'
 import { useWishlist } from '@/state/wishlist-context'
 import { getProducts } from '@/data/products'
+import { editionsFor } from '@/lib/product-editions'
 import {
   effectivePriceString,
   effectiveName,
@@ -39,12 +40,24 @@ export function ShopPage() {
         <Grid>
           {products.map((product) => {
             const sold = isSoldOut(product.slug, overrides)
+            // Show every edition badge (e.g. Faith / EN / JP) for grouped
+            // products, so one card signals all the editions it comes in.
+            const editions = editionsFor(product.slug, locale)
+            const badges = (
+              editions ? editions.map((e) => e.slug) : [product.slug]
+            )
+              .map((s) => effectiveBadge(s, locale, overrides))
+              .filter((b): b is string => !!b)
             return (
               <Card key={product.slug}>
                 <CardLink to={`/shop/${product.slug}`}>
                   <ImageCard>
-                    {effectiveBadge(product.slug, locale, overrides) && (
-                      <Badge>{effectiveBadge(product.slug, locale, overrides)}</Badge>
+                    {badges.length > 0 && (
+                      <Badges>
+                        {badges.map((b) => (
+                          <Badge key={b}>{b}</Badge>
+                        ))}
+                      </Badges>
                     )}
                     <WishButton
                       type="button"
@@ -172,11 +185,17 @@ const ImageCard = styled.div`
   overflow: hidden;
 `
 
-const Badge = styled.span`
+const Badges = styled.div`
   position: absolute;
   top: 12px;
   left: 12px;
   z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+`
+
+const Badge = styled.span`
   padding: 4px 11px;
   border-radius: 999px;
   background-color: ${({ theme }) => theme.colors.ink};

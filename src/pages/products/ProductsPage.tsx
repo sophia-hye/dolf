@@ -41,6 +41,10 @@ const BADGES: (string | undefined)[] = [
   'Faith',
 ]
 const HIDDEN = new Set(['breathe-en', 'breathe-jp', 'breathe-v1'])
+// Breathe comes in three editions managed on one page — show all three badges.
+const EDITION_BADGES: Record<string, string[]> = {
+  breathe: ['Faith', 'EN', 'JP'],
+}
 
 export function ProductsPage() {
   const { t } = useLocale()
@@ -50,7 +54,7 @@ export function ProductsPage() {
       feature,
       slug: SLUGS[i],
       image: IMAGES[i],
-      badge: BADGES[i],
+      badges: EDITION_BADGES[SLUGS[i]] ?? (BADGES[i] ? [BADGES[i]] : []),
     }))
     .filter((r) => !HIDDEN.has(r.slug))
 
@@ -66,7 +70,7 @@ export function ProductsPage() {
           description={r.feature.description}
           spec={r.feature.spec}
           image={r.image}
-          badge={r.badge}
+          badges={r.badges}
           detailHref={`/products/${r.slug}`}
           detailLabel={t.productsPage.detailCta}
         />

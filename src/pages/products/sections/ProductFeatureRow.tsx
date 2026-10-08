@@ -8,7 +8,7 @@ interface ProductFeatureRowProps {
   readonly description: string
   readonly spec: string
   readonly image: string
-  readonly badge?: string
+  readonly badges?: readonly string[]
   readonly detailHref: string
   readonly detailLabel: string
 }
@@ -20,7 +20,7 @@ export function ProductFeatureRow({
   description,
   spec,
   image,
-  badge,
+  badges,
   detailHref,
   detailLabel,
 }: ProductFeatureRowProps) {
@@ -28,7 +28,13 @@ export function ProductFeatureRow({
     <Section $background={background}>
       <Inner $imageRight={imageSide === 'right'}>
         <ImageCard>
-          {badge && <Badge>{badge}</Badge>}
+          {badges && badges.length > 0 && (
+            <Badges>
+              {badges.map((b) => (
+                <Badge key={b}>{b}</Badge>
+              ))}
+            </Badges>
+          )}
           <ProductImage src={image} alt={name} />
         </ImageCard>
         <Text>
@@ -91,11 +97,17 @@ const ImageCard = styled.div`
   }
 `
 
-const Badge = styled.span`
+const Badges = styled.div`
   position: absolute;
   top: 16px;
   left: 16px;
   z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+`
+
+const Badge = styled.span`
   padding: 5px 13px;
   border-radius: 999px;
   background-color: ${({ theme }) => theme.colors.ink};
