@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { useLocale } from '@/i18n/context'
@@ -11,6 +11,7 @@ import { formatMoney, CURRENCY_BY_LOCALE } from '@/lib/orders'
 import { pushEvent } from '@/lib/gtm'
 import { BreatheCoverStory } from '@/pages/shop/detail/sections/BreatheCoverStory'
 import { RelatedProducts } from '@/components/shop/RelatedProducts'
+import { StickyPurchaseBar } from '@/components/shop/StickyPurchaseBar'
 import spec from './breathe-pdp.json'
 
 // Faithful reproduction of the user's Figma "PDP" moodboard.
@@ -51,13 +52,6 @@ const FAM: Record<string, string> = {
 const u = (v: number) => `${(v / (W / 100)).toFixed(3)}cqw`
 const rgb = (c?: number[]) => (c ? `rgb(${c[0]},${c[1]},${c[2]})` : '#1f1f21')
 
-// Buy-now label for the sticky purchase bar (interaction microcopy).
-const BUY: Record<string, string> = {
-  ko: '바로 구매',
-  en: 'Buy now',
-  ja: '今すぐ購入',
-}
-
 export function BreatheDetailPage() {
   const { locale, t } = useLocale()
   const navigate = useNavigate()
@@ -71,23 +65,6 @@ export function BreatheDetailPage() {
     () => variants.find((v) => v.id === variantId) ?? variants[0],
     [variants, variantId],
   )
-  // Sticky purchase bar appears once the user scrolls past the top, and tucks
-  // away again near the footer so it never covers it.
-  const [showBar, setShowBar] = useState(false)
-  useEffect(() => {
-    const onScroll = () => {
-      const nearBottom =
-        window.innerHeight + window.scrollY >= document.body.scrollHeight - 200
-      setShowBar(window.scrollY > 360 && !nearBottom)
-    }
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-    }
-  }, [])
   if (!product) return null
   const sold = isSoldOut(product.slug, overrides)
   const priceText = selected ? formatMoney(selected.price, currency) : product.catalogPrice
@@ -172,62 +149,41 @@ export function BreatheDetailPage() {
         <CardBox
           style={{ left: u(spec.card.x), top: u(spec.card.y), width: u(spec.card.w) }}
         >
-          <CardLabel style={{ fontSize: u(52) }}>PLANNER &amp; DIARY</CardLabel>
+          <CardLabel style={{ fontSize: u(46) }}>PLANNER &amp; DIARY</CardLabel>
           <CardName style={{ fontSize: u(150) }}>Breathe</CardName>
-          <CardPrice style={{ fontSize: u(120) }}>{priceText}</CardPrice>
-          <div>
-            {variants.map((v) => (
-              <Opt
-                key={v.id}
-                type="button"
-                $on={v.id === (selected?.id ?? '')}
-                onClick={() => setVariantId(v.id)}
-                style={{ fontSize: u(58) }}
-              >
-                <span>{v.label}</span>
-                <em>{formatMoney(v.price, currency)}</em>
-              </Opt>
-            ))}
-          </div>
-          <Cta type="button" onClick={buyNow} disabled={sold} style={{ fontSize: u(52) }}>
-            {sold ? t.shop.soldOut : `ADD TO CART · ${t.shop.addToCart}`}
-          </Cta>
-          <Free style={{ fontSize: u(46) }}>7만원 이상 구매 시 국내 무료배송</Free>
+          <CardPrice style={{ fontSize: u(118) }}>{priceText}</CardPrice>
+          {variants.length > 1 && (
+            <Opts>
+              {variants.map((v) => (
+                <Opt
+                  key={v.id}
+                  type="button"
+                  $on={v.id === (selected?.id ?? '')}
+                  onClick={() => setVariantId(v.id)}
+                  style={{ fontSize: u(54) }}
+                >
+                  <span>{v.label}</span>
+                  <em>{formatMoney(v.price, currency)}</em>
+                </Opt>
+              ))}
+            </Opts>
+          )}
+          <Buttons>
+            <BuyBtn type="button" onClick={buyNow} disabled={sold} style={{ fontSize: u(52) }}>
+              {sold ? t.shop.soldOut : t.shop.buyNow}
+            </BuyBtn>
+            <CartBtn type="button" onClick={add} disabled={sold} style={{ fontSize: u(52) }}>
+              {t.shop.addToCart}
+            </CartBtn>
+          </Buttons>
+          <Free style={{ fontSize: u(44) }}>7만원 이상 구매 시 국내 무료배송</Free>
         </CardBox>
         </Canvas>
         <RelatedProducts currentSlug={product.slug} />
       </Main>
     </Page>
 
-      <StickyBar $show={showBar} aria-hidden={!showBar}>
-        <BarInner>
-          <BarInfo>
-            <BarName>Breathe</BarName>
-            <BarPrice>{priceText}</BarPrice>
-          </BarInfo>
-          <BarActions>
-            {variants.length > 1 && (
-              <BarSelect
-                aria-label="옵션 선택"
-                value={selected?.id ?? ''}
-                onChange={(e) => setVariantId(e.target.value)}
-              >
-                {variants.map((v) => (
-                  <option key={v.id} value={v.id}>
-                    {v.label} · {formatMoney(v.price, currency)}
-                  </option>
-                ))}
-              </BarSelect>
-            )}
-            <BarCart type="button" onClick={add} disabled={sold}>
-              {t.shop.addToCart}
-            </BarCart>
-            <BarBuy type="button" onClick={buyNow} disabled={sold}>
-              {sold ? t.shop.soldOut : (BUY[locale] ?? BUY.en)}
-            </BarBuy>
-          </BarActions>
-        </BarInner>
-      </StickyBar>
+      <StickyPurchaseBar product={product} />
     </>
   )
 }
@@ -264,187 +220,126 @@ const HeroLine = styled.div`
   letter-spacing: -0.01em;
   color: ${({ theme }) => theme.colors.ink};
 `
+// Purchase card — styled to match the shared product pages (theme serif/sans,
+// brand-red Buy Now, outline Add to Cart), kept at the Figma card position.
 const CardBox = styled.div`
   position: absolute;
   z-index: 5;
   background: ${({ theme }) => theme.colors.white};
-  border: 1.5px solid ${({ theme }) => theme.colors.ink};
+  border: 1.5px solid ${({ theme }) => theme.colors.border};
+  border-radius: 0.5cqw;
   box-shadow: 0 2cqw 5cqw rgba(0, 0, 0, 0.1);
   padding: 2.6cqw 2.2cqw;
   display: flex;
   flex-direction: column;
 `
 const CardLabel = styled.p`
-  font-family: ${FAM.mono};
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-weight: 600;
   letter-spacing: 0.22em;
+  text-transform: uppercase;
   color: ${({ theme }) => theme.colors.textSecondary};
-  margin: 0 0 0.6cqw;
+  margin: 0 0 0.8cqw;
 `
 const CardName = styled.p`
-  font-family: ${FAM.serif};
-  font-weight: 500;
+  font-family: ${({ theme }) => theme.fonts.serif};
+  font-weight: 400;
+  line-height: 1;
   margin: 0;
   color: ${({ theme }) => theme.colors.ink};
 `
 const CardPrice = styled.p`
-  font-family: ${FAM.serif};
-  margin: 0.4cqw 0 1.6cqw;
+  font-family: ${({ theme }) => theme.fonts.serif};
+  font-weight: 500;
+  margin: 0.6cqw 0 1.6cqw;
+  color: ${({ theme }) => theme.colors.ink};
+`
+const Opts = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.8cqw;
+  margin-bottom: 1.6cqw;
 `
 const Opt = styled.button<{ $on: boolean }>`
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1cqw 1.2cqw;
-  margin-bottom: 0.6cqw;
-  border: 1.2px solid ${({ theme, $on }) => ($on ? theme.colors.ink : theme.colors.border)};
+  padding: 1.1cqw 1.3cqw;
+  border: 1.5px solid ${({ theme, $on }) => ($on ? theme.colors.ink : theme.colors.border)};
+  border-radius: 0.5cqw;
   background: ${({ theme, $on }) => ($on ? theme.colors.surface : theme.colors.white)};
   cursor: pointer;
-  font-family: ${FAM.mono};
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-weight: 600;
   color: ${({ theme }) => theme.colors.ink};
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.ink};
+  }
 
   em {
     font-style: normal;
+    font-weight: 400;
+    font-family: ${({ theme }) => theme.fonts.sans};
     color: ${({ theme }) => theme.colors.textSecondary};
   }
 `
-const Cta = styled.button`
-  margin-top: 0.8cqw;
+const Buttons = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.8cqw;
+`
+const CardBtn = styled.button`
+  width: 100%;
   padding: 1.4cqw;
-  border: none;
-  background: ${({ theme }) => theme.colors.ink};
-  color: ${({ theme }) => theme.colors.white};
-  font-family: ${FAM.mono};
-  letter-spacing: 0.12em;
+  border-radius: 0.5cqw;
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-weight: 500;
+  letter-spacing: 0.03em;
   cursor: pointer;
+  transition:
+    opacity 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+`
+const BuyBtn = styled(CardBtn)`
+  border: none;
+  background: ${({ theme }) => theme.colors.brandRed};
+  color: ${({ theme }) => theme.colors.white};
+
+  &:hover {
+    opacity: 0.88;
+  }
   &:disabled {
     background: ${({ theme }) => theme.colors.border};
     color: ${({ theme }) => theme.colors.textSecondary};
+    cursor: default;
+  }
+`
+const CartBtn = styled(CardBtn)`
+  border: 1px solid ${({ theme }) => theme.colors.ink};
+  background: none;
+  color: ${({ theme }) => theme.colors.ink};
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.ink};
+    color: ${({ theme }) => theme.colors.white};
+  }
+  &:disabled {
+    border-color: ${({ theme }) => theme.colors.border};
+    color: ${({ theme }) => theme.colors.textSecondary};
+    cursor: default;
   }
 `
 const Free = styled.p`
-  margin: 1cqw 0 0;
+  margin: 1.2cqw 0 0;
   text-align: center;
-  font-family: ${FAM.mono};
-  letter-spacing: 0.04em;
+  font-family: ${({ theme }) => theme.fonts.sans};
+  letter-spacing: 0.02em;
   color: ${({ theme }) => theme.colors.textSecondary};
 `
 
-// Sticky purchase bar — follows the viewport as you scroll the PDP.
-const StickyBar = styled.div<{ $show: boolean }>`
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 40;
-  background: ${({ theme }) => theme.colors.white};
-  border-top: 1px solid ${({ theme }) => theme.colors.line};
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.07);
-  transform: translateY(${({ $show }) => ($show ? '0' : '110%')});
-  opacity: ${({ $show }) => ($show ? 1 : 0)};
-  transition:
-    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 0.25s ease;
-  padding: 10px clamp(12px, 3vw, 40px);
-  padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
-`
-const BarInner = styled.div`
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-`
-const BarInfo = styled.div`
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  min-width: 0;
-
-  /* On phones the select already shows the price, so drop the duplicate. */
-  @media (max-width: 520px) {
-    display: none;
-  }
-`
-const BarName = styled.span`
-  font-family: ${FAM.serif};
-  font-size: clamp(16px, 2.6vw, 22px);
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.ink};
-
-  @media (max-width: 420px) {
-    display: none;
-  }
-`
-const BarPrice = styled.span`
-  font-family: ${FAM.serif};
-  font-size: clamp(16px, 2.6vw, 22px);
-  color: ${({ theme }) => theme.colors.ink};
-  white-space: nowrap;
-`
-const BarActions = styled.div`
-  display: flex;
-  align-items: stretch;
-  gap: 8px;
-  min-width: 0;
-
-  @media (max-width: 520px) {
-    flex: 1;
-    gap: 6px;
-  }
-`
-const BarSelect = styled.select`
-  font-family: ${FAM.mono};
-  font-size: 12px;
-  color: ${({ theme }) => theme.colors.ink};
-  background: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: 2px;
-  padding: 0 10px;
-  max-width: 44vw;
-  cursor: pointer;
-
-  @media (max-width: 520px) {
-    flex: 1 1 auto;
-    min-width: 0;
-    max-width: none;
-    padding: 0 6px;
-  }
-`
-const BarBtn = styled.button`
-  font-family: ${FAM.mono};
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 11px clamp(12px, 2.4vw, 24px);
-  border-radius: 2px;
-  cursor: pointer;
-  white-space: nowrap;
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.55;
-  }
-
-  @media (max-width: 520px) {
-    font-size: 11px;
-    letter-spacing: 0.02em;
-    padding: 10px 10px;
-  }
-`
-const BarCart = styled(BarBtn)`
-  border: 1.4px solid ${({ theme }) => theme.colors.ink};
-  background: ${({ theme }) => theme.colors.white};
-  color: ${({ theme }) => theme.colors.ink};
-`
-const BarBuy = styled(BarBtn)`
-  border: 1.4px solid ${({ theme }) => theme.colors.ink};
-  background: ${({ theme }) => theme.colors.ink};
-  color: ${({ theme }) => theme.colors.white};
-`
