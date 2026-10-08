@@ -47,9 +47,11 @@ export function ShopDetailPage() {
     return <Navigate to="/shop" replace />
   }
 
-  // Breathe uses a bespoke editorial PDP instead of the shared template.
-  if (product.slug === 'breathe') {
-    return <BreatheDetailPage />
+  // Breathe (and its English / Japanese editions) all use the bespoke
+  // moodboard PDP — the edition is chosen there as an option, not a separate
+  // layout. `key` remounts it so each edition starts with fresh state.
+  if (['breathe', 'breathe-en', 'breathe-jp'].includes(product.slug)) {
+    return <BreatheDetailPage key={product.slug} product={product} />
   }
 
   // Reflect the admin-set name/description/price for the current currency.

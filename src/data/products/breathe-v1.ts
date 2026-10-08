@@ -45,6 +45,7 @@ function build(locale: Locale): ShopProduct {
     catalogImage: cover,
     catalogName: 'Breathe — Planner & Diary (version.1)',
     badge: 'Faith',
+    hideFromGrid: true,
     hero: {
       ...base.hero,
       gallery: [cover, coverBack],

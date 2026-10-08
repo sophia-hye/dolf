@@ -2,11 +2,12 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { useLocale } from '@/i18n/context'
-import { getProductBySlug } from '@/data/products'
+import type { ShopProduct } from '@/data/shop-types'
 import { useCart } from '@/state/cart-context'
 import { useProductOverrides } from '@/state/products-context'
 import { isSoldOut } from '@/lib/product-pricing'
 import { makeCartKey } from '@/lib/product-variants'
+import { editionsFor } from '@/lib/product-editions'
 import { formatMoney, CURRENCY_BY_LOCALE } from '@/lib/orders'
 import { pushEvent } from '@/lib/gtm'
 import { BreatheCoverStory } from '@/pages/shop/detail/sections/BreatheCoverStory'
@@ -52,20 +53,19 @@ const FAM: Record<string, string> = {
 const u = (v: number) => `${(v / (W / 100)).toFixed(3)}cqw`
 const rgb = (c?: number[]) => (c ? `rgb(${c[0]},${c[1]},${c[2]})` : '#1f1f21')
 
-export function BreatheDetailPage() {
+export function BreatheDetailPage({ product }: { product: ShopProduct }) {
   const { locale, t } = useLocale()
   const navigate = useNavigate()
   const { addItem } = useCart()
   const { overrides } = useProductOverrides()
-  const product = getProductBySlug('breathe', locale)
-  const variants = product?.variants ?? []
+  const variants = product.variants ?? []
   const [variantId, setVariantId] = useState(variants[0]?.id ?? '')
   const currency = CURRENCY_BY_LOCALE[locale]
   const selected = useMemo(
     () => variants.find((v) => v.id === variantId) ?? variants[0],
     [variants, variantId],
   )
-  if (!product) return null
+  const editions = editionsFor('breathe', locale) ?? []
   const sold = isSoldOut(product.slug, overrides)
   const priceText = selected ? formatMoney(selected.price, currency) : product.catalogPrice
   const add = () => {
@@ -151,6 +151,28 @@ export function BreatheDetailPage() {
         >
           <CardLabel style={{ fontSize: u(46) }}>PLANNER &amp; DIARY</CardLabel>
           <CardName style={{ fontSize: u(150) }}>Breathe</CardName>
+          {editions.length > 1 && (
+            <EdRow
+              role="radiogroup"
+              aria-label={locale === 'ko' ? '에디션' : locale === 'ja' ? 'エディション' : 'Edition'}
+            >
+              {editions.map((ed) => (
+                <EdChip
+                  key={ed.slug}
+                  type="button"
+                  role="radio"
+                  aria-checked={ed.slug === product.slug}
+                  $on={ed.slug === product.slug}
+                  onClick={() => {
+                    if (ed.slug !== product.slug) navigate(`/shop/${ed.slug}`)
+                  }}
+                  style={{ fontSize: u(46) }}
+                >
+                  {ed.label}
+                </EdChip>
+              ))}
+            </EdRow>
+          )}
           <CardPrice style={{ fontSize: u(118) }}>{priceText}</CardPrice>
           {variants.length > 1 && (
             <Opts>
@@ -253,6 +275,30 @@ const CardPrice = styled.p`
   font-weight: 500;
   margin: 0.6cqw 0 1.6cqw;
   color: ${({ theme }) => theme.colors.ink};
+`
+const EdRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7cqw;
+  margin: 1cqw 0 1.6cqw;
+`
+const EdChip = styled.button<{ $on: boolean }>`
+  padding: 0.8cqw 1.4cqw;
+  border: 1.5px solid ${({ theme, $on }) => ($on ? theme.colors.ink : theme.colors.border)};
+  border-radius: 999px;
+  background: ${({ theme, $on }) => ($on ? theme.colors.ink : theme.colors.white)};
+  color: ${({ theme, $on }) => ($on ? theme.colors.white : theme.colors.ink)};
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.ink};
+  }
 `
 const Opts = styled.div`
   display: flex;
