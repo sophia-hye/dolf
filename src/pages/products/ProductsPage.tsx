@@ -6,31 +6,22 @@ import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { useLocale } from '@/i18n/context'
 import coverBreathe from '@/assets/products/cover-breathe.png'
-import coverBreatheV1 from '@/assets/products/cover-breathe-v1.png'
 import coverTracker from '@/assets/products/cover-tracker.png'
 import coverCalendar from '@/assets/products/cover-calendar.png'
 import coverTopical from '@/assets/products/cover-topical.png'
 
-// breathe-en / breathe-jp share the Breathe cover art (different edition);
-// breathe-v1 is the new B6 edition with its own cover.
+// Positional metadata aligned with t.productsPage.features. The Breathe
+// English / Japanese / version.1 editions are managed as options on the one
+// Breathe page, so they are hidden from this list.
 const IMAGES = [
   coverBreathe,
   coverBreathe,
   coverBreathe,
-  coverBreatheV1,
+  coverBreathe,
   coverTracker,
   coverCalendar,
   coverTopical,
 ]
-const BACKGROUNDS = [
-  'cream',
-  'surface',
-  'cream',
-  'surface',
-  'cream',
-  'surface',
-  'cream',
-] as const
 const SLUGS = [
   'breathe',
   'breathe-en',
@@ -49,24 +40,34 @@ const BADGES: (string | undefined)[] = [
   undefined,
   'Faith',
 ]
+const HIDDEN = new Set(['breathe-en', 'breathe-jp', 'breathe-v1'])
 
 export function ProductsPage() {
   const { t } = useLocale()
 
+  const rows = t.productsPage.features
+    .map((feature, i) => ({
+      feature,
+      slug: SLUGS[i],
+      image: IMAGES[i],
+      badge: BADGES[i],
+    }))
+    .filter((r) => !HIDDEN.has(r.slug))
+
   return (
     <>
       <ProductsHero />
-      {t.productsPage.features.map((feature, i) => (
+      {rows.map((r, i) => (
         <ProductFeatureRow
-          key={feature.name}
+          key={r.slug}
           imageSide={i % 2 === 0 ? 'left' : 'right'}
-          background={BACKGROUNDS[i]}
-          name={feature.name}
-          description={feature.description}
-          spec={feature.spec}
-          image={IMAGES[i]}
-          badge={BADGES[i]}
-          detailHref={`/products/${SLUGS[i]}`}
+          background={i % 2 === 0 ? 'cream' : 'surface'}
+          name={r.feature.name}
+          description={r.feature.description}
+          spec={r.feature.spec}
+          image={r.image}
+          badge={r.badge}
+          detailHref={`/products/${r.slug}`}
           detailLabel={t.productsPage.detailCta}
         />
       ))}
