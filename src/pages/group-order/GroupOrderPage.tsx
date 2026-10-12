@@ -447,6 +447,11 @@ const FinalInner = styled(Container)`
   text-align: center;
   padding-top: clamp(56px, 8vw, 96px);
   padding-bottom: clamp(56px, 8vw, 96px);
+
+  /* Centre the CTA here (it is left-aligned in the hero). */
+  ${Primary} {
+    align-self: center;
+  }
 `
 const FinalTitle = styled.h2`
   font-family: ${({ theme }) => theme.fonts.serif};
