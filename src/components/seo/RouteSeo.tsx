@@ -45,9 +45,9 @@ export function RouteSeo() {
   if (productMatch) {
     const product = getProductBySlug(productMatch[1], locale)
     if (product) {
-      const base = path.startsWith('/products/') ? '/products' : '/shop'
-      const canonSlug = EDITION_CANONICAL[productMatch[1]]
-      const canonical = canonSlug ? `${base}/${canonSlug}` : undefined
+      // /shop is the canonical section; editions fold to the primary slug.
+      const primarySlug = EDITION_CANONICAL[productMatch[1]] ?? productMatch[1]
+      const canonical = `/shop/${primarySlug}`
       const image = product.catalogImage.startsWith('http')
         ? product.catalogImage
         : SITE_URL + product.catalogImage

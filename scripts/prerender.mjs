@@ -51,26 +51,46 @@ const ROUTES = [
 // preview correctly. Rendered under both /shop/:slug and /products/:slug.
 // Keep in sync with the product catalog (src/data/products/*).
 const PRODUCTS = [
-  { slug: 'breathe', name: 'Breathe — Planner & Diary', description: '하루를 계획하고 감사·묵상을 기록하는 DoLF 플래그십 플래너 Breathe.' },
+  // price = default-locale (KRW) catalog price, for the prerendered Product
+  // JSON-LD. Keep in sync with the catalog (src/data/products/*).
+  { slug: 'breathe', name: 'Breathe — Planner & Diary', description: '하루를 계획하고 감사·묵상을 기록하는 DoLF 플래그십 플래너 Breathe.', price: 19000 },
   // English / Japanese editions are options of Breathe → canonical to /breathe.
-  { slug: 'breathe-en', name: 'Breathe — English', description: '신앙 색채를 덜어 누구나 쓰기 좋은 Breathe 영문 일반판 플래너.', canonicalSlug: 'breathe' },
-  { slug: 'breathe-jp', name: 'Breathe — 日本語', description: '신앙 색채를 덜어 누구나 쓰기 좋은 Breathe 일문 일반판 플래너.', canonicalSlug: 'breathe' },
-  { slug: 'breathe-v1', name: 'Breathe — Planner & Diary (version.1)', description: '손에 잡히는 B6 컴팩트 판형의 Breathe (version.1).' },
-  { slug: 'bloom', name: 'bloom — 감온 노트', description: '체온으로 피어나는 감온(thermochromic) 노트 — 손끝의 온기에 튤립이 번지는 DoLF bloom.' },
-  { slug: 'tracker', name: 'Bible Reading Tracker', description: '한 절을 한 점으로 — 통독의 여정을 시각화하는 Bible Reading Tracker.' },
-  { slug: 'calendar', name: '2027 Calendar', description: '점자와 숫자로 표현한 미니멀 2027 캘린더.' },
-  { slug: 'poster', name: '2027 Poster (B2)', description: '벽에 걸어두는 2027 성경 통독 포스터 (B2).' },
-  { slug: 'topical', name: 'Topical Reading Tracker', description: '한 주제를 깊이 따라 읽는 1장짜리 Topical Reading Tracker.' },
+  { slug: 'breathe-en', name: 'Breathe — English', description: '신앙 색채를 덜어 누구나 쓰기 좋은 Breathe 영문 일반판 플래너.', price: 19000, canonicalSlug: 'breathe' },
+  { slug: 'breathe-jp', name: 'Breathe — 日本語', description: '신앙 색채를 덜어 누구나 쓰기 좋은 Breathe 일문 일반판 플래너.', price: 19000, canonicalSlug: 'breathe' },
+  { slug: 'breathe-v1', name: 'Breathe — Planner & Diary (version.1)', description: '손에 잡히는 B6 컴팩트 판형의 Breathe (version.1).', price: 19000 },
+  { slug: 'bloom', name: 'bloom — 감온 노트', description: '체온으로 피어나는 감온(thermochromic) 노트 — 손끝의 온기에 튤립이 번지는 DoLF bloom.', price: 24000 },
+  { slug: 'tracker', name: 'Bible Reading Tracker', description: '한 절을 한 점으로 — 통독의 여정을 시각화하는 Bible Reading Tracker.', price: 54000 },
+  { slug: 'calendar', name: '2027 Calendar', description: '점자와 숫자로 표현한 미니멀 2027 캘린더.', price: 5000 },
+  { slug: 'poster', name: '2027 Poster (B2)', description: '벽에 걸어두는 2027 성경 통독 포스터 (B2).', price: 28000 },
+  { slug: 'topical', name: 'Topical Reading Tracker', description: '한 주제를 깊이 따라 읽는 1장짜리 Topical Reading Tracker.', price: 8000 },
 ]
 
 for (const p of PRODUCTS) {
+  // /shop is the canonical section for products; /products/* and the EN/JP
+  // editions both fold to /shop/<primary slug> to avoid duplicate content.
+  const canonical = `${SITE}/shop/${p.canonicalSlug ?? p.slug}`
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: p.name,
+    description: p.description,
+    image: `${SITE}/og-image.png`,
+    brand: { '@type': 'Brand', name: 'DoLF' },
+    offers: {
+      '@type': 'Offer',
+      price: p.price,
+      priceCurrency: 'KRW',
+      availability: 'https://schema.org/InStock',
+      url: canonical,
+    },
+  }
   for (const base of ['/shop', '/products']) {
     ROUTES.push({
       path: `${base}/${p.slug}`,
       title: `${p.name} — DoLF`,
       description: p.description,
-      // Near-duplicate edition pages point to the primary Breathe page.
-      canonical: p.canonicalSlug ? `${SITE}${base}/${p.canonicalSlug}` : undefined,
+      canonical,
+      jsonLd,
     })
   }
 }
@@ -95,7 +115,7 @@ function setMetaContent(html, matchAttr, value) {
   )
 }
 
-function render({ path, title, description, canonical }) {
+function render({ path, title, description, canonical, jsonLd }) {
   const url = SITE + path
   const canon = canonical || url
   const t = esc(title)
@@ -112,6 +132,10 @@ function render({ path, title, description, canonical }) {
   html = setMetaContent(html, 'property="og:url"', canon)
   html = setMetaContent(html, 'name="twitter:title"', t)
   html = setMetaContent(html, 'name="twitter:description"', d)
+  if (jsonLd) {
+    const script = `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`
+    html = html.replace('</head>', `  ${script}\n  </head>`)
+  }
   return html
 }
 
