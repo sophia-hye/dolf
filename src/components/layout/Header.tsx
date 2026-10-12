@@ -54,12 +54,15 @@ export function Header() {
       : [{ to: '/mypage', label: t.account.myPageNav }]
     : [{ to: '/signin', label: t.account.signInNav }]
 
+  const groupOrderLabel =
+    locale === 'ko' ? '단체 발주' : locale === 'ja' ? '団体発注' : 'Bulk orders'
   const navItems = [
     { label: t.nav.about, to: '/about' },
     { label: t.nav.products, to: '/products' },
     { label: t.nav.community, to: '/community' },
     { label: t.nav.contact, to: '/contact' },
     { label: t.nav.shop, to: '/shop' },
+    { label: groupOrderLabel, to: '/group-order' },
   ]
 
   const langSwitcher = (
