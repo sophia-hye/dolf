@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Eyebrow'
@@ -8,8 +9,46 @@ import { sendContactMessage } from '@/lib/contact'
 
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
+// Inquiry types (inline localized — not part of the shared i18n dictionary).
+const INQUIRY: Record<
+  string,
+  { label: string; options: { value: string; label: string }[] }
+> = {
+  ko: {
+    label: '문의 유형',
+    options: [
+      { value: 'general', label: '일반 문의' },
+      { value: 'group', label: '단체 발주' },
+      { value: 'wholesale', label: '협업 · 도매' },
+      { value: 'etc', label: '기타' },
+    ],
+  },
+  en: {
+    label: 'Inquiry type',
+    options: [
+      { value: 'general', label: 'General' },
+      { value: 'group', label: 'Bulk order' },
+      { value: 'wholesale', label: 'Partnership / wholesale' },
+      { value: 'etc', label: 'Other' },
+    ],
+  },
+  ja: {
+    label: 'お問い合わせ種別',
+    options: [
+      { value: 'general', label: '一般' },
+      { value: 'group', label: '団体発注' },
+      { value: 'wholesale', label: '協業・卸' },
+      { value: 'etc', label: 'その他' },
+    ],
+  },
+}
+
 export function ContactFormSection() {
   const { t, locale } = useLocale()
+  const [params] = useSearchParams()
+  const inq = INQUIRY[locale] ?? INQUIRY.en
+  const initialType = params.get('type') === 'group' ? 'group' : 'general'
+  const [inquiryType, setInquiryType] = useState(initialType)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
@@ -19,7 +58,14 @@ export function ContactFormSection() {
     e.preventDefault()
     if (status === 'sending') return
     setStatus('sending')
-    const { error } = await sendContactMessage({ name, email, message, locale })
+    const typeLabel = inq.options.find((o) => o.value === inquiryType)?.label
+    const { error } = await sendContactMessage({
+      name,
+      email,
+      message,
+      locale,
+      inquiryType: typeLabel,
+    })
     if (error) {
       setStatus('error')
       return
@@ -28,6 +74,7 @@ export function ContactFormSection() {
     setName('')
     setEmail('')
     setMessage('')
+    setInquiryType('general')
   }
 
   return (
@@ -40,6 +87,17 @@ export function ContactFormSection() {
         </Head>
 
         <Form onSubmit={handleSubmit}>
+          <Select
+            aria-label={inq.label}
+            value={inquiryType}
+            onChange={(e) => setInquiryType(e.target.value)}
+          >
+            {inq.options.map((o) => (
+              <option key={o.value} value={o.value}>
+                {inq.label} · {o.label}
+              </option>
+            ))}
+          </Select>
           <Input
             type="text"
             required
@@ -138,6 +196,15 @@ const Input = styled.input`
   &::placeholder {
     color: ${({ theme }) => theme.colors.textSecondary};
   }
+`
+
+const Select = styled.select`
+  ${fieldStyles}
+  background-color: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  font-family: ${({ theme }) => theme.fonts.kr};
+  color: ${({ theme }) => theme.colors.ink};
+  cursor: pointer;
 `
 
 const Textarea = styled.textarea`

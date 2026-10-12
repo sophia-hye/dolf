@@ -151,7 +151,7 @@ export function GroupOrderPage() {
           <Title>{c.title}</Title>
           <Subhead>{c.subhead}</Subhead>
           <HeroActions>
-            <Primary to="/contact">
+            <Primary to="/contact?type=group">
               {c.ctaPrimary}
               <span aria-hidden>→</span>
             </Primary>
@@ -213,7 +213,7 @@ export function GroupOrderPage() {
         <FinalInner>
           <FinalTitle>{c.finalTitle}</FinalTitle>
           <FinalBody>{c.finalBody}</FinalBody>
-          <Primary to="/contact">
+          <Primary to="/contact?type=group">
             {c.finalCta}
             <span aria-hidden>→</span>
           </Primary>
