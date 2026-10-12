@@ -78,7 +78,7 @@ export function GroupOrderSection() {
           <Title>{c.title}</Title>
           <Body>{c.body}</Body>
           <Actions>
-            <Cta to="/contact">
+            <Cta to="/group-order">
               {c.cta}
               <span aria-hidden>→</span>
             </Cta>

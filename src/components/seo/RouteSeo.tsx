@@ -34,6 +34,19 @@ export function RouteSeo() {
     (p) => path === p || path.startsWith(`${p}/`),
   )
 
+  // Dedicated group/bulk-order landing (not in the i18n seo dictionary).
+  if (path === '/group-order') {
+    const title =
+      locale === 'ja' ? '教会・団体発注' : locale === 'en' ? 'Bulk orders' : '교회·단체 발주'
+    const description =
+      locale === 'ja'
+        ? '教会・小グループのためのBreathe団体発注 — 信仰・英語・日本語エディションの組み合わせ、数量別のお見積り。'
+        : locale === 'en'
+          ? 'Bulk orders of Breathe for churches and small groups — mix Faith / English / Japanese editions with a custom quote.'
+          : '교회·소그룹을 위한 Breathe 단체 발주 — 신앙·영문·일문 에디션 혼합, 수량별 맞춤 견적.'
+    return <Seo title={title} description={description} path={path} />
+  }
+
   // Editions of Breathe are options on the one Breathe page → canonical there.
   const EDITION_CANONICAL: Record<string, string> = {
     'breathe-en': 'breathe',

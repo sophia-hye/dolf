@@ -45,6 +45,12 @@ const ROUTES = [
     description:
       'DoLF 공식 스토어에서 Breathe 플래너와 성경통독 트래커를 만나보세요.',
   },
+  {
+    path: '/group-order',
+    title: '교회·단체 발주 — DoLF',
+    description:
+      '교회·소그룹을 위한 Breathe 단체 발주 — 신앙·영문·일문 에디션 혼합, 수량별 맞춤 견적과 세금계산서·단체 배송.',
+  },
 ]
 
 // Product detail pages — per-product title/description so shared product links
