@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Eyebrow'
@@ -127,7 +127,9 @@ export function ContactFormSection() {
 
         <B2B>
           <B2BText>{t.contact.form.b2bText}</B2BText>
-          <OutlineButton type="button">{t.contact.form.b2bCta}</OutlineButton>
+          <OutlineButton as={Link} to="/group-order">
+            {t.contact.form.b2bCta}
+          </OutlineButton>
         </B2B>
       </Inner>
     </Section>
@@ -269,6 +271,7 @@ const B2BText = styled.p`
 `
 
 const OutlineButton = styled.button`
+  display: inline-block;
   padding: 14px 32px;
   background: none;
   border: 1px solid ${({ theme }) => theme.colors.ink};
@@ -277,6 +280,7 @@ const OutlineButton = styled.button`
   font-family: ${({ theme }) => theme.fonts.kr};
   font-size: 15px;
   font-weight: 500;
+  text-decoration: none;
   cursor: pointer;
   transition: all 0.2s ease;
 
