@@ -2,11 +2,12 @@ import type { Dictionary } from '@/i18n/types'
 
 export const ja: Dictionary = {
   nav: {
-    about: 'About',
-    products: 'Products',
-    community: 'Community',
-    contact: 'Contact',
-    shop: 'Shop',
+    about: 'ブランド',
+    products: '製品',
+    community: 'コミュニティ',
+    contact: 'お問い合わせ',
+    shop: 'ストア',
+    groupOrder: '団体発注',
   },
   hero: {
     tagline: 'dot of line and form',

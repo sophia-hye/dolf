@@ -7,6 +7,7 @@ export const en: Dictionary = {
     community: 'Community',
     contact: 'Contact',
     shop: 'Shop',
+    groupOrder: 'Bulk Orders',
   },
   hero: {
     tagline: 'dot of line and form',

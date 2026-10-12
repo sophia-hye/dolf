@@ -2,11 +2,12 @@ import type { Dictionary } from '@/i18n/types'
 
 export const ko: Dictionary = {
   nav: {
-    about: 'About',
-    products: 'Products',
-    community: 'Community',
-    contact: 'Contact',
-    shop: 'Shop',
+    about: '소개',
+    products: '제품',
+    community: '커뮤니티',
+    contact: '문의',
+    shop: '스토어',
+    groupOrder: '단체 발주',
   },
   hero: {
     tagline: 'dot of line and form',

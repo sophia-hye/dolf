@@ -5,17 +5,15 @@ import { useLocale } from '@/i18n/context'
 import { businessInfo, legalLinks, instagramUrl } from '@/data/business'
 
 export function Footer() {
-  const { t, locale } = useLocale()
+  const { t } = useLocale()
 
-  const groupOrderLabel =
-    locale === 'ko' ? '단체 발주' : locale === 'ja' ? '団体発注' : 'Bulk orders'
   const navItems = [
     { label: t.nav.about, to: '/about' },
     { label: t.nav.products, to: '/products' },
     { label: t.nav.community, to: '/community' },
     { label: t.nav.contact, to: '/contact' },
     { label: t.nav.shop, to: '/shop' },
-    { label: groupOrderLabel, to: '/group-order' },
+    { label: t.nav.groupOrder, to: '/group-order' },
   ]
 
   return (
