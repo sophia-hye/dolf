@@ -34,11 +34,20 @@ export function RouteSeo() {
     (p) => path === p || path.startsWith(`${p}/`),
   )
 
+  // Editions of Breathe are options on the one Breathe page → canonical there.
+  const EDITION_CANONICAL: Record<string, string> = {
+    'breathe-en': 'breathe',
+    'breathe-jp': 'breathe',
+  }
+
   // Product detail pages → per-product meta + Product structured data.
   const productMatch = path.match(/^\/(?:shop|products)\/(.+)$/)
   if (productMatch) {
     const product = getProductBySlug(productMatch[1], locale)
     if (product) {
+      const base = path.startsWith('/products/') ? '/products' : '/shop'
+      const canonSlug = EDITION_CANONICAL[productMatch[1]]
+      const canonical = canonSlug ? `${base}/${canonSlug}` : undefined
       const image = product.catalogImage.startsWith('http')
         ? product.catalogImage
         : SITE_URL + product.catalogImage
@@ -62,6 +71,7 @@ export function RouteSeo() {
           title={product.catalogName}
           description={product.hero.description}
           path={path}
+          canonical={canonical}
           image={product.catalogImage}
           type="product"
           jsonLd={jsonLd}

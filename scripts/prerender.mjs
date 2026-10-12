@@ -52,9 +52,11 @@ const ROUTES = [
 // Keep in sync with the product catalog (src/data/products/*).
 const PRODUCTS = [
   { slug: 'breathe', name: 'Breathe — Planner & Diary', description: '하루를 계획하고 감사·묵상을 기록하는 DoLF 플래그십 플래너 Breathe.' },
-  { slug: 'breathe-en', name: 'Breathe — English', description: '신앙 색채를 덜어 누구나 쓰기 좋은 Breathe 영문 일반판 플래너.' },
-  { slug: 'breathe-jp', name: 'Breathe — 日本語', description: '신앙 색채를 덜어 누구나 쓰기 좋은 Breathe 일문 일반판 플래너.' },
+  // English / Japanese editions are options of Breathe → canonical to /breathe.
+  { slug: 'breathe-en', name: 'Breathe — English', description: '신앙 색채를 덜어 누구나 쓰기 좋은 Breathe 영문 일반판 플래너.', canonicalSlug: 'breathe' },
+  { slug: 'breathe-jp', name: 'Breathe — 日本語', description: '신앙 색채를 덜어 누구나 쓰기 좋은 Breathe 일문 일반판 플래너.', canonicalSlug: 'breathe' },
   { slug: 'breathe-v1', name: 'Breathe — Planner & Diary (version.1)', description: '손에 잡히는 B6 컴팩트 판형의 Breathe (version.1).' },
+  { slug: 'bloom', name: 'bloom — 감온 노트', description: '체온으로 피어나는 감온(thermochromic) 노트 — 손끝의 온기에 튤립이 번지는 DoLF bloom.' },
   { slug: 'tracker', name: 'Bible Reading Tracker', description: '한 절을 한 점으로 — 통독의 여정을 시각화하는 Bible Reading Tracker.' },
   { slug: 'calendar', name: '2027 Calendar', description: '점자와 숫자로 표현한 미니멀 2027 캘린더.' },
   { slug: 'poster', name: '2027 Poster (B2)', description: '벽에 걸어두는 2027 성경 통독 포스터 (B2).' },
@@ -67,6 +69,8 @@ for (const p of PRODUCTS) {
       path: `${base}/${p.slug}`,
       title: `${p.name} — DoLF`,
       description: p.description,
+      // Near-duplicate edition pages point to the primary Breathe page.
+      canonical: p.canonicalSlug ? `${SITE}${base}/${p.canonicalSlug}` : undefined,
     })
   }
 }
@@ -91,20 +95,21 @@ function setMetaContent(html, matchAttr, value) {
   )
 }
 
-function render({ path, title, description }) {
+function render({ path, title, description, canonical }) {
   const url = SITE + path
+  const canon = canonical || url
   const t = esc(title)
   const d = esc(description)
   let html = template
     .replace(/<title>[\s\S]*?<\/title>/, () => `<title>${t}</title>`)
     .replace(
       /(<link rel="canonical" href=")[\s\S]*?(")/,
-      (_m, a, b) => `${a}${url}${b}`,
+      (_m, a, b) => `${a}${canon}${b}`,
     )
   html = setMetaContent(html, 'name="description"', d)
   html = setMetaContent(html, 'property="og:title"', t)
   html = setMetaContent(html, 'property="og:description"', d)
-  html = setMetaContent(html, 'property="og:url"', url)
+  html = setMetaContent(html, 'property="og:url"', canon)
   html = setMetaContent(html, 'name="twitter:title"', t)
   html = setMetaContent(html, 'name="twitter:description"', d)
   return html

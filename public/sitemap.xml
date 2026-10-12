@@ -36,17 +36,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://dolfstory.com/shop/breathe-en</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://dolfstory.com/shop/breathe-jp</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://dolfstory.com/shop/breathe-v1</loc>
+    <loc>https://dolfstory.com/shop/bloom</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -76,17 +66,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dolfstory.com/products/breathe-en</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://dolfstory.com/products/breathe-jp</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://dolfstory.com/products/breathe-v1</loc>
+    <loc>https://dolfstory.com/products/bloom</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
