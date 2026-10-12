@@ -16,6 +16,7 @@ import {
   isSoldOut,
 } from '@/lib/product-pricing'
 import { pushEvent } from '@/lib/gtm'
+import { GroupOrderSection } from '@/components/shop/GroupOrderSection'
 
 export function ShopPage() {
   const { t, locale } = useLocale()
@@ -105,6 +106,8 @@ export function ShopPage() {
           })}
         </Grid>
       </GridSection>
+
+      <GroupOrderSection />
     </>
   )
 }
