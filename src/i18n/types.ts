@@ -52,6 +52,7 @@ export interface Dictionary {
     readonly community: string
     readonly contact: string
     readonly shop: string
+    readonly groupOrder: string
   }
   readonly hero: {
     readonly tagline: string
