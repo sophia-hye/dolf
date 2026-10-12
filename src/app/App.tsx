@@ -8,6 +8,7 @@ import { CommunityPage } from '@/pages/community/CommunityPage'
 import { ContactPage } from '@/pages/contact/ContactPage'
 import { ShopPage } from '@/pages/shop/ShopPage'
 import { ShopDetailPage } from '@/pages/shop/detail/ShopDetailPage'
+import { GroupOrderPage } from '@/pages/group-order/GroupOrderPage'
 import { CartPage } from '@/pages/cart/CartPage'
 import { CheckoutPage } from '@/pages/checkout/CheckoutPage'
 import { CheckoutSuccessPage } from '@/pages/checkout/CheckoutSuccessPage'
@@ -52,6 +53,7 @@ export function App() {
           <Route path="contact" element={<ContactPage />} />
           <Route path="shop" element={<ShopPage />} />
           <Route path="shop/:slug" element={<ShopDetailPage />} />
+          <Route path="group-order" element={<GroupOrderPage />} />
           <Route path="cart" element={<CartPage />} />
           {/* Guest checkout allowed — no auth gate. */}
           <Route path="checkout" element={<CheckoutPage />} />
