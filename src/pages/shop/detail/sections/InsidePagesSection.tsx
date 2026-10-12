@@ -16,7 +16,7 @@ export function InsidePagesSection({ data }: { data: InsidePagesData }) {
         <SectionHead eyebrow={data.eyebrow} title={data.title} />
         <Gallery>
           {data.items.map((item) => (
-            <Figure key={item.caption} style={{ flexGrow: ratios[item.caption] ?? 1 }}>
+            <Figure key={item.image} style={{ flexGrow: ratios[item.image] ?? 1 }}>
               <ImageCard>
                 <Img
                   src={item.image}
@@ -25,14 +25,14 @@ export function InsidePagesSection({ data }: { data: InsidePagesData }) {
                     const el = e.currentTarget
                     const r = el.naturalWidth / el.naturalHeight
                     setRatios((prev) =>
-                      prev[item.caption] === r
+                      prev[item.image] === r
                         ? prev
-                        : { ...prev, [item.caption]: r },
+                        : { ...prev, [item.image]: r },
                     )
                   }}
                 />
               </ImageCard>
-              <Caption>{item.caption}</Caption>
+              {item.caption && <Caption>{item.caption}</Caption>}
             </Figure>
           ))}
         </Gallery>

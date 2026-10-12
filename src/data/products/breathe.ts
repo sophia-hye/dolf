@@ -1,11 +1,6 @@
 import type { ShopProduct } from '@/data/shop-types'
 import type { Locale } from '@/i18n/types'
 import catalog from '@/assets/shop/breathe.png'
-import hero from '@/assets/shop/breathe/hero.png'
-import coverBack from '@/assets/shop/breathe/cover-back.png'
-import insideMonthly from '@/assets/shop/breathe/inside-monthly.png'
-import insideWeekly from '@/assets/shop/breathe/inside-weekly.png'
-import insideDaily from '@/assets/shop/breathe/inside-daily.png'
 import page1 from '@/assets/shop/breathe/page1.png'
 import page2 from '@/assets/shop/breathe/page2.png'
 import page3 from '@/assets/shop/breathe/page3.png'
@@ -14,6 +9,25 @@ import page5 from '@/assets/shop/breathe/page5.png'
 import page6 from '@/assets/shop/breathe/page6.png'
 import relatedTracker from '@/assets/shop/breathe/related-tracker.png'
 import relatedCalendar from '@/assets/shop/breathe/related-calendar.png'
+
+// Photographed cuts (AI-upscaled to 4K, web-optimized) served from /public.
+// Shared across locales; captions/copy differ per locale.
+const P = '/images/breathe/'
+// Hero — product-forward rotation (cover, engraving, plant still-life, set).
+const hCoverFront = `${P}hero_cover_front.jpg`
+const hTitle = `${P}hero_title.jpg`
+const hPlant1 = `${P}hero_plant1.jpg`
+const hPlant2 = `${P}hero_plant2.jpg`
+const hSet = `${P}hero_set.jpg`
+const hCoverDetail = `${P}hero_cover_detail.jpg`
+// A look inside — real interior pages (속지), full-page framing.
+const soziMonthly = `${P}sozi_monthly.jpg`
+const soziHowto = `${P}sozi_howto.jpg`
+const soziWeekly = `${P}sozi_weekly.jpg`
+// In use — model + interior close-ups (lower on the page).
+const mGrey = `${P}look5_C26DF7F5.jpg`
+const mFace = `${P}face_643B6376.jpg`
+const soziDaily = `${P}sozi_daily.jpg`
 
 export const breathe: Record<Locale, ShopProduct> = {
   ko: {
@@ -28,7 +42,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       { id: 'set6', label: '6권 세트', packSize: 6, price: 96000 },
     ],
     hero: {
-      gallery: [hero, coverBack],
+      gallery: [hCoverFront, hTitle, hPlant1, hSet, hPlant2, hCoverDetail],
       title: 'Breathe',
       subtitle: 'Planner & Diary — 신앙과 일상을 함께 기록하는 플래너',
       price: '₩19,000',
@@ -48,9 +62,18 @@ export const breathe: Record<Locale, ShopProduct> = {
       eyebrow: 'INSIDE THE PAGES',
       title: 'A look inside',
       items: [
-        { caption: 'Monthly', image: insideMonthly },
-        { caption: 'Weekly', image: insideWeekly },
-        { caption: 'Daily', image: insideDaily },
+        { caption: 'Monthly', image: soziMonthly },
+        { caption: 'Weekly', image: soziWeekly },
+        { caption: 'How to use', image: soziHowto },
+      ],
+    },
+    lookbook: {
+      eyebrow: 'IN USE',
+      title: 'In everyday life',
+      items: [
+        { caption: '', image: mGrey },
+        { caption: '', image: soziDaily },
+        { caption: '', image: mFace },
       ],
     },
     features: {
@@ -177,7 +200,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       { id: 'set6', label: '6-pack', packSize: 6, price: 66 },
     ],
     hero: {
-      gallery: [hero, coverBack],
+      gallery: [hCoverFront, hTitle, hPlant1, hSet, hPlant2, hCoverDetail],
       title: 'Breathe',
       subtitle: 'Planner & Diary — a planner for recording faith and daily life together',
       price: '$14',
@@ -197,9 +220,18 @@ export const breathe: Record<Locale, ShopProduct> = {
       eyebrow: 'INSIDE THE PAGES',
       title: 'A look inside',
       items: [
-        { caption: 'Monthly', image: insideMonthly },
-        { caption: 'Weekly', image: insideWeekly },
-        { caption: 'Daily', image: insideDaily },
+        { caption: 'Monthly', image: soziMonthly },
+        { caption: 'Weekly', image: soziWeekly },
+        { caption: 'How to use', image: soziHowto },
+      ],
+    },
+    lookbook: {
+      eyebrow: 'IN USE',
+      title: 'In everyday life',
+      items: [
+        { caption: '', image: mGrey },
+        { caption: '', image: soziDaily },
+        { caption: '', image: mFace },
       ],
     },
     features: {
@@ -329,7 +361,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       { id: 'set6', label: '6冊セット', packSize: 6, price: 10800 },
     ],
     hero: {
-      gallery: [hero, coverBack],
+      gallery: [hCoverFront, hTitle, hPlant1, hSet, hPlant2, hCoverDetail],
       title: 'Breathe',
       subtitle: 'Planner & Diary — 信仰と日常をともに記録するプランナー',
       price: '¥2,200',
@@ -349,9 +381,18 @@ export const breathe: Record<Locale, ShopProduct> = {
       eyebrow: 'INSIDE THE PAGES',
       title: 'A look inside',
       items: [
-        { caption: 'Monthly', image: insideMonthly },
-        { caption: 'Weekly', image: insideWeekly },
-        { caption: 'Daily', image: insideDaily },
+        { caption: 'Monthly', image: soziMonthly },
+        { caption: 'Weekly', image: soziWeekly },
+        { caption: 'How to use', image: soziHowto },
+      ],
+    },
+    lookbook: {
+      eyebrow: 'IN USE',
+      title: 'In everyday life',
+      items: [
+        { caption: '', image: mGrey },
+        { caption: '', image: soziDaily },
+        { caption: '', image: mFace },
       ],
     },
     features: {

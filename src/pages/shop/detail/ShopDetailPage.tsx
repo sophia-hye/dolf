@@ -19,6 +19,9 @@ import { HowToUseSection } from '@/pages/shop/detail/sections/HowToUseSection'
 import { SpecsSection } from '@/pages/shop/detail/sections/SpecsSection'
 import { ShippingFaqSection } from '@/pages/shop/detail/sections/ShippingFaqSection'
 import { RelatedSection } from '@/pages/shop/detail/sections/RelatedSection'
+import { BloomExperience } from '@/pages/shop/detail/sections/BloomExperience'
+import { StickyPurchaseBar } from '@/components/shop/StickyPurchaseBar'
+import { BreatheDetailPage } from '@/pages/shop/detail/BreatheDetailPage'
 
 export function ShopDetailPage() {
   const { slug } = useParams<{ slug: string }>()
@@ -44,6 +47,13 @@ export function ShopDetailPage() {
     return <Navigate to="/shop" replace />
   }
 
+  // Breathe (and its English / Japanese editions) all use the bespoke
+  // moodboard PDP — the edition is chosen there as an option, not a separate
+  // layout. `key` remounts it so each edition starts with fresh state.
+  if (['breathe', 'breathe-en', 'breathe-jp'].includes(product.slug)) {
+    return <BreatheDetailPage key={product.slug} product={product} />
+  }
+
   // Reflect the admin-set name/description/price for the current currency.
   const heroProduct = {
     ...product,
@@ -57,6 +67,7 @@ export function ShopDetailPage() {
 
   return (
     <>
+      {product.slug === 'bloom' && <BloomExperience />}
       <DetailHero
         product={heroProduct}
         editions={editions}
@@ -68,9 +79,11 @@ export function ShopDetailPage() {
       {product.features && <FeaturesSection data={product.features} />}
       {product.pagesExplained && <PagesExplainedSection data={product.pagesExplained} />}
       {product.howToUse && <HowToUseSection data={product.howToUse} />}
+      {product.lookbook && <InsidePagesSection data={product.lookbook} />}
       {product.specs && <SpecsSection data={product.specs} />}
       {product.shippingFaq && <ShippingFaqSection data={product.shippingFaq} />}
       {product.related && <RelatedSection data={product.related} />}
+      <StickyPurchaseBar product={product} />
     </>
   )
 }

@@ -63,6 +63,14 @@ export const ja: Dictionary = {
       },
     ],
   },
+  bloom: {
+    eyebrow: 'New · 感温ノート',
+    name: 'bloom',
+    tagline: '体温で咲くノート。',
+    body: '普段は静かなブラック。指先のぬくもりが触れた場所にチューリップが咲き、冷めるとまた消えていきます。あなたの体温だけがインク。右の画像をゆっくりこすってみてください。',
+    cta: 'bloom を詳しく見る',
+    alt: '黒い背景に咲く白いチューリップ',
+  },
   footer: {
     tagline: 'dot of line and form',
     instagram: '@dolf._official',

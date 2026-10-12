@@ -1,118 +1,147 @@
+import { useState } from 'react'
 import styled from 'styled-components'
 import { Container } from '@/components/ui/Container'
-import { Eyebrow } from '@/components/ui/Eyebrow'
-import { SectionTitle } from '@/components/ui/SectionTitle'
 import { useLocale } from '@/i18n/context'
 import { Reveal } from '@/components/visual/Reveal'
-import dotMotif from '@/assets/motifs/dot.svg'
-import lineMotif from '@/assets/motifs/line.svg'
-import formMotif from '@/assets/motifs/form.svg'
-
-const MOTIFS = [dotMotif, lineMotif, formMotif]
+import { DotLineForm } from '@/components/visual/DotLineForm'
 
 export function PhilosophySection() {
   const { t } = useLocale()
+  // -1 means "all active" (reduced motion); otherwise 0=dot, 1=line, 2=form.
+  const [phase, setPhase] = useState(0)
 
   return (
-    <Section>
+    <Section id="philosophy">
       <Inner>
         <Reveal>
           <Head>
-            <Eyebrow>{t.philosophy.eyebrow}</Eyebrow>
-            <SectionTitle>{t.philosophy.title}</SectionTitle>
-            <Intro>{t.philosophy.intro}</Intro>
+            <Title>{t.philosophy.title}</Title>
+            <Lab>
+              {t.philosophy.eyebrow} / <span>철학</span>
+            </Lab>
           </Head>
+          <Intro>{t.philosophy.intro}</Intro>
         </Reveal>
 
-        <Reveal delay={120}>
-          <Columns>
-            {t.philosophy.items.map((item, i) => (
-              <Column key={item.title}>
-                <Motif src={MOTIFS[i]} alt="" aria-hidden />
+        <Reveal>
+          <DotLineForm onPhase={setPhase} />
+        </Reveal>
+
+        <Triad>
+          {t.philosophy.items.map((item, i) => (
+            <Reveal key={item.title} delay={i * 80}>
+              <Col $active={phase === -1 || phase === i}>
+                <Num>{`0${i + 1} — ${item.title}`}</Num>
                 <ColTitle>{item.title}</ColTitle>
                 <ColDesc>{item.description}</ColDesc>
-              </Column>
-            ))}
-          </Columns>
-        </Reveal>
+              </Col>
+            </Reveal>
+          ))}
+        </Triad>
       </Inner>
     </Section>
   )
 }
 
 const Section = styled.section`
-  background-color: ${({ theme }) => theme.colors.surface};
+  background-color: ${({ theme }) => theme.colors.cream};
 `
 
 const Inner = styled(Container)`
-  padding-top: 96px;
-  padding-bottom: 96px;
-
-  ${({ theme }) => theme.media.mobile} {
-    padding-top: 56px;
-    padding-bottom: 56px;
-  }
+  padding-top: clamp(72px, 11vw, 150px);
+  padding-bottom: clamp(72px, 11vw, 150px);
 `
 
 const Head = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 14px;
-  max-width: 720px;
-  margin: 0 auto 64px;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: clamp(20px, 3vw, 32px);
+`
 
-  ${({ theme }) => theme.media.mobile} {
-    margin-bottom: 40px;
-  }
+const Title = styled.h2`
+  font-family: ${({ theme }) => theme.fonts.serif};
+  font-weight: 400;
+  font-size: clamp(28px, 5vw, 52px);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: ${({ theme }) => theme.colors.ink};
+  max-width: 18ch;
+`
+
+const Lab = styled.span`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.textSecondary};
 `
 
 const Intro = styled.p`
   font-family: ${({ theme }) => theme.fonts.kr};
-  font-size: ${({ theme }) => theme.fontSizes.body};
+  font-size: 15px;
   line-height: 1.8;
   color: ${({ theme }) => theme.colors.textSecondary};
+  max-width: 52ch;
+  margin-bottom: clamp(28px, 4vw, 48px);
 `
 
-const Columns = styled.div`
-  display: flex;
-  gap: 32px;
-  max-width: 1040px;
-  margin: 0 auto;
+const Triad = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
 
   ${({ theme }) => theme.media.mobile} {
-    flex-direction: column;
-    gap: 40px;
+    grid-template-columns: 1fr;
+  }
+
+  /* Hairline between columns (desktop only). */
+  & > *:not(:first-child) > div {
+    border-left: 1px solid ${({ theme }) => theme.colors.line};
+  }
+  ${({ theme }) => theme.media.mobile} {
+    & > *:not(:first-child) > div {
+      border-left: 0;
+    }
   }
 `
 
-const Column = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 16px;
+const Col = styled.div<{ $active: boolean }>`
+  padding: clamp(26px, 3vw, 40px) clamp(20px, 2.4vw, 34px) clamp(30px, 4vw, 48px);
+  border-top: 1px solid ${({ theme }) => theme.colors.ink};
+  opacity: ${({ $active }) => ($active ? 1 : 0.46)};
+  transition: opacity 0.6s ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    opacity: 1;
+  }
 `
 
-const Motif = styled.img`
-  width: 88px;
-  height: 56px;
-  object-fit: contain;
+const Num = styled.div`
+  font-family: ${({ theme }) => theme.fonts.serif};
+  font-size: 13px;
+  color: ${({ theme }) => theme.colors.brandRed};
+  letter-spacing: 0.1em;
 `
 
 const ColTitle = styled.h3`
   font-family: ${({ theme }) => theme.fonts.serif};
-  font-size: ${({ theme }) => theme.fontSizes.h3};
-  font-weight: 600;
+  font-weight: 400;
+  font-size: clamp(34px, 5vw, 50px);
+  letter-spacing: -0.01em;
   color: ${({ theme }) => theme.colors.ink};
+  margin: 22px 0 14px;
 `
 
 const ColDesc = styled.p`
   font-family: ${({ theme }) => theme.fonts.kr};
-  font-size: ${({ theme }) => theme.fontSizes.body};
-  line-height: 1.8;
+  font-size: 14.5px;
+  line-height: 1.7;
   color: ${({ theme }) => theme.colors.textSecondary};
   white-space: pre-line;
+  max-width: 26ch;
+  margin: 0;
 `

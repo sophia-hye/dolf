@@ -16,6 +16,8 @@ interface SeoProps {
   readonly image?: string
   readonly type?: 'website' | 'article' | 'product'
   readonly noindex?: boolean
+  // Optional canonical path (e.g. an edition page pointing to the primary one).
+  readonly canonical?: string
   // Optional JSON-LD structured data (e.g. a Product schema).
   readonly jsonLd?: object
 }
@@ -27,10 +29,16 @@ export function Seo({
   image = '/og-image.png',
   type = 'website',
   noindex = false,
+  canonical,
   jsonLd,
 }: SeoProps) {
   const { locale } = useLocale()
   const url = SITE_URL + path
+  const canonicalUrl = canonical
+    ? canonical.startsWith('http')
+      ? canonical
+      : SITE_URL + canonical
+    : url
   const img = image.startsWith('http') ? image : SITE_URL + image
   const fullTitle = title.includes('DoLF') ? title : `${title} — DoLF`
 
@@ -39,7 +47,7 @@ export function Seo({
       <html lang={locale} />
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
-      <link rel="canonical" href={url} />
+      <link rel="canonical" href={canonicalUrl} />
       {noindex ? (
         <meta name="robots" content="noindex, nofollow" />
       ) : (
@@ -52,7 +60,7 @@ export function Seo({
       <meta property="og:site_name" content="DoLF" />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
-      <meta property="og:url" content={url} />
+      <meta property="og:url" content={canonicalUrl} />
       <meta property="og:image" content={img} />
       <meta property="og:locale" content={OG_LOCALE[locale] ?? 'ko_KR'} />
       <meta name="twitter:card" content="summary_large_image" />

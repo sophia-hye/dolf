@@ -33,12 +33,22 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>(
         }
       },
       {
-        threshold: options?.threshold ?? 0.15,
-        rootMargin: options?.rootMargin ?? '0px 0px -10% 0px',
+        // Fire as soon as any part enters the viewport — reliable even for
+        // sections taller than the screen (a high threshold can leave a tall
+        // block waiting, so it reads as "missing" on a quick scroll).
+        threshold: options?.threshold ?? 0,
+        rootMargin: options?.rootMargin ?? '0px 0px -5% 0px',
       },
     )
     obs.observe(el)
-    return () => obs.disconnect()
+    // Safety net: never let a section stay hidden. If the observer hasn't fired
+    // shortly after mount (odd layouts, embedded/preview frames, fast scrolls),
+    // reveal it anyway so content is always visible at rest.
+    const fallback = window.setTimeout(() => setVisible(true), 700)
+    return () => {
+      obs.disconnect()
+      window.clearTimeout(fallback)
+    }
   }, [options?.threshold, options?.rootMargin])
 
   return { ref, visible }

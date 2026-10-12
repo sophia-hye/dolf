@@ -4,5 +4,9 @@ Disallow: /admin
 Disallow: /mypage
 Disallow: /signin
 Disallow: /signup
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /cart
+Disallow: /checkout
 
 Sitemap: https://dolfstory.com/sitemap.xml

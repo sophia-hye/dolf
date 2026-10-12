@@ -403,7 +403,7 @@ const ErrorBanner = styled.div`
   margin-bottom: 16px;
   padding: 12px 16px;
   border-radius: 6px;
-  background-color: #fbeaea;
+  background-color: rgba(187, 14, 14, 0.08);
   font-family: ${({ theme }) => theme.fonts.kr};
   font-size: ${({ theme }) => theme.fontSizes.eyebrow};
   color: ${({ theme }) => theme.colors.brandRed};

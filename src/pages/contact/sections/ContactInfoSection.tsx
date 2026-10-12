@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Container } from '@/components/ui/Container'
 import { useLocale } from '@/i18n/context'
+import { instagramUrl } from '@/data/business'
 
 export function ContactInfoSection() {
   const { t } = useLocale()
@@ -12,7 +13,17 @@ export function ContactInfoSection() {
           {t.contact.info.map((item) => (
             <Column key={item.label}>
               <Label>{item.label}</Label>
-              <Value>{item.value}</Value>
+              {item.label === 'Instagram' ? (
+                <ValueLink
+                  href={instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {item.value}
+                </ValueLink>
+              ) : (
+                <Value>{item.value}</Value>
+              )}
             </Column>
           ))}
         </Columns>
@@ -71,4 +82,20 @@ const Value = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.body};
   line-height: 1.8;
   color: ${({ theme }) => theme.colors.textSecondary};
+`
+
+const ValueLink = styled.a`
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.body};
+  line-height: 1.8;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  border-bottom: 1px solid transparent;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.brandRed};
+    border-bottom-color: ${({ theme }) => theme.colors.brandRed};
+  }
 `

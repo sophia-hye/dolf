@@ -77,6 +77,14 @@ export interface Dictionary {
     readonly title: string
     readonly items: readonly ProductItem[]
   }
+  readonly bloom: {
+    readonly eyebrow: string
+    readonly name: string
+    readonly tagline: string
+    readonly body: string
+    readonly cta: string
+    readonly alt: string
+  }
   readonly footer: {
     readonly tagline: string
     readonly instagram: string

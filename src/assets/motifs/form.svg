@@ -3,6 +3,6 @@
 <circle id="Ellipse" cx="34" cy="18" r="6" fill="var(--fill-0, #1F1F21)"/>
 <circle id="Ellipse_2" cx="54" cy="18" r="6" fill="var(--fill-0, #1F1F21)"/>
 <circle id="Ellipse_3" cx="34" cy="38" r="6" fill="var(--fill-0, #1F1F21)"/>
-<circle id="Ellipse_4" cx="54" cy="38" r="6" fill="var(--fill-0, #A81212)"/>
+<circle id="Ellipse_4" cx="54" cy="38" r="6" fill="var(--fill-0, #BB0E0E)"/>
 </g>
 </svg>

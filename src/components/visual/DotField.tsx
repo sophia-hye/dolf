@@ -71,7 +71,7 @@ export function DotField({ density = 1 }: { density?: number }) {
         }
         const md = Math.hypot(a.x - mouse.x, a.y - mouse.y)
         if (md < MOUSE) {
-          ctx.strokeStyle = `rgba(168,18,18,${(1 - md / MOUSE) * 0.5})`
+          ctx.strokeStyle = `rgba(187,14,14,${(1 - md / MOUSE) * 0.5})`
           ctx.lineWidth = 1
           ctx.beginPath()
           ctx.moveTo(a.x, a.y)
@@ -81,7 +81,7 @@ export function DotField({ density = 1 }: { density?: number }) {
       }
       for (const a of dots) {
         const near = Math.hypot(a.x - mouse.x, a.y - mouse.y) < MOUSE
-        ctx.fillStyle = near ? 'rgba(168,18,18,0.8)' : 'rgba(31,31,33,0.34)'
+        ctx.fillStyle = near ? 'rgba(187,14,14,0.8)' : 'rgba(31,31,33,0.34)'
         ctx.beginPath()
         ctx.arc(a.x, a.y, near ? 2.3 : 1.6, 0, Math.PI * 2)
         ctx.fill()

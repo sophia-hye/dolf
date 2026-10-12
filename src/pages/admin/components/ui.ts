@@ -98,14 +98,14 @@ export const Td = styled.td`
 `
 
 const STATUS_COLORS: Record<string, string> = {
-  Paid: '#a81212',
+  Paid: '#bb0e0e',
   Shipped: '#1f1f21',
   Pending: '#6e6e72',
   Cancelled: '#b0b0b4',
-  Active: '#a81212',
+  Active: '#bb0e0e',
   Inactive: '#b0b0b4',
   // Supabase order statuses (lowercase)
-  paid: '#a81212',
+  paid: '#bb0e0e',
   shipped: '#1f1f21',
   delivered: '#1f1f21',
   pending: '#6e6e72',
