@@ -5,6 +5,9 @@ export interface ContactInput {
   email: string
   message: string
   locale?: string
+  // Human-readable inquiry type (e.g. "단체 발주"); prepended to the email body
+  // so the store sees it without a backend change.
+  inquiryType?: string
 }
 
 export interface ContactResult {
@@ -22,9 +25,20 @@ export async function sendContactMessage(input: ContactInput): Promise<ContactRe
   const message = input.message.trim()
   if (!name || !email || !message) return { error: 'required' }
 
+  const inquiryType = input.inquiryType?.trim()
+  const fullMessage = inquiryType
+    ? `[문의 유형 / Inquiry: ${inquiryType}]\n\n${message}`
+    : message
+
   try {
     const { error } = await supabase.functions.invoke('send-contact-email', {
-      body: { name, email, message, locale: input.locale ?? 'ko' },
+      body: {
+        name,
+        email,
+        message: fullMessage,
+        locale: input.locale ?? 'ko',
+        inquiryType: inquiryType ?? null,
+      },
     })
     return { error: error ? error.message : null }
   } catch (e) {
