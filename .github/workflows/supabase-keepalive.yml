@@ -1,0 +1,41 @@
+name: Supabase Keep-Alive
+
+# 무료 티어 Supabase 프로젝트는 7일간 요청이 없으면 자동 일시정지된다.
+# 매일 가벼운 REST 쿼리를 한 번 보내 프로젝트를 깨어 있는 상태로 유지한다.
+# (Vercel 사이트 핑만으로는 Supabase 활동으로 잡히지 않으므로 DB를 직접 건드린다.)
+
+on:
+  schedule:
+    # 매일 00:17 UTC = 매일 09:17 KST. 정시(00분)는 러너가 몰려 지연되므로 17분으로 둔다.
+    - cron: '17 0 * * *'
+  workflow_dispatch: {} # 탭에서 수동 실행도 가능
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "::error::SUPABASE_URL / SUPABASE_ANON_KEY 시크릿이 설정되지 않았습니다."
+            exit 1
+          fi
+
+          # store_settings 테이블을 limit 1로 가볍게 조회한다.
+          # 응답 코드가 5xx(일시정지/장애)만 아니면 프로젝트가 깨어 있다는 뜻이다.
+          code=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${SUPABASE_URL}/rest/v1/store_settings?select=id&limit=1" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}")
+
+          echo "Supabase responded with HTTP $code"
+
+          if [ "$code" -ge 500 ] || [ "$code" -eq 000 ]; then
+            echo "::error::Supabase 핑 실패 (HTTP $code) - 프로젝트가 일시정지되었거나 접근 불가합니다."
+            exit 1
+          fi
+
+          echo "Supabase 프로젝트가 정상 응답했습니다. (keep-alive 성공)"
