@@ -108,7 +108,7 @@ export function IntroOverlay() {
     if (!active) return
     if (phase === 'reveal') {
       // Fallback in case onAnimationEnd never fires (duration + lead-in margin).
-      push(onRevealDone, 3000)
+      push(onRevealDone, 3200)
     } else if (phase === 'story') {
       push(() => setLeaving(true), 1600)
       push(() => setActive(false), 1600 + 820)
@@ -147,11 +147,14 @@ const blink = keyframes`
   50%, 100% { opacity: 0; }
 `
 
-// Soft left-to-right wipe: the white text starts fully masked (hidden) and the
-// opaque band of the mask slides in from the left, uncovering it gradually.
+// Left-to-right wipe: the slogan starts fully clipped (hidden) and is uncovered
+// column by column. clip-path interpolates reliably across engines (unlike
+// animated mask-position, which Chromium does not repaint), so the reveal is
+// actually visible. The small -4% insets give the glyphs edge breathing room so
+// ascenders/descenders are never shaved.
 const revealAnim = keyframes`
-  from { -webkit-mask-position: 150% 0; mask-position: 150% 0; }
-  to   { -webkit-mask-position: 0% 0;   mask-position: 0% 0; }
+  from { clip-path: inset(0 100% 0 -4%); }
+  to   { clip-path: inset(0 -4% 0 -4%); }
 `
 
 /* ── styled ─────────────────────────────────────────────────── */
@@ -223,30 +226,23 @@ const Title = styled.h1<{ $reveal: boolean; $done: boolean }>`
   font-optical-sizing: auto;
   margin: 0;
 
-  /* Masked (hidden) from the first frame — no flash of visible text. */
-  -webkit-mask-image: linear-gradient(90deg, #000 42%, transparent 72%);
-  mask-image: linear-gradient(90deg, #000 42%, transparent 72%);
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 280% 100%;
-  mask-size: 280% 100%;
-  -webkit-mask-position: 150% 0;
-  mask-position: 150% 0;
+  /* Clipped away (hidden) from the very first frame — no flash of visible text
+     before the wipe. */
+  clip-path: inset(0 100% 0 -4%);
 
   ${({ $reveal }) =>
     $reveal &&
     css`
-      animation: ${revealAnim} 2.6s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      animation: ${revealAnim} 2.8s cubic-bezier(0.33, 0, 0.2, 1) forwards;
     `}
 
-  /* Once revealed, drop the mask entirely so no later re-render can restart the
+  /* Once revealed, drop the clip entirely so no later re-render can restart the
      wipe — the slogan simply stays fully visible. */
   ${({ $done }) =>
     $done &&
     css`
       animation: none;
-      -webkit-mask-image: none;
-      mask-image: none;
+      clip-path: none;
     `}
 `
 
