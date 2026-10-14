@@ -1,15 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
+import styled, { keyframes, css } from 'styled-components'
 import { useLocale } from '@/i18n/context'
 
-// Fullscreen entrance intro. Shows the hero slogan hidden under soft black
-// 감온(thermochromic) ink bars, then auto-sweeps them clear — the same reveal
-// motif used on the Home hero, played once as a splash — and fades out to the
-// page underneath. Plays once per browser session (sessionStorage). Respects
-// prefers-reduced-motion by never rendering. The real text stays in the DOM so
-// the overlay never traps a reader with a blank screen.
+// Fullscreen entrance intro on a black ground, played once per browser session.
+//
+// Sequence:
+//   1. "dot of line and form" is typed out letter by letter (with a caret).
+//   2. The hero slogan — hidden from the very first frame — is slowly revealed
+//      by a soft left-to-right wipe (no flash of text before it is covered).
+//   3. "What's your story?" fades up.
+//   4. The whole black overlay fades out to the page underneath.
+//
+// Respects prefers-reduced-motion by never rendering. The real text stays in
+// the DOM so the overlay never traps a reader on a blank screen.
 
 const SESSION_KEY = 'dolf-intro-shown'
+const TAGLINE = 'dot of line and form'
+const STORY = "What's your story?"
+
+type Phase = 'type' | 'reveal' | 'story'
 
 function introAlreadyShown(): boolean {
   try {
@@ -34,15 +43,30 @@ export function IntroOverlay() {
     typeof window !== 'undefined' &&
     (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false)
 
-  // Decide synchronously, before first paint, whether the intro runs at all —
-  // avoids a flash of the overlay on repeat views or reduced-motion.
+  // Decide synchronously, before first paint, whether the intro runs at all.
   const [active, setActive] = useState(
     () => !reduce && typeof window !== 'undefined' && !introAlreadyShown(),
   )
+  const [phase, setPhase] = useState<Phase>('type')
+  const [typed, setTyped] = useState(0)
+  const [revealed, setRevealed] = useState(false)
   const [leaving, setLeaving] = useState(false)
+  const timers = useRef<number[]>([])
 
-  const heatRef = useRef<HTMLDivElement>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  // Called when the slogan wipe finishes (or a fallback timer). Freezes the
+  // slogan fully visible (mask removed) so later re-renders can never restart
+  // the wipe, then brings in the closing line.
+  const onRevealDone = () => {
+    setRevealed((was) => {
+      if (was) return was
+      setPhase('story')
+      return true
+    })
+  }
+
+  const push = (fn: () => void, ms: number) => {
+    timers.current.push(window.setTimeout(fn, ms))
+  }
 
   // Lock scroll while the overlay owns the screen.
   useEffect(() => {
@@ -55,145 +79,82 @@ export function IntroOverlay() {
     }
   }, [active])
 
+  // Drive the timeline.
   useEffect(() => {
     if (!active) return
-    const heat = heatRef.current
-    const canvas = canvasRef.current
-    if (!heat || !canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2)
-    const OFF = 10
-    let width = 0
-    let height = 0
-    let bars: { x: number; y: number; w: number; h: number }[] = []
-    let cancelled = false
-    const timers: number[] = []
-
-    const roundRect = (x: number, y: number, w: number, h: number, r: number) => {
-      ctx.beginPath()
-      ctx.moveTo(x + r, y)
-      ctx.arcTo(x + w, y, x + w, y + h, r)
-      ctx.arcTo(x + w, y + h, x, y + h, r)
-      ctx.arcTo(x, y + h, x, y, r)
-      ctx.arcTo(x, y, x + w, y, r)
-      ctx.closePath()
-    }
-
-    const paint = (a: number) => {
-      ctx.globalCompositeOperation = 'source-over'
-      ctx.fillStyle = `rgba(20,19,23,${a})`
-      for (const b of bars) {
-        roundRect(b.x, b.y, b.w, b.h, 6)
-        ctx.fill()
+    // 1) Type the tagline, char by char.
+    let i = 0
+    const type = () => {
+      i += 1
+      setTyped(i)
+      if (i < TAGLINE.length) {
+        push(type, 78)
+      } else {
+        // hold on the full tagline, then start the slow slogan reveal
+        push(() => setPhase('reveal'), 620)
       }
     }
-
-    const warm = (x: number, y: number, r: number) => {
-      ctx.globalCompositeOperation = 'destination-out'
-      const g = ctx.createRadialGradient(x, y, 0, x, y, r)
-      g.addColorStop(0, 'rgba(0,0,0,.35)')
-      g.addColorStop(0.5, 'rgba(0,0,0,.14)')
-      g.addColorStop(1, 'rgba(0,0,0,0)')
-      ctx.fillStyle = g
-      ctx.beginPath()
-      ctx.arc(x, y, r, 0, 7)
-      ctx.fill()
-      ctx.globalCompositeOperation = 'source-over'
-    }
-
-    const measure = () => {
-      const hr = heat.getBoundingClientRect()
-      width = hr.width + OFF * 2
-      height = hr.height + OFF * 2
-      canvas.width = Math.round(width * dpr)
-      canvas.height = Math.round(height * dpr)
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      bars = []
-      heat.querySelectorAll('[data-heat]').forEach((el) => {
-        const rects = el.getClientRects()
-        for (let i = 0; i < rects.length; i++) {
-          const r = rects[i]
-          bars.push({
-            x: r.left - hr.left + OFF - 8,
-            y: r.top - hr.top + OFF - 2,
-            w: r.width + 16,
-            h: r.height + 4,
-          })
-        }
-      })
-      ctx.clearRect(0, 0, width, height)
-      paint(1)
-    }
-
-    const finish = () => {
-      if (cancelled) return
-      setLeaving(true)
-      timers.push(window.setTimeout(() => !cancelled && setActive(false), 760))
-    }
-
-    const runSweep = () => {
-      if (cancelled) return
-      let i = 0
-      const N = 34
-      const step = () => {
-        if (cancelled) return
-        if (i > N) {
-          ctx.clearRect(0, 0, width, height)
-          timers.push(window.setTimeout(finish, 620)) // hold on the clear slogan
-          return
-        }
-        // Diagonal sweep across the slogan, clearing the ink bars.
-        const px = width * (0.06 + 0.9 * (i / N))
-        const py = height * (0.12 + 0.72 * ((i % 4) / 3))
-        const R = Math.max(90, width * 0.11)
-        warm(px, py, R)
-        warm(px, py, R * 0.62)
-        i++
-        timers.push(window.setTimeout(step, 36))
-      }
-      step()
-    }
-
-    const start = () => {
-      if (cancelled) return
-      measure()
-      timers.push(window.setTimeout(runSweep, 560))
-    }
-
-    if (document.fonts?.ready) {
-      document.fonts.ready.then(() => !cancelled && start())
-    } else {
-      timers.push(window.setTimeout(start, 300))
-    }
-    // Fallback in case fonts.ready never settles.
-    timers.push(window.setTimeout(() => bars.length === 0 && start(), 700))
+    push(type, 480)
 
     return () => {
-      cancelled = true
-      timers.forEach((t) => window.clearTimeout(t))
+      timers.current.forEach((id) => window.clearTimeout(id))
+      timers.current = []
     }
   }, [active])
+
+  // Advance through reveal -> story -> fade out.
+  useEffect(() => {
+    if (!active) return
+    if (phase === 'reveal') {
+      // Fallback in case onAnimationEnd never fires (duration + lead-in margin).
+      push(onRevealDone, 3000)
+    } else if (phase === 'story') {
+      push(() => setLeaving(true), 1600)
+      push(() => setActive(false), 1600 + 820)
+    }
+  }, [phase, active])
 
   if (!active) return null
 
   return (
     <Overlay $leaving={leaving} aria-hidden>
       <Center>
-        <Heat ref={heatRef}>
-          <Label>
-            <Dot />
-            {t.hero.tagline}
-          </Label>
-          <Title data-heat>{t.hero.title}</Title>
-          <Kr data-heat>{t.hero.subhead}</Kr>
-          <Canvas ref={canvasRef} />
-        </Heat>
+        <Tag>
+          <Dot />
+          <TagText>{TAGLINE.slice(0, typed)}</TagText>
+          {phase === 'type' && <Caret />}
+        </Tag>
+
+        <Title
+          $reveal={phase === 'reveal' && !revealed}
+          $done={revealed}
+          onAnimationEnd={onRevealDone}
+        >
+          {t.hero.title}
+        </Title>
+
+        <Story $show={phase === 'story'}>{STORY}</Story>
       </Center>
     </Overlay>
   )
 }
+
+/* ── animations ─────────────────────────────────────────────── */
+
+const blink = keyframes`
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+`
+
+// Soft left-to-right wipe: the white text starts fully masked (hidden) and the
+// opaque band of the mask slides in from the left, uncovering it gradually.
+const revealAnim = keyframes`
+  from { -webkit-mask-position: 150% 0; mask-position: 150% 0; }
+  to   { -webkit-mask-position: 0% 0;   mask-position: 0% 0; }
+`
+
+/* ── styled ─────────────────────────────────────────────────── */
 
 const Overlay = styled.div<{ $leaving: boolean }>`
   position: fixed;
@@ -202,9 +163,9 @@ const Overlay = styled.div<{ $leaving: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.colors.cream};
+  background-color: ${({ theme }) => theme.colors.ink};
   opacity: ${({ $leaving }) => ($leaving ? 0 : 1)};
-  transition: opacity 0.72s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity;
 `
 
@@ -214,22 +175,12 @@ const Center = styled.div`
   padding-inline: clamp(24px, 6vw, 72px);
 `
 
-const Heat = styled.div`
-  position: relative;
-  display: inline-block;
-`
-
-const Label = styled.span`
+const Tag = styled.div`
   display: flex;
   align-items: center;
   gap: 9px;
-  margin-bottom: 24px;
-  font-family: ${({ theme }) => theme.fonts.sans};
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.textSecondary};
+  margin-bottom: 30px;
+  min-height: 14px;
 `
 
 const Dot = styled.span`
@@ -238,34 +189,77 @@ const Dot = styled.span`
   height: 6px;
   border-radius: 50%;
   background: ${({ theme }) => theme.colors.brandRed};
+  flex: none;
 `
 
-const Title = styled.h1`
+const TagText = styled.span`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+  white-space: pre;
+`
+
+const Caret = styled.span`
+  display: inline-block;
+  width: 2px;
+  height: 13px;
+  margin-left: 1px;
+  background: ${({ theme }) => theme.colors.brandRed};
+  animation: ${blink} 0.9s step-end infinite;
+`
+
+const Title = styled.h1<{ $reveal: boolean; $done: boolean }>`
   font-family: ${({ theme }) => theme.fonts.serif};
   font-weight: 400;
   font-size: clamp(40px, 8.4vw, 128px);
   line-height: 0.94;
   letter-spacing: -0.03em;
-  color: ${({ theme }) => theme.colors.ink};
+  color: #f5f2ea;
   white-space: pre-line;
   overflow-wrap: break-word;
   font-optical-sizing: auto;
   margin: 0;
+
+  /* Masked (hidden) from the first frame — no flash of visible text. */
+  -webkit-mask-image: linear-gradient(90deg, #000 42%, transparent 72%);
+  mask-image: linear-gradient(90deg, #000 42%, transparent 72%);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 280% 100%;
+  mask-size: 280% 100%;
+  -webkit-mask-position: 150% 0;
+  mask-position: 150% 0;
+
+  ${({ $reveal }) =>
+    $reveal &&
+    css`
+      animation: ${revealAnim} 2.6s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    `}
+
+  /* Once revealed, drop the mask entirely so no later re-render can restart the
+     wipe — the slogan simply stays fully visible. */
+  ${({ $done }) =>
+    $done &&
+    css`
+      animation: none;
+      -webkit-mask-image: none;
+      mask-image: none;
+    `}
 `
 
-const Kr = styled.p`
-  font-family: ${({ theme }) => theme.fonts.hand};
-  font-size: clamp(22px, 3.4vw, 32px);
-  line-height: 1.35;
-  color: ${({ theme }) => theme.colors.soft};
-  margin-top: clamp(18px, 3vw, 28px);
-`
-
-const Canvas = styled.canvas`
-  position: absolute;
-  inset: -10px;
-  width: calc(100% + 20px);
-  height: calc(100% + 20px);
-  z-index: 2;
-  pointer-events: none;
+const Story = styled.p<{ $show: boolean }>`
+  margin-top: clamp(26px, 4vw, 44px);
+  font-family: ${({ theme }) => theme.fonts.serif};
+  font-style: italic;
+  font-size: clamp(20px, 3.2vw, 34px);
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.9);
+  opacity: ${({ $show }) => ($show ? 1 : 0)};
+  transform: translateY(${({ $show }) => ($show ? '0' : '14px')});
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
 `
