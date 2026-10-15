@@ -19,6 +19,9 @@ type Copy = {
   insideTitle: string
   inserts: readonly Insert[]
   insideFoot: string
+  bindingEyebrow: string
+  bindingTitle: string
+  bindingBody: readonly string[]
 }
 
 const COPY: Record<string, Copy> = {
@@ -45,6 +48,12 @@ const COPY: Record<string, Copy> = {
       { label: 'Dot grid · Notes', desc: '정해진 틀에 담기지 않는 기록을 받아 줍니다.' },
     ],
     insideFoot: '계획을 세우고 끝나는 것이 아니라, 실천하고 기록하고 돌아보는 흐름을 만듭니다.',
+    bindingEyebrow: 'THE BINDING',
+    bindingTitle: '180도 펼쳐지는 누드 사철 제본',
+    bindingBody: [
+      '실로 엮은 제본의 속을 그대로 드러내는 누드 사철 제본입니다. 감춰야 할 마감이 아니라, 만듦새 자체가 디자인이 됩니다.',
+      '사철 제본이라 180도로 평평하게 펼쳐져 어느 페이지에서도 편하게 기록할 수 있고, 양장보다 부드러운 커버로 매일 손에 들기에 부담이 없습니다.',
+    ],
   },
   en: {
     whyEyebrow: 'WHY BREATHE',
@@ -69,6 +78,12 @@ const COPY: Record<string, Copy> = {
       { label: 'Dot grid · Notes', desc: 'Hold whatever doesn’t fit a fixed template.' },
     ],
     insideFoot: 'Not a plan that ends once made, but a rhythm of practicing, recording and looking back.',
+    bindingEyebrow: 'THE BINDING',
+    bindingTitle: 'An exposed Smyth-sewn binding that lies flat',
+    bindingBody: [
+      'The sewn interior is left on show rather than hidden — the making itself becomes the design.',
+      'Because it is Smyth-sewn, it opens a full 180° so you can write comfortably on any page, and its cover is softer than a hardcover, easy to hold every day.',
+    ],
   },
   ja: {
     whyEyebrow: 'WHY BREATHE',
@@ -93,6 +108,12 @@ const COPY: Record<string, Copy> = {
       { label: 'Dot grid · Notes', desc: '決まった型に収まらない記録を受けとめます。' },
     ],
     insideFoot: '計画を立てて終わりではなく、実践し、記録し、振り返る流れをつくります。',
+    bindingEyebrow: 'THE BINDING',
+    bindingTitle: '180度ひらく、糸かがりの背を見せる製本',
+    bindingBody: [
+      '糸でかがった製本の内側をあえて見せる、背を隠さないつくり。隠す仕上げではなく、つくり方そのものがデザインになります。',
+      '糸かがり製本なので180度フラットにひらき、どのページでも書きやすく、上製本より柔らかい表紙で毎日手に取るのに負担がありません。',
+    ],
   },
 }
 
@@ -140,6 +161,18 @@ export function BreatheStory() {
           </List>
           <Foot>{c.insideFoot}</Foot>
         </Inside>
+      </Reveal>
+
+      <Reveal>
+        <Binding>
+          <Lab>{c.bindingEyebrow}</Lab>
+          <BlockTitle>{c.bindingTitle}</BlockTitle>
+          <Body>
+            {c.bindingBody.map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </Body>
+        </Binding>
       </Reveal>
     </Section>
   )
@@ -212,6 +245,21 @@ const Quote = styled.p`
 const Inside = styled.div`
   border-top: 1px solid ${({ theme }) => theme.colors.line};
   padding-top: clamp(28px, 4vw, 44px);
+`
+
+const Binding = styled.div`
+  border-top: 1px solid ${({ theme }) => theme.colors.line};
+  padding-top: clamp(28px, 4vw, 44px);
+`
+
+const BlockTitle = styled.h3`
+  font-family: ${({ theme }) => theme.fonts.serif};
+  font-weight: 400;
+  font-size: clamp(24px, 3.6vw, 34px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 12px 0 0;
+  color: ${({ theme }) => theme.colors.ink};
 `
 
 const InsideTitle = styled.h3`
