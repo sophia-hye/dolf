@@ -1,5 +1,6 @@
 import { AboutHero } from '@/pages/about/sections/AboutHero'
 import { WhySection } from '@/pages/about/sections/WhySection'
+import { DotLineFormSection } from '@/pages/about/sections/DotLineFormSection'
 import { MissionVisionSection } from '@/pages/about/sections/MissionVisionSection'
 import { CoreValuesSection } from '@/pages/about/sections/CoreValuesSection'
 
@@ -8,6 +9,7 @@ export function AboutPage() {
     <>
       <AboutHero />
       <WhySection />
+      <DotLineFormSection />
       <MissionVisionSection />
       <CoreValuesSection />
     </>

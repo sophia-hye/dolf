@@ -88,6 +88,19 @@ export const ja: Dictionary = {
       title: 'Not willpower, but rhythm',
       body: '多くの人が信仰を続けられないのは、意志が足りないからではありません。信仰を日常のルーティンにしてくれる道具と経験が足りないからです。DoLFは、毎日の小さな実践が習慣となり、習慣が人生の形になるよう手助けします。',
     },
+    dotLineForm: {
+      eyebrow: 'DOT · LINE · FORM',
+      title: '点、線、そして形',
+      intro:
+        'スローガン「dot of line and form」の点・線・形は、単なるグラフィックではなくブランドの言葉です。神がご自身の形に人を造られ、罪でその結びつきが断たれ、十字架と復活によって再びつながれたという物語を込めています。',
+      items: [
+        { symbol: '·', label: 'Dot', description: '小さな点は、始まりと出会い。一日の小さな実践のひとつが点になります。' },
+        { symbol: '—', label: 'Line', description: '線は、続いていく関係と旅。点がつながって習慣になります。' },
+        { symbol: '◇', label: 'Form', description: '形は、回復され造られていく人生の姿。習慣が積み重なって形になります。' },
+      ],
+      closing:
+        '一度の大きな決意よりも、小さくても続く行動が人生を変えます。聖書通読トラッカーに読んだ分を点で満たすのも、この考えを実際の使い方に移したものです。',
+    },
     missionVision: {
       eyebrow: 'MISSION & VISION',
       items: [

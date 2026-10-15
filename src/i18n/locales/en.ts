@@ -88,6 +88,19 @@ export const en: Dictionary = {
       title: 'Not willpower, but rhythm',
       body: 'For many people, faith falters not because they lack willpower, but because they lack the tools and experiences that turn faith into a daily routine. DoLF helps small daily practices become habits, and habits become the shape of a life.',
     },
+    dotLineForm: {
+      eyebrow: 'DOT · LINE · FORM',
+      title: 'Dot, line, and form',
+      intro:
+        'In the slogan “dot of line and form,” dot, line and form aren’t graphics but the brand’s language. They carry the story of a God who made us in His image, a connection broken by sin, and restored through the cross and the resurrection.',
+      items: [
+        { symbol: '·', label: 'Dot', description: 'A small dot is a beginning, an encounter — one small practice in a day.' },
+        { symbol: '—', label: 'Line', description: 'A line is a continuing relationship and journey — dots joined into a habit.' },
+        { symbol: '◇', label: 'Form', description: 'Form is a life being restored and made — habits adding up into its shape.' },
+      ],
+      closing:
+        'More than one grand resolution, small actions that keep going change a life. Marking each passage you read as a dot on the Bible tracker turns this idea into the way you use it.',
+    },
     missionVision: {
       eyebrow: 'MISSION & VISION',
       items: [

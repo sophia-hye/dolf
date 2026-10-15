@@ -87,6 +87,19 @@ export const ko: Dictionary = {
       title: 'Not willpower, but rhythm',
       body: '많은 사람들이 신앙을 지속하지 못하는 것은 의지가 부족해서가 아닙니다. 신앙을 일상의 루틴으로 만들어 주는 도구와 경험이 부족하기 때문입니다. DoLF는 매일의 작은 실천이 습관이 되고, 습관이 삶의 형태가 되도록 돕습니다.',
     },
+    dotLineForm: {
+      eyebrow: 'DOT · LINE · FORM',
+      title: '점, 선, 그리고 형태',
+      intro:
+        '슬로건 “dot of line and form”에서 점·선·형태는 단순한 그래픽이 아니라 브랜드의 언어입니다. 하나님은 자신의 형상으로 사람을 지으셨지만 죄로 그 연결이 끊어졌고, 예수님이 십자가와 부활로 그 연결을 다시 이으셨다는 이야기를 담습니다.',
+      items: [
+        { symbol: '·', label: 'Dot', description: '작은 점은 시작과 만남입니다. 하루의 작은 실천 하나가 점이 됩니다.' },
+        { symbol: '—', label: 'Line', description: '선은 이어지는 관계와 여정입니다. 점들이 이어져 습관이 됩니다.' },
+        { symbol: '◇', label: 'Form', description: '형태는 회복되고 만들어지는 삶의 모습입니다. 습관이 쌓여 삶의 형태가 됩니다.' },
+      ],
+      closing:
+        '한 번의 큰 결심보다, 작아도 이어지는 행동이 삶을 바꿉니다. 성경 통독 트래커에 읽은 분량을 점으로 채우게 한 것도, 이 생각을 실제 사용 방식으로 옮긴 것입니다.',
+    },
     missionVision: {
       eyebrow: 'MISSION & VISION',
       items: [
