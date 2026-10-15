@@ -11,6 +11,7 @@ import { editionsFor } from '@/lib/product-editions'
 import { formatMoney, CURRENCY_BY_LOCALE } from '@/lib/orders'
 import { pushEvent } from '@/lib/gtm'
 import { BreatheCoverStory } from '@/pages/shop/detail/sections/BreatheCoverStory'
+import { BreatheStory } from '@/pages/shop/detail/sections/BreatheStory'
 import { BreatheEditions } from '@/pages/shop/detail/sections/BreatheEditions'
 import { RelatedProducts } from '@/components/shop/RelatedProducts'
 import { StickyPurchaseBar } from '@/components/shop/StickyPurchaseBar'
@@ -86,6 +87,7 @@ export function BreatheDetailPage({ product }: { product: ShopProduct }) {
     <Page>
       <Main>
         <BreatheCoverStory />
+        <BreatheStory />
         <BreatheEditions currentSlug={product.slug} />
         <Canvas style={{ aspectRatio: `${W} / ${H}` }}>
         {nodes.map((n, i) => {
