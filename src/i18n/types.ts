@@ -115,6 +115,12 @@ export interface Dictionary {
       readonly items: readonly DotLineFormItem[]
       readonly closing: string
     }
+    readonly founder: {
+      readonly eyebrow: string
+      readonly title: string
+      readonly paragraphs: readonly string[]
+      readonly signature: string
+    }
     readonly missionVision: {
       readonly eyebrow: string
       readonly items: readonly MissionItem[]
