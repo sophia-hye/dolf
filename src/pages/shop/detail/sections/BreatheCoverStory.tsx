@@ -121,7 +121,7 @@ const Body = styled.p`
   margin: 20px 0 0;
   font-size: 15px;
   line-height: 1.7;
-  word-break: normal;
+  word-break: keep-all;
   overflow-wrap: break-word;
 
   & > span {

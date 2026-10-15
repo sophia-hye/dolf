@@ -80,6 +80,8 @@ const Subhead = styled.p`
   font-weight: 500;
   line-height: 1.52;
   color: ${({ theme }) => theme.colors.ink};
+  word-break: keep-all;
+  overflow-wrap: break-word;
 `
 
 const Body = styled.p`
@@ -87,4 +89,6 @@ const Body = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.body};
   line-height: 1.8;
   color: ${({ theme }) => theme.colors.textSecondary};
+  word-break: keep-all;
+  overflow-wrap: break-word;
 `

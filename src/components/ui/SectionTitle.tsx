@@ -7,4 +7,7 @@ export const SectionTitle = styled.h2`
   font-weight: 500;
   color: ${({ theme }) => theme.colors.ink};
   line-height: 1.2;
+  /* Keep Korean words whole; break only very long unbreakable tokens. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 `
