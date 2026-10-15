@@ -21,6 +21,12 @@ export interface MissionItem {
   readonly description: string
 }
 
+export interface DotLineFormItem {
+  readonly symbol: string
+  readonly label: string
+  readonly description: string
+}
+
 export interface ProductFeature {
   readonly name: string
   readonly description: string
@@ -101,6 +107,19 @@ export interface Dictionary {
       readonly eyebrow: string
       readonly title: string
       readonly body: string
+    }
+    readonly dotLineForm: {
+      readonly eyebrow: string
+      readonly title: string
+      readonly intro: string
+      readonly items: readonly DotLineFormItem[]
+      readonly closing: string
+    }
+    readonly founder: {
+      readonly eyebrow: string
+      readonly title: string
+      readonly paragraphs: readonly string[]
+      readonly signature: string
     }
     readonly missionVision: {
       readonly eyebrow: string

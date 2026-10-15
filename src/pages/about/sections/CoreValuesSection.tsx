@@ -28,7 +28,7 @@ export function CoreValuesSection() {
 }
 
 const Section = styled.section`
-  background-color: ${({ theme }) => theme.colors.surface};
+  background-color: ${({ theme }) => theme.colors.cream};
 `
 
 const Inner = styled(Container)`

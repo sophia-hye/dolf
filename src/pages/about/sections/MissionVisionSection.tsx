@@ -25,7 +25,7 @@ export function MissionVisionSection() {
 }
 
 const Section = styled.section`
-  background-color: ${({ theme }) => theme.colors.cream};
+  background-color: ${({ theme }) => theme.colors.surface};
 `
 
 const Inner = styled(Container)`

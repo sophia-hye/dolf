@@ -88,6 +88,30 @@ export const en: Dictionary = {
       title: 'Not willpower, but rhythm',
       body: 'For many people, faith falters not because they lack willpower, but because they lack the tools and experiences that turn faith into a daily routine. DoLF helps small daily practices become habits, and habits become the shape of a life.',
     },
+    dotLineForm: {
+      eyebrow: 'DOT · LINE · FORM',
+      title: 'Dot, line, and form',
+      intro:
+        'In the slogan “dot of line and form,” dot, line and form aren’t graphics but the brand’s language. They carry the story of a God who made us in His image, a connection broken by sin, and restored through the cross and the resurrection.',
+      items: [
+        { symbol: '·', label: 'Dot', description: 'A small dot is a beginning, an encounter — one small practice in a day.' },
+        { symbol: '—', label: 'Line', description: 'A line is a continuing relationship and journey — dots joined into a habit.' },
+        { symbol: '◇', label: 'Form', description: 'Form is a life being restored and made — habits adding up into its shape.' },
+      ],
+      closing:
+        'More than one grand resolution, small actions that keep going change a life. Marking each passage you read as a dot on the Bible tracker turns this idea into the way you use it.',
+    },
+    founder: {
+      eyebrow: 'WHY I STARTED DoLF',
+      title: 'It began with the diary I wanted to use',
+      paragraphs: [
+        'In a life of faith, keeping a record and sitting with scripture (QT) matters — yet I could rarely find stationery a young Christian would actually want to carry. So I started making the diary I wished existed.',
+        'To my surprise, because it was a diary I had made, “if no one else, at least I should use it well” kept me doing QT more often, and more deeply. I was sure there were others like me.',
+        'During a season when work stress left me very low, QT was how I held on, one day at a time. My hope is that others passing through a hard season can meet scripture each day, look back on themselves, and keep from losing who they are.',
+        'These small daily reflections, gathered up, become the story of “me.” That is why I wanted to make a diary good enough to keep close — and to keep for a long time.',
+      ],
+      signature: '— DoLF',
+    },
     missionVision: {
       eyebrow: 'MISSION & VISION',
       items: [
