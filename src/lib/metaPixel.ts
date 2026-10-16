@@ -4,7 +4,9 @@
 // through pushEvent() are forwarded to the matching Meta standard events (see
 // pixelForward), so call sites don't need Meta-specific code.
 
-const PIXEL_ID = import.meta.env.VITE_META_PIXEL_ID || ''
+// Pixel id is a public value (visible in the client), so we keep a code default
+// like GA/GTM; override via VITE_META_PIXEL_ID if needed.
+const PIXEL_ID = import.meta.env.VITE_META_PIXEL_ID || '1090823467075880'
 
 let initialized = false
 
