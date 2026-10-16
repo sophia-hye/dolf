@@ -2,6 +2,8 @@
 // direct gtag setup (see analytics.ts); GTM is used for event tracking only.
 // Loads once on the client and skips local dev to keep analytics clean.
 
+import { pixelForward } from '@/lib/metaPixel'
+
 const GTM_ID = import.meta.env.VITE_GTM_ID || 'GTM-T8HJWDSD'
 
 let initialized = false
@@ -23,7 +25,8 @@ export function initGtm(): void {
   document.head.appendChild(script)
 }
 
-// Push a named event (plus optional params) onto the dataLayer for GTM triggers.
+// Push a named event (plus optional params) onto the dataLayer for GTM triggers,
+// and forward ecommerce events to the Meta Pixel (no-op until the pixel is set).
 export function pushEvent(
   event: string,
   params: Record<string, unknown> = {},
@@ -31,4 +34,5 @@ export function pushEvent(
   if (typeof window === 'undefined') return
   window.dataLayer = window.dataLayer || []
   window.dataLayer.push({ event, ...params })
+  pixelForward(event, params)
 }
