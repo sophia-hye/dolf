@@ -5,6 +5,7 @@ interface ImportMetaEnv {
   readonly VITE_SUPABASE_ANON_KEY?: string
   readonly VITE_GA_MEASUREMENT_ID?: string
   readonly VITE_GTM_ID?: string
+  readonly VITE_META_PIXEL_ID?: string
 }
 
 interface ImportMeta {
@@ -14,4 +15,6 @@ interface ImportMeta {
 interface Window {
   dataLayer: unknown[]
   gtag: (...args: unknown[]) => void
+  fbq?: (...args: unknown[]) => void
+  _fbq?: unknown
 }

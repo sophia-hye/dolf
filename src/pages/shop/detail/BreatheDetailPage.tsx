@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { useLocale } from '@/i18n/context'
@@ -70,6 +70,18 @@ export function BreatheDetailPage({ product }: { product: ShopProduct }) {
   const editions = editionsFor('breathe', locale) ?? []
   const sold = isSoldOut(product.slug, overrides)
   const priceText = selected ? formatMoney(selected.price, currency) : product.catalogPrice
+
+  // Meta Pixel ViewContent (+ GA view_item) — key signal for the ad's landing page.
+  useEffect(() => {
+    pushEvent('view_item', {
+      item_id: product.slug,
+      item_name: product.catalogName,
+      value: selected?.price,
+      currency,
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.slug])
+
   const add = () => {
     const key = makeCartKey(product.slug, variantId, variants[0]?.id)
     addItem(key)

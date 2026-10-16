@@ -50,4 +50,6 @@ const Subhead = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.bodyLg};
   line-height: 1.78;
   color: ${({ theme }) => theme.colors.textSecondary};
+  word-break: keep-all;
+  overflow-wrap: break-word;
 `

@@ -57,6 +57,8 @@ const Title = styled.h2`
   letter-spacing: -0.02em;
   color: ${({ theme }) => theme.colors.darkFg};
   text-wrap: balance;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 `
 
 const Body = styled.div`

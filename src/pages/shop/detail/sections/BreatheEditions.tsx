@@ -104,6 +104,8 @@ const Sub = styled.p`
   font-size: 14px;
   line-height: 1.6;
   color: ${({ theme }) => theme.colors.textSecondary};
+  word-break: keep-all;
+  overflow-wrap: break-word;
 `
 const Grid = styled.div`
   display: grid;

@@ -208,6 +208,8 @@ const Title = styled.h2`
   letter-spacing: -0.02em;
   margin: 14px 0 0;
   color: ${({ theme }) => theme.colors.ink};
+  word-break: keep-all;
+  overflow-wrap: break-word;
 `
 
 const Body = styled.div`
@@ -260,6 +262,8 @@ const BlockTitle = styled.h3`
   letter-spacing: -0.02em;
   margin: 12px 0 0;
   color: ${({ theme }) => theme.colors.ink};
+  word-break: keep-all;
+  overflow-wrap: break-word;
 `
 
 const InsideTitle = styled.h3`
@@ -270,6 +274,8 @@ const InsideTitle = styled.h3`
   letter-spacing: -0.02em;
   margin: 12px 0 24px;
   color: ${({ theme }) => theme.colors.ink};
+  word-break: keep-all;
+  overflow-wrap: break-word;
 `
 
 const List = styled.ul`

@@ -85,4 +85,6 @@ const Body = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.body};
   line-height: 1.8;
   color: ${({ theme }) => theme.colors.textSecondary};
+  word-break: keep-all;
+  overflow-wrap: break-word;
 `
