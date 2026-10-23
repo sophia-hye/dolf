@@ -274,3 +274,24 @@ drop trigger if exists order_items_decrement_stock on public.order_items;
 create trigger order_items_decrement_stock
   after insert on public.order_items
   for each row execute function public.decrement_stock();
+
+-- ─── Data API grants ──────────────────────────────────────────────────────────
+-- From 2026-10-30 Supabase no longer auto-grants Data API access to new tables in
+-- "public". Tables created by re-running this schema (supabase db reset, preview
+-- branches, a fresh project) need explicit GRANTs, or the API returns
+-- "permission denied". Row access stays governed by the RLS policies above.
+-- Catalog: public read, admin write (write attempts gated by "admin write" RLS).
+grant select on public.products        to anon, authenticated;
+grant select on public.store_settings  to anon, authenticated;
+grant insert, update, delete on public.products       to authenticated;
+grant insert, update, delete on public.store_settings to authenticated;
+
+-- User-owned tables: authenticated CRUD, rows restricted by RLS.
+grant select, insert, update, delete on public.profiles       to authenticated;
+grant select, insert, update, delete on public.orders         to authenticated;
+grant select, insert, update, delete on public.order_items    to authenticated;
+grant select, insert, update, delete on public.cart_items     to authenticated;
+grant select, insert, update, delete on public.wishlist_items to authenticated;
+
+-- service_role (edge functions, admin tasks) bypasses RLS but still needs grants.
+grant all on all tables in schema public to service_role;
