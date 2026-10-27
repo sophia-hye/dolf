@@ -49,37 +49,19 @@ async function hmacSha256Hex(secret: string, data: string): Promise<string> {
     .join('')
 }
 
-// Best-effort owner SMS on a new paid order via Solapi. Never throws — the
-// order is already saved, so a notification failure must not fail the request.
-// No-op until SOLAPI_API_KEY / SOLAPI_API_SECRET / SMS_SENDER are configured.
+// Shared Solapi SMS send. Never throws. No-op until SOLAPI_API_KEY /
+// SOLAPI_API_SECRET / SMS_SENDER are configured, or when there is no recipient.
 //   supabase secrets set SOLAPI_API_KEY=...  SOLAPI_API_SECRET=...
-//   supabase secrets set SMS_SENDER=01012345678   (registered 발신번호)
-//   supabase secrets set SMS_TO=01062918111       (owner recipient; defaults to SMS_SENDER)
-async function sendOwnerSms(
-  admin: ReturnType<typeof createClient>,
-  order: Record<string, unknown>,
-  items: Item[],
-): Promise<void> {
+//   supabase secrets set SMS_SENDER=05012345678   (registered 발신전용 번호)
+//   supabase secrets set SMS_TO=01062918111        (owner recipient; defaults to SMS_SENDER)
+const onlyDigits = (s: string) => s.replace(/[^0-9]/g, '')
+
+async function solapiSend(to: string, text: string): Promise<void> {
   const apiKey = Deno.env.get('SOLAPI_API_KEY')
   const apiSecret = Deno.env.get('SOLAPI_API_SECRET')
-  const from = Deno.env.get('SMS_SENDER')
-  const to = Deno.env.get('SMS_TO') || from
-  if (!apiKey || !apiSecret || !from || !to) return // not configured yet
-
-  // Respect the admin's "new order" notification toggle.
-  const { data: st } = await admin
-    .from('store_settings')
-    .select('notify_new_order')
-    .eq('id', 1)
-    .maybeSingle()
-  if (st && st.notify_new_order === false) return
-
-  const count = items.reduce((n, it) => n + Number(it.quantity || 0), 0)
-  const first = items[0]?.name ?? '상품'
-  const more = items.length > 1 ? ` 외 ${items.length - 1}건` : ''
-  const total = Number(order?.total ?? 0).toLocaleString('ko-KR')
-  const text = `[DoLF] 새 주문\n${String(order?.recipient ?? '')} / ${total}원\n${first}${more} (${count}개)`
-
+  const toNum = onlyDigits(to || '')
+  const fromNum = onlyDigits(Deno.env.get('SMS_SENDER') || '')
+  if (!apiKey || !apiSecret || !fromNum || !toNum) return // not configured / no recipient
   const date = new Date().toISOString()
   const salt = crypto.randomUUID().replace(/-/g, '')
   const signature = await hmacSha256Hex(apiSecret, date + salt)
@@ -89,11 +71,52 @@ async function sendOwnerSms(
       'Content-Type': 'application/json',
       Authorization: `HMAC-SHA256 apiKey=${apiKey}, date=${date}, salt=${salt}, signature=${signature}`,
     },
-    body: JSON.stringify({ message: { to, from, text } }),
+    body: JSON.stringify({ message: { to: toNum, from: fromNum, text } }),
   })
-  if (!res.ok) {
-    console.error('owner sms failed', res.status, await res.text())
-  }
+  if (!res.ok) console.error('solapi send failed', res.status, await res.text())
+}
+
+function orderSummary(order: Record<string, unknown>, items: Item[]) {
+  const count = items.reduce((n, it) => n + Number(it.quantity || 0), 0)
+  const first = items[0]?.name ?? '상품'
+  const more = items.length > 1 ? ` 외 ${items.length - 1}건` : ''
+  const total = Number(order?.total ?? 0).toLocaleString('ko-KR')
+  return { count, first, more, total }
+}
+
+// Owner alert on a new paid order (respects the admin "new order" toggle).
+async function sendOwnerSms(
+  admin: ReturnType<typeof createClient>,
+  order: Record<string, unknown>,
+  items: Item[],
+): Promise<void> {
+  const to = Deno.env.get('SMS_TO') || Deno.env.get('SMS_SENDER') || ''
+  if (!onlyDigits(to)) return
+  const { data: st } = await admin
+    .from('store_settings')
+    .select('notify_new_order')
+    .eq('id', 1)
+    .maybeSingle()
+  if (st && st.notify_new_order === false) return
+  const { count, first, more, total } = orderSummary(order, items)
+  const text = `[DoLF] 새 주문\n${String(order?.recipient ?? '')} / ${total}원\n${first}${more} (${count}개)`
+  await solapiSend(to, text)
+}
+
+// Purchase confirmation to the customer (sent to order.phone).
+async function sendCustomerSms(order: Record<string, unknown>, items: Item[]): Promise<void> {
+  const to = String(order?.phone ?? '')
+  if (!onlyDigits(to)) return
+  const { count, first, more, total } = orderSummary(order, items)
+  const name = String(order?.recipient ?? '') || '고객'
+  const text =
+    `[DoLF] 주문이 완료되었습니다\n` +
+    `${name}님, 결제 감사합니다 :)\n` +
+    `· 상품: ${first}${more} (총 ${count}개)\n` +
+    `· 결제금액: ${total}원\n` +
+    `확인 후 순차 발송해 드릴게요.\n` +
+    `문의 hello@dolfstory.com`
+  await solapiSend(to, text)
 }
 
 Deno.serve(async (req) => {
@@ -199,9 +222,10 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Notify the owner by SMS (best-effort; ignore failures so a working,
-    // already-saved order is never reported as failed).
-    await sendOwnerSms(admin, order, items).catch((e) => console.error('sms error', e))
+    // Notify owner + customer by SMS (best-effort; never fail an already-saved
+    // order because a notification could not be sent).
+    await sendOwnerSms(admin, order, items).catch((e) => console.error('owner sms error', e))
+    await sendCustomerSms(order, items).catch((e) => console.error('customer sms error', e))
 
     return json({ id: inserted.id, method: toss?.method ?? null })
   } catch (e) {
