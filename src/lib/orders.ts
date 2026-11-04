@@ -271,5 +271,17 @@ export async function updateOrderShipping(
   }
   if (input.markShipped) patch.status = 'shipped'
   const { error } = await supabase.from('orders').update(patch).eq('id', id)
-  return { error: error ? error.message : null }
+  if (error) return { error: error.message }
+
+  // On the transition to 'shipped', notify the customer by SMS (best-effort,
+  // server-side). markShipped is only true when advancing from pending/paid, so
+  // re-saving tracking on an already-shipped order does not re-send.
+  if (input.markShipped) {
+    try {
+      await supabase.functions.invoke('notify-shipped', { body: { orderId: id } })
+    } catch (e) {
+      console.error('shipping sms invoke failed', e)
+    }
+  }
+  return { error: null }
 }
