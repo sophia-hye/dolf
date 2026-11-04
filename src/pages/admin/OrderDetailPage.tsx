@@ -191,6 +191,18 @@ export function OrderDetailPage() {
             {savingShip ? '저장 중...' : '배송 정보 저장'}
           </SaveShipButton>
         </ShipActions>
+        {order.status === 'shipped' && (
+          <DeliveredRow>
+            <DeliveredHint>고객이 상품을 받았나요?</DeliveredHint>
+            <DeliveredButton
+              type="button"
+              disabled={updating}
+              onClick={() => handleStatus('delivered')}
+            >
+              {updating ? '처리 중...' : '배송완료 처리'}
+            </DeliveredButton>
+          </DeliveredRow>
+        )}
       </Panel>
 
       <Panel style={{ marginTop: 20 }}>
@@ -396,6 +408,44 @@ const SaveShipButton = styled.button`
   border: none;
   border-radius: 4px;
   background-color: ${({ theme }) => theme.colors.brandRed};
+  color: ${({ theme }) => theme.colors.white};
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  font-weight: 500;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+`
+
+const DeliveredRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
+
+  ${({ theme }) => theme.media.mobile} {
+    flex-direction: column;
+    align-items: stretch;
+  }
+`
+
+const DeliveredHint = styled.span`
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-size: ${({ theme }) => theme.fontSizes.eyebrow};
+  color: ${({ theme }) => theme.colors.textSecondary};
+`
+
+const DeliveredButton = styled.button`
+  padding: 10px 22px;
+  border: none;
+  border-radius: 4px;
+  background-color: ${({ theme }) => theme.colors.ink};
   color: ${({ theme }) => theme.colors.white};
   font-family: ${({ theme }) => theme.fonts.kr};
   font-size: ${({ theme }) => theme.fontSizes.eyebrow};
