@@ -24,6 +24,7 @@ type Copy = {
   title: string
   intro: string
   unit: string
+  hint: string
   cards: readonly Card[]
   foot: string
 }
@@ -34,6 +35,7 @@ const COPY: Record<string, Copy> = {
     title: '구성 안내',
     intro: '앞표지부터 뒷표지까지, 실제 페이지로 보는 Breathe의 구성이에요. 각 섹션이 몇 장인지 함께 안내합니다.',
     unit: '장',
+    hint: '옆으로 밀어 더 보기 →',
     cards: [
       { tag: 'FRONT', kr: '앞표지', en: 'Front cover', desc: 'breathe, 숨결로 채운 타이포그래피', img: `${IMG}front.jpg` },
       { tag: '01', kr: '속표지 · 오프닝', en: 'Title & Opening', count: 3, desc: '“STILL BECOMING — What’s your story?”', img: `${IMG}opening.jpg` },
@@ -53,6 +55,7 @@ const COPY: Record<string, Copy> = {
     title: 'What’s in the book',
     intro: 'From front cover to back, here is Breathe laid out in its actual pages — and how many pages each section holds.',
     unit: 'pp',
+    hint: 'Swipe for more →',
     cards: [
       { tag: 'FRONT', kr: 'Front cover', en: 'Front cover', desc: 'breathe, drawn in dense typography', img: `${IMG}front.jpg` },
       { tag: '01', kr: 'Title & Opening', en: 'Title & Opening', count: 3, desc: '“STILL BECOMING — What’s your story?”', img: `${IMG}opening.jpg` },
@@ -72,6 +75,7 @@ const COPY: Record<string, Copy> = {
     title: '構成のご案内',
     intro: '表紙から裏表紙まで、実際のページで見るBreatheの構成です。各セクションのページ数もご案内します。',
     unit: 'ページ',
+    hint: '横にスクロールしてもっと見る →',
     cards: [
       { tag: 'FRONT', kr: '表紙', en: 'Front cover', desc: 'breathe、緻密なタイポグラフィ', img: `${IMG}front.jpg` },
       { tag: '01', kr: '中表紙 · オープニング', en: 'Title & Opening', count: 3, desc: '「STILL BECOMING — What’s your story?」', img: `${IMG}opening.jpg` },
@@ -99,13 +103,14 @@ export function BreatheComposition() {
           <Lab>{c.eyebrow}</Lab>
           <Title>{c.title}</Title>
           <Intro>{c.intro}</Intro>
+          <Hint>{c.hint}</Hint>
         </Head>
       </Reveal>
 
-      <Grid>
-        {c.cards.map((card) => (
-          <Reveal key={card.tag}>
-            <CardBox>
+      <Reveal>
+        <Track>
+          {c.cards.map((card) => (
+            <CardBox key={card.tag}>
               <Fig>
                 <img src={card.img} alt={`${card.kr} 페이지`} loading="lazy" />
                 {card.count != null && (
@@ -124,9 +129,9 @@ export function BreatheComposition() {
                 <Desc>{card.desc}</Desc>
               </Meta>
             </CardBox>
-          </Reveal>
-        ))}
-      </Grid>
+          ))}
+        </Track>
+      </Reveal>
 
       <Foot>{c.foot}</Foot>
     </Section>
@@ -181,22 +186,51 @@ const Intro = styled.p`
   overflow-wrap: break-word;
 `
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(18px, 2.6vw, 32px) clamp(16px, 2.2vw, 28px);
+const Hint = styled.span`
+  display: inline-flex;
+  align-items: center;
+  margin-top: 18px;
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.brandRed};
+`
 
-  @media (max-width: 760px) {
-    grid-template-columns: repeat(2, 1fr);
+// Horizontal carousel track: cards sit in one row and the section scrolls
+// sideways (not one-at-a-time). The next card peeks past the right edge to
+// signal there is more, and a gentle proximity snap keeps cards tidy.
+const Track = styled.div`
+  display: flex;
+  gap: clamp(14px, 2vw, 22px);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  scroll-padding-left: 2px;
+  padding: 4px 2px 16px;
+  margin: 0 -2px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: ${({ theme }) => theme.colors.line} transparent;
+
+  &::-webkit-scrollbar {
+    height: 8px;
   }
-
-  @media (max-width: 420px) {
-    grid-template-columns: 1fr;
-    gap: 28px;
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.line};
+    border-radius: 999px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
   }
 `
 
 const CardBox = styled.figure`
+  flex: 0 0 auto;
+  width: clamp(220px, 66vw, 282px);
+  scroll-snap-align: start;
   margin: 0;
   display: flex;
   flex-direction: column;
