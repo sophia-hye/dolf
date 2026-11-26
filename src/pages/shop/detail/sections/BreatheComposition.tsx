@@ -33,8 +33,8 @@ const COPY: Record<string, Copy> = {
   ko: {
     eyebrow: 'WHAT’S IN THE BOOK',
     title: '구성 안내',
-    intro: '앞표지부터 뒷표지까지, 실제 페이지로 보는 Breathe의 구성이에요. 각 섹션이 몇 장인지 함께 안내합니다.',
-    unit: '장',
+    intro: '앞표지부터 뒷표지까지, 실제 페이지로 보는 Breathe의 구성이에요. 각 섹션이 몇 쪽인지 함께 안내합니다.',
+    unit: 'p',
     hint: '옆으로 밀어 더 보기 →',
     cards: [
       { tag: 'FRONT', kr: '앞표지', en: 'Front cover', desc: 'breathe, 숨결로 채운 타이포그래피', img: `${IMG}front.jpg` },
