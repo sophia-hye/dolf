@@ -13,6 +13,7 @@ import { pushEvent } from '@/lib/gtm'
 import { BreatheCoverStory } from '@/pages/shop/detail/sections/BreatheCoverStory'
 import { BreatheStory } from '@/pages/shop/detail/sections/BreatheStory'
 import { BreatheEditions } from '@/pages/shop/detail/sections/BreatheEditions'
+import { BreatheComposition } from '@/pages/shop/detail/sections/BreatheComposition'
 import { RelatedProducts } from '@/components/shop/RelatedProducts'
 import { StickyPurchaseBar } from '@/components/shop/StickyPurchaseBar'
 import spec from './breathe-pdp.json'
@@ -28,6 +29,12 @@ import spec from './breathe-pdp.json'
 const W = spec.W
 const H = spec.H
 const IMG = '/images/pdp/'
+
+// The moodboard is split into two canvases at the "IN USE" heading (y≈27293) so
+// the "구성 안내 / What's in the book" section can sit in the natural document
+// flow just above it. SPLIT lands in the blank gap below the last DAILY page
+// (~26143) and above IN USE, so no node straddles the boundary.
+const SPLIT = 26600
 
 type Node = {
   t: string
@@ -54,6 +61,65 @@ const FAM: Record<string, string> = {
 // 100cqw === canvas width, so any 7612-space value maps to (v / 76.12) cqw.
 const u = (v: number) => `${(v / (W / 100)).toFixed(3)}cqw`
 const rgb = (c?: number[]) => (c ? `rgb(${c[0]},${c[1]},${c[2]})` : '#1f1f21')
+
+// Render one moodboard node. `yOff` rebases the vertical origin for the lower
+// canvas (so a node at absolute y draws at y - yOff within its own canvas).
+function renderNode(n: Node, key: string, yOff: number) {
+  const base: React.CSSProperties = {
+    position: 'absolute',
+    left: u(n.x),
+    top: u(n.y - yOff),
+    width: u(n.w),
+  }
+  if (n.t === 'i' && n.id) {
+    return (
+      <img
+        key={key}
+        src={`${IMG}${n.id.replace(':', '_')}.jpg`}
+        alt=""
+        loading={n.y < 3000 ? 'eager' : 'lazy'}
+        style={{ ...base, height: u(n.h), objectFit: 'cover', display: 'block' }}
+      />
+    )
+  }
+  if (n.t === 'x') {
+    return <div key={key} style={{ ...base, height: u(n.h), background: rgb(n.fill) }} />
+  }
+  if (n.t === 'hero') {
+    return (
+      <div key={key} style={base}>
+        <HeroLine style={{ fontSize: u(540) }}>Breathe</HeroLine>
+        <HeroLine style={{ fontSize: u(384) }}>Planner &amp; Diary</HeroLine>
+      </div>
+    )
+  }
+  // text — keep single-line labels on one line, but let multi-line copy wrap
+  // *within its box*. Fallback fonts run wider than Figma's Futura/mono, so
+  // `pre` (no wrap) would overflow a narrow box into the next column; `pre-line`
+  // keeps explicit breaks yet wraps inside the box, avoiding both vertical and
+  // horizontal overlap.
+  const hasNL = (n.c ?? '').includes('\n')
+  const isPara = hasNL || n.h > (n.s ?? 100) * 1.6
+  const whiteSpace = isPara ? 'pre-line' : 'nowrap'
+  return (
+    <div
+      key={key}
+      style={{
+        ...base,
+        fontFamily: FAM[n.fam ?? 'kr'],
+        fontWeight: n.fam === 'display' ? 800 : n.fam === 'mono' ? 500 : 400,
+        fontSize: u(n.s ?? 100),
+        lineHeight: n.lh ? u(n.lh) : 1.35,
+        letterSpacing: n.fam === 'mono' ? '0.06em' : 'normal',
+        textAlign: (n.a?.toLowerCase() as 'left' | 'right' | 'center') ?? 'left',
+        color: rgb(n.col),
+        whiteSpace,
+      }}
+    >
+      {n.c}
+    </div>
+  )
+}
 
 export function BreatheDetailPage({ product }: { product: ShopProduct }) {
   const { locale, t } = useLocale()
@@ -93,6 +159,8 @@ export function BreatheDetailPage({ product }: { product: ShopProduct }) {
   }
 
   const nodes = spec.nodes as unknown as Node[]
+  const topNodes = nodes.filter((n) => n.y < SPLIT)
+  const botNodes = nodes.filter((n) => n.y >= SPLIT)
 
   return (
     <>
@@ -101,122 +169,76 @@ export function BreatheDetailPage({ product }: { product: ShopProduct }) {
         <BreatheCoverStory />
         <BreatheStory />
         <BreatheEditions currentSlug={product.slug} />
-        <Canvas style={{ aspectRatio: `${W} / ${H}` }}>
-        {nodes.map((n, i) => {
-          const base: React.CSSProperties = {
-            position: 'absolute',
-            left: u(n.x),
-            top: u(n.y),
-            width: u(n.w),
-          }
-          if (n.t === 'i' && n.id) {
-            return (
-              <img
-                key={i}
-                src={`${IMG}${n.id.replace(':', '_')}.jpg`}
-                alt=""
-                loading={n.y < 3000 ? 'eager' : 'lazy'}
-                style={{ ...base, height: u(n.h), objectFit: 'cover', display: 'block' }}
-              />
-            )
-          }
-          if (n.t === 'x') {
-            return (
-              <div key={i} style={{ ...base, height: u(n.h), background: rgb(n.fill) }} />
-            )
-          }
-          if (n.t === 'hero') {
-            return (
-              <div key={i} style={base}>
-                <HeroLine style={{ fontSize: u(540) }}>Breathe</HeroLine>
-                <HeroLine style={{ fontSize: u(384) }}>Planner &amp; Diary</HeroLine>
-              </div>
-            )
-          }
-          // text — keep single-line labels on one line, but let multi-line
-          // copy wrap *within its box*. Fallback fonts run wider than Figma's
-          // Futura/mono, so `pre` (no wrap) would overflow a narrow box into
-          // the next column; `pre-line` keeps explicit breaks yet wraps inside
-          // the box, avoiding both vertical and horizontal overlap.
-          const hasNL = (n.c ?? '').includes('\n')
-          const isPara = hasNL || n.h > (n.s ?? 100) * 1.6
-          const whiteSpace = isPara ? 'pre-line' : 'nowrap'
-          return (
-            <div
-              key={i}
-              style={{
-                ...base,
-                fontFamily: FAM[n.fam ?? 'kr'],
-                fontWeight: n.fam === 'display' ? 800 : n.fam === 'mono' ? 500 : 400,
-                fontSize: u(n.s ?? 100),
-                lineHeight: n.lh ? u(n.lh) : 1.35,
-                letterSpacing: n.fam === 'mono' ? '0.06em' : 'normal',
-                textAlign: (n.a?.toLowerCase() as 'left' | 'right' | 'center') ?? 'left',
-                color: rgb(n.col),
-                whiteSpace,
-              }}
-            >
-              {n.c}
-            </div>
-          )
-        })}
 
-        {/* functional purchase card at the Figma card position */}
-        <CardBox
-          style={{ left: u(spec.card.x), top: u(spec.card.y), width: u(spec.card.w) }}
-        >
-          <CardLabel style={{ fontSize: u(46) }}>PLANNER &amp; DIARY</CardLabel>
-          <CardName style={{ fontSize: u(150) }}>Breathe</CardName>
-          {editions.length > 1 && (
-            <EdRow
-              role="radiogroup"
-              aria-label={locale === 'ko' ? '에디션' : locale === 'ja' ? 'エディション' : 'Edition'}
-            >
-              {editions.map((ed) => (
-                <EdChip
-                  key={ed.slug}
-                  type="button"
-                  role="radio"
-                  aria-checked={ed.slug === product.slug}
-                  $on={ed.slug === product.slug}
-                  onClick={() => {
-                    if (ed.slug !== product.slug) navigate(`/shop/${ed.slug}`)
-                  }}
-                  style={{ fontSize: u(46) }}
-                >
-                  {ed.label}
-                </EdChip>
-              ))}
-            </EdRow>
-          )}
-          <CardPrice style={{ fontSize: u(118) }}>{priceText}</CardPrice>
-          {variants.length > 1 && (
-            <Opts>
-              {variants.map((v) => (
-                <Opt
-                  key={v.id}
-                  type="button"
-                  $on={v.id === (selected?.id ?? '')}
-                  onClick={() => setVariantId(v.id)}
-                  style={{ fontSize: u(54) }}
-                >
-                  <span>{v.label}</span>
-                  <em>{formatMoney(v.price, currency)}</em>
-                </Opt>
-              ))}
-            </Opts>
-          )}
-          <Buttons>
-            <BuyBtn type="button" onClick={buyNow} disabled={sold} style={{ fontSize: u(52) }}>
-              {sold ? t.shop.soldOut : t.shop.buyNow}
-            </BuyBtn>
-            <CartBtn type="button" onClick={add} disabled={sold} style={{ fontSize: u(52) }}>
-              {t.shop.addToCart}
-            </CartBtn>
-          </Buttons>
-          <Free style={{ fontSize: u(44) }}>7만원 이상 구매 시 국내 무료배송</Free>
-        </CardBox>
+        {/* Upper moodboard — from the hero down through "INSIDE THE DIARY". */}
+        <Canvas style={{ aspectRatio: `${W} / ${SPLIT}` }}>
+          {topNodes.map((n, i) => renderNode(n, `t${i}`, 0))}
+
+          {/* functional purchase card at the Figma card position */}
+          <CardBox
+            style={{ left: u(spec.card.x), top: u(spec.card.y), width: u(spec.card.w) }}
+          >
+            <CardLabel style={{ fontSize: u(46) }}>PLANNER &amp; DIARY</CardLabel>
+            <CardName style={{ fontSize: u(150) }}>Breathe</CardName>
+            {editions.length > 1 && (
+              <EdRow
+                role="radiogroup"
+                aria-label={locale === 'ko' ? '에디션' : locale === 'ja' ? 'エディション' : 'Edition'}
+              >
+                {editions.map((ed) => (
+                  <EdChip
+                    key={ed.slug}
+                    type="button"
+                    role="radio"
+                    aria-checked={ed.slug === product.slug}
+                    $on={ed.slug === product.slug}
+                    onClick={() => {
+                      if (ed.slug !== product.slug) navigate(`/shop/${ed.slug}`)
+                    }}
+                    style={{ fontSize: u(46) }}
+                  >
+                    {ed.label}
+                  </EdChip>
+                ))}
+              </EdRow>
+            )}
+            <CardPrice style={{ fontSize: u(118) }}>{priceText}</CardPrice>
+            {variants.length > 1 && (
+              <Opts>
+                {variants.map((v) => (
+                  <Opt
+                    key={v.id}
+                    type="button"
+                    $on={v.id === (selected?.id ?? '')}
+                    onClick={() => setVariantId(v.id)}
+                    style={{ fontSize: u(54) }}
+                  >
+                    <span>{v.label}</span>
+                    <em>{formatMoney(v.price, currency)}</em>
+                  </Opt>
+                ))}
+              </Opts>
+            )}
+            <Buttons>
+              <BuyBtn type="button" onClick={buyNow} disabled={sold} style={{ fontSize: u(52) }}>
+                {sold ? t.shop.soldOut : t.shop.buyNow}
+              </BuyBtn>
+              <CartBtn type="button" onClick={add} disabled={sold} style={{ fontSize: u(52) }}>
+                {t.shop.addToCart}
+              </CartBtn>
+            </Buttons>
+            <Free style={{ fontSize: u(44) }}>7만원 이상 구매 시 국내 무료배송</Free>
+          </CardBox>
         </Canvas>
+
+        {/* Composition guide — covers + inner sections with page counts. */}
+        <BreatheComposition />
+
+        {/* Lower moodboard — "IN USE" down through materials / shipping. */}
+        <Canvas style={{ aspectRatio: `${W} / ${H - SPLIT}` }}>
+          {botNodes.map((n, i) => renderNode(n, `b${i}`, SPLIT))}
+        </Canvas>
+
         <RelatedProducts currentSlug={product.slug} />
       </Main>
     </Page>
@@ -404,4 +426,3 @@ const Free = styled.p`
   letter-spacing: 0.02em;
   color: ${({ theme }) => theme.colors.textSecondary};
 `
-
