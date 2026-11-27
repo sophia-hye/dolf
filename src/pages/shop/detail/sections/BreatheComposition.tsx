@@ -33,7 +33,7 @@ const COPY: Record<string, Copy> = {
   ko: {
     eyebrow: 'WHAT’S IN THE BOOK',
     title: '구성 안내',
-    intro: '앞표지부터 뒷표지까지, 실제 페이지로 보는 Breathe의 구성이에요. 각 섹션이 몇 쪽인지 함께 안내합니다.',
+    intro: '데일리 QT는 2개월(약 62일) 분량이에요. 앞표지부터 뒷표지까지, 실제 페이지로 보는 Breathe의 구성입니다. 각 섹션이 몇 쪽인지 함께 안내합니다.',
     unit: 'p',
     hint: '옆으로 밀어 더 보기 →',
     cards: [
@@ -53,7 +53,7 @@ const COPY: Record<string, Copy> = {
   en: {
     eyebrow: 'WHAT’S IN THE BOOK',
     title: 'What’s in the book',
-    intro: 'From front cover to back, here is Breathe laid out in its actual pages — and how many pages each section holds.',
+    intro: 'The Daily QT section holds about 2 months (~62 days). From front cover to back, here is Breathe laid out in its actual pages — and how many pages each section holds.',
     unit: 'pp',
     hint: 'Swipe for more →',
     cards: [
@@ -73,7 +73,7 @@ const COPY: Record<string, Copy> = {
   ja: {
     eyebrow: 'WHAT’S IN THE BOOK',
     title: '構成のご案内',
-    intro: '表紙から裏表紙まで、実際のページで見るBreatheの構成です。各セクションのページ数もご案内します。',
+    intro: 'デイリーQTは約2か月（約62日）分です。表紙から裏表紙まで、実際のページで見るBreatheの構成です。各セクションのページ数もご案内します。',
     unit: 'ページ',
     hint: '横にスクロールしてもっと見る →',
     cards: [

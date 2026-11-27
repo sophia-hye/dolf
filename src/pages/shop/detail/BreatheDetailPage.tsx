@@ -180,6 +180,13 @@ export function BreatheDetailPage({ product }: { product: ShopProduct }) {
           >
             <CardLabel style={{ fontSize: u(46) }}>PLANNER &amp; DIARY</CardLabel>
             <CardName style={{ fontSize: u(150) }}>Breathe</CardName>
+            <CardDuration style={{ fontSize: u(52) }}>
+              {locale === 'ko'
+                ? '2개월 분량 · 데일리 약 62일'
+                : locale === 'ja'
+                  ? '2か月分 · デイリー約62日'
+                  : '2-month planner · ~62 daily pages'}
+            </CardDuration>
             {editions.length > 1 && (
               <EdRow
                 role="radiogroup"
@@ -307,6 +314,19 @@ const CardName = styled.p`
   line-height: 1;
   margin: 0;
   color: ${({ theme }) => theme.colors.ink};
+`
+// Unmissable duration note — Breathe is a 2-month diary, not a full year.
+// Placed directly under the product name so it is seen before purchase.
+const CardDuration = styled.p`
+  font-family: ${({ theme }) => theme.fonts.kr};
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 1.2cqw 0 0;
+  padding: 0.9cqw 1.2cqw;
+  border-radius: 0.5cqw;
+  color: ${({ theme }) => theme.colors.brandRed};
+  background: ${({ theme }) => theme.colors.soft};
+  border: 1px solid ${({ theme }) => theme.colors.brandRed};
 `
 const CardPrice = styled.p`
   font-family: ${({ theme }) => theme.fonts.serif};
