@@ -180,7 +180,7 @@ export function BreatheDetailPage({ product }: { product: ShopProduct }) {
           >
             <CardLabel style={{ fontSize: u(46) }}>PLANNER &amp; DIARY</CardLabel>
             <CardName style={{ fontSize: u(150) }}>Breathe</CardName>
-            <CardDuration style={{ fontSize: u(52) }}>
+            <CardDuration style={{ fontSize: u(64) }}>
               {locale === 'ko'
                 ? '2개월 분량 · 데일리 약 62일'
                 : locale === 'ja'
