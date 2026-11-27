@@ -48,7 +48,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       price: '₩19,000',
       description:
         '하루를 계획하는 동시에 감사·묵상·성찰을 기록할 수 있도록 설계된 루틴 플래너입니다. 완벽한 계획보다 하루를 의미 있게 살아가는 데 집중하도록 돕습니다.',
-      specLines: ['B6 · 128 × 182mm', '128 페이지', 'Lay-flat 제본'],
+      specLines: ['B6 · 128 × 182mm', '128 페이지', '2개월 분량 · 데일리 약 62일', 'Lay-flat 제본'],
     },
     story: {
       eyebrow: 'ABOUT THIS PRODUCT',
@@ -153,6 +153,7 @@ export const breathe: Record<Locale, ShopProduct> = {
         { label: 'Binding', value: 'Lay-flat 사철 제본' },
         { label: 'Paper', value: '미색 모조지' },
         { label: 'Layout', value: 'Monthly · Weekly · Daily · Sermon · Reflection · Gratitude' },
+        { label: '분량', value: '2개월 · 데일리 약 62일 (31일 × 2달)' },
         { label: 'Dating', value: 'Undated — 원하는 날부터 시작' },
       ],
     },
@@ -164,6 +165,10 @@ export const breathe: Record<Locale, ShopProduct> = {
         body: '주문 후 2–3일 이내 출고되며 국내 택배로 배송됩니다. 7만원 이상 구매 시 국내 무료배송입니다. 단순 변심에 의한 교환·반품은 상품 수령 후 7일 이내 가능합니다.',
       },
       faq: [
+        {
+          q: 'Q. 몇 개월 분량인가요?',
+          a: '데일리 QT는 2개월(약 62일) 분량입니다. 날짜가 인쇄되지 않은 Undated 방식이라 원하는 날부터 시작할 수 있어요.',
+        },
         {
           q: 'Q. 날짜가 인쇄되어 있나요?',
           a: 'Undated 방식으로, 원하는 날부터 자유롭게 시작할 수 있습니다.',
@@ -206,7 +211,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       price: '$14',
       description:
         'A routine planner designed to let you plan your day while recording gratitude, devotion, and reflection. It helps you focus on living each day meaningfully rather than planning it perfectly.',
-      specLines: ['B6 · 128 × 182mm', '128 pages', 'Lay-flat binding'],
+      specLines: ['B6 · 128 × 182mm', '128 pages', '2 months · ~62 daily pages', 'Lay-flat binding'],
     },
     story: {
       eyebrow: 'ABOUT THIS PRODUCT',
@@ -314,6 +319,7 @@ export const breathe: Record<Locale, ShopProduct> = {
         { label: 'Binding', value: 'Lay-flat thread-sewn binding' },
         { label: 'Paper', value: 'Cream wood-free paper' },
         { label: 'Layout', value: 'Monthly · Weekly · Daily · Sermon · Reflection · Gratitude' },
+        { label: 'Duration', value: '2 months · ~62 daily pages (31 days × 2)' },
         { label: 'Dating', value: 'Undated — start from any day you like' },
       ],
     },
@@ -325,6 +331,10 @@ export const breathe: Record<Locale, ShopProduct> = {
         body: 'Orders ship within 2–3 days via domestic courier. Exchanges and returns for a change of mind are accepted within 7 days of receiving the item.',
       },
       faq: [
+        {
+          q: 'Q. How many months does it cover?',
+          a: 'The Daily QT section holds about 2 months (~62 days). It is undated, so you can start from any day you like.',
+        },
         {
           q: 'Q. Are the dates pre-printed?',
           a: 'It is undated, so you can freely start from any day you like.',
@@ -367,7 +377,7 @@ export const breathe: Record<Locale, ShopProduct> = {
       price: '¥2,200',
       description:
         '一日を計画すると同時に、感謝・黙想・省察を記録できるよう設計されたルーティンプランナーです。完璧な計画よりも、一日を意味あるものとして生きることに集中できるよう手助けします。',
-      specLines: ['B6 · 128 × 182mm', '128ページ', 'Lay-flat 製本'],
+      specLines: ['B6 · 128 × 182mm', '128ページ', '2か月分 · デイリー約62日', 'Lay-flat 製本'],
     },
     story: {
       eyebrow: 'ABOUT THIS PRODUCT',
@@ -475,6 +485,7 @@ export const breathe: Record<Locale, ShopProduct> = {
         { label: 'Binding', value: 'Lay-flat 糸かがり製本' },
         { label: 'Paper', value: 'クリーム色の上質紙' },
         { label: 'Layout', value: 'Monthly · Weekly · Daily · Sermon · Reflection · Gratitude' },
+        { label: '収録', value: '2か月 · デイリー約62日（31日 × 2か月）' },
         { label: 'Dating', value: 'Undated — お好きな日から始められます' },
       ],
     },
@@ -486,6 +497,10 @@ export const breathe: Record<Locale, ShopProduct> = {
         body: 'ご注文後2〜3日以内に出荷され、国内宅配便でお届けします。お客様都合による交換・返品は、商品受け取り後7日以内に承ります。',
       },
       faq: [
+        {
+          q: 'Q. 何か月分ですか？',
+          a: 'デイリーQTは約2か月（約62日）分です。日付が印刷されていないUndated方式のため、お好きな日から始められます。',
+        },
         {
           q: 'Q. 日付は印刷されていますか？',
           a: 'Undated方式のため、お好きな日から自由に始められます。',
