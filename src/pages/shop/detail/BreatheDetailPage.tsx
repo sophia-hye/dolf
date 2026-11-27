@@ -324,8 +324,8 @@ const CardDuration = styled.p`
   margin: 1.2cqw 0 0;
   padding: 0.9cqw 1.2cqw;
   border-radius: 0.5cqw;
-  color: ${({ theme }) => theme.colors.brandRed};
-  background: ${({ theme }) => theme.colors.soft};
+  color: ${({ theme }) => theme.colors.white};
+  background: ${({ theme }) => theme.colors.brandRed};
   border: 1px solid ${({ theme }) => theme.colors.brandRed};
 `
 const CardPrice = styled.p`
